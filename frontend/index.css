@@ -52,7 +52,7 @@ h1 {
     background-color: orange;
     padding: 15px;
     font-size: larger;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .warn span, .warn2 span {
     color: red;
@@ -303,16 +303,13 @@ a {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
-
 .product {
-    display: flexbox;
-    flex-wrap: wrap;
-    /* flex-direction: row; */
-    text-align: center;
-    margin: 20px;
-    padding: 10px;
-    border-radius: 10%;
-
+    width: 90%;
+    margin: 0px;
+    padding: 0px;
+    margin: 5% 10px;
+    background-color: rgba(215, 226, 255, 0.4);
+    border-radius: 0px;
 }
 
 h3 {
@@ -332,7 +329,7 @@ p {
 }
 
 .bidBtn {
-    background-color: rgba(0, 109, 36, 0.933);
+    background-color: rgba(0, 173, 58, 0.933);
     color: white;
     border: none;
     width: 60%;
@@ -363,17 +360,23 @@ h2 {
 }
 
 .dead {
+    text-align: center;
+    align-items: center;
     text-transform: uppercase;
-    font-size: large;
+    font-size: medium;
     color: white;
     background-color: orange;
     display: grid;
     grid-template-columns: 40% 59.8%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .alive {
+    text-align: center;
+    align-items: center;
     text-transform: uppercase;
-    font-size: large;
+    font-size: medium;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: white;
     background-color: var(--button-blue);
     /* padding: 10px; */
@@ -449,7 +452,20 @@ h2 {
     body {
         /* background-color: red; */
     }
-
+    .mess {
+        font-size: x-small;
+    }
+    .dead, .alive {
+        font-size: x-small;
+    }
+    
+    .dead span, .alive span{
+        font-size: x-small;
+    }
+    .products {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
     .notice {
         margin-top: 0px;
         width: 100%
@@ -467,7 +483,9 @@ h2 {
         display: grid;
         grid-template-columns: 30%  30%  30%;
     }
-
+    .login {
+        width: 110%
+    }
     .box {
         padding: 5px;
         background-color: white;
@@ -480,6 +498,19 @@ h2 {
         padding: 10px
     }
 
+    .products {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .product {
+        width: 90%;
+        margin: 0px;
+        padding: 0px;
+        margin: 5% 10px;
+        background-color: rgba(215, 226, 255, 0.4);
+        border-radius: 0px;
+    }
+
 }
 
 
@@ -489,13 +520,44 @@ h2 {
     }
 
     .notice {
-        margin-top: 0px;
+        margin-top: -5%;
+        width: 100%;
+        grid-template-columns: 0% 100%;
+        font-size: x-small;
+    }
+
+    .description h1 {
+        font-size: large;
+        
+    }
+
+    .description p {
+        font-size: large;
+        
+    }
+
+    .login {
         width: 100%
     }
 
+    nav {
+        float: none;
+        display: grid;
+        grid-template-columns: 10% 45% 45%;
+    }
+    .headbtn  {
+        width: 100%;
+        border: 3px solid rgb(212, 255, 255);
+        margin: 0px;
+    }
+
+    nav button {
+        float: none;
+    }
     .people {
         height: 10%;
         background-color: white;
+        grid-template-columns: 0% 100%;
     }
 
     .people p {
@@ -504,7 +566,7 @@ h2 {
     }
 
     .game {
-        display: grid;
+        display: block;
         grid-template-columns: 50%  50% ;
     }
 
@@ -519,7 +581,7 @@ h2 {
         grid-template-columns: 100% 0%;
     }
     .box p {
-        padding: 10px
+        padding: 0px 50px
     }
 
     .secondHead {
@@ -534,8 +596,88 @@ h2 {
     margin-top: 10%;
 }
 
+.bx {
+    padding: 0px 10%;
+}
+
 .Close {
     margin-top: -20%;
     margin-right: 24%
 }
+
+.warn, .warn2 {
+    font-size: x-small;
+}
+
+.cont, .cont span {
+    font-size: small;
+}
+
+.descr {
+    grid-template-columns: 20% 80%;
+    font-size: small;
+}
+
+footer {
+    grid-template-columns: 1fr;
+}
+
+.foot {
+    grid-template-columns:  1fr;
+}
+
+.foot span {
+    display: none;
+}
+
+footer a {
+    font-size: small;
+    color: white;
+}
+
+.box p {
+    font-size: small;
+}
+.prof {
+    margin: 30px;
+    display: grid;
+    grid-template-columns: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: 50% 50% ;
+}
+.product {
+    width: 90%;
+    margin: 0px;
+    padding: 0px;
+    margin: 5% 10px;
+    background-color: rgba(215, 226, 255, 0.4);
+    border-radius: 0px;
+}
+
+.need {
+    font-size: x-small;
+}
+button {
+    font-size: x-small;
+}
+h3 {
+    font-size: small;
+}
+
+.mess {
+    font-size: x-small;
+}
+.dead, .alive {
+    font-size: x-small;
+}
+
+.dead span, .alive span{
+    font-size: x-small;
+}
+
 }
