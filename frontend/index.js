@@ -23,7 +23,7 @@ let products = `
 <div class="products">
 
   <div class="product">
-      <h2 class="dead">DeadLine <span>20:12:123:132</span></h2>
+      <h2 class="dead">Current Auction</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -32,7 +32,7 @@ let products = `
       </div>
   </div>
   <div class="product">
-      <h2 class="dead">DeadLine <span>20:12:123:132</span></h2>
+      <h2 class="dead">Current Auction</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -41,29 +41,31 @@ let products = `
       </div>
   </div>
   <div class="product">
-      <h2 class="alive">Upcoming <span>20:12:123:132</span></h2>
+      <h2 class="dead2">Upcoming Soon</h2>
+       <h2 class="alive"><span>20:12:123:132</span></h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
-          <button class="interest" onclick="Interested()">Am Interested</button>
+          <div><button class="interest" onclick="Interested()">Am Interested</button> <button class="share">Share</button></div>
                       <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
           <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
       <p class="mess">Fastest Bidder Winns</p>
       </div>
   </div>
   <div class="product">
-      <h2 class="alive">Upcoming <span>20:12:123:132</span></h2>
+      <h2 class="dead2">Upcoming Soon</h2>
+       <h2 class="alive"><span>20:12:123:132</span></h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
-          <button class="interest" onclick="Interested()">Am Interested</button>
+          <div><button class="interest" onclick="Interested()">Am Interested</button> <button class="share">Share</button></div>
                       <h4  class="need" ><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
           <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
       <p class="mess">Fastest Bidder Winns</p>
       </div>
   </div>
   <div class="product">
-      <h2 class="dead">DeadLine <span>20:12:123:132</span></h2>
+      <h2 class="dead">Current Auction</h2>
 
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
@@ -73,7 +75,7 @@ let products = `
       </div>
   </div>
   <div class="product">
-      <h2 class="dead">DeadLine <span>20:12:123:132</span></h2>
+      <h2 class="dead">Current Auction</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -94,7 +96,10 @@ let signUp = `
 <div class="sign-in">
     <h1>Join Now </h1>
     <input type="text" required placeholder="First Name" class="login"> 
-    <input type="text" required placeholder="Second Name" class="login"> 
+    <input type="text" required placeholder="Second Name" class="login">
+    <div class="mtn2">Your Birth Date </div>
+    <input type="date" required placeholder="Second Name" class="login">
+
     <input type="text" required placeholder="Your Email" class="login"> 
     <input type="password" required placeholder="Your Password" class="login"> 
     <button class="submit" onclick="loginToproducts()">Sign Up</button>
@@ -109,7 +114,7 @@ let login = `
     <div class="sign-in">
         <h1>Login</h1>
             <input type="text" required placeholder="Your Email" class="login"> 
-        <input type="text" required placeholder="Your Password" class="login"> 
+        <input type="password" required placeholder="Your Password" class="login"> 
         <button class="submit" onclick="loginToproducts()"> Login</button>
        </div>
   </div>
@@ -117,9 +122,13 @@ let login = `
 let landingPage = `
 <div class="bg">
 <nav>
-    <img src="" alt="">
-    <button class="headbtn blue" id="login" onclick="loginPage()"> Log In</button>
-    <button class="headbtn orange" id="register" onclick="registerPage()">Join Now</button>
+<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29.jpeg" alt="" width="70px">
+<button class="headbtn orange hide" id="register" onclick="registerPage()">Join Now</button>
+<button class="headbtn blue hide left full" id="login" onclick="loginPage()"> Log In</button>
+
+<img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="100px">
+    <button class="headbtn blue nnew" id="login" onclick="loginPage()"> Log In</button>
+    <button class="headbtn orange nnew" id="register" onclick="registerPage()">Join Now</button>
     
 </nav>
 <div class="header">
@@ -133,19 +142,24 @@ let landingPage = `
 </div>
 <div class="secondHead">
 <img class="img" src="./assets/auction.png" alt="" width="80%">
-<div class="note img">“No one knows exactly what and where the treasure is hiding. Only the constant fortune seeker finds it. keep believing and
-    searching until you get it.” – Benedict Okolie
-    </div>
+
 
 </div>
 </div>
 </div>
 
 <div class="mid">
+
+<div class="note">“No one knows exactly what and where the treasure is hiding. Only the constant fortune seeker finds it. keep believing and
+    searching until you get it.” – Benedict Okolie
+    </div>
 <div class="notice">
     <img src="./assets/sad person.jpg" alt="" width="100%">
     <p>Are you in need of something but cannot afford it? Now is your chance!   </p>
 </div>
+<p class="warn">
+    Note: Fortune Auction is a <span>LEGALLY REGISTERED</span> business at the Rwanda Development Board. See Legal Document page below
+</p>
 
 <div class="people">
    
@@ -156,14 +170,13 @@ let landingPage = `
         bidder who pays first to claim it.</p>
 </div>
 
-<p class="warn">
-    Note: Fortune Auction is a <span>LEGALLY REGISTERED</span> business at the Rwanda Development Board. See Legal Document page below
-</p>
 
 <p class="cont">
     We Only Exist To Serve And Connect You The Fortune Seeker To Treasure;
-Regardless Of Your Income, Background Or Status <br> <button onclick="registerPage()"> Join Now</button> <span>It’s Free to be a Member</span>
-</p>
+Regardless Of Your Income, Background Or Status <br></p>
+
+<div class="cont white">  <button onclick="registerPage()"> Join Now</button> <span>It’s Free to be a Member</span>
+</div>
 <div class="descr">
    <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px" alt="">
     <h2>UNDER AGE 18 IS NOT ALLOWED TO BID</h2>
@@ -173,7 +186,8 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
     <div class="game">
         <div class="box">
             <i></i>
-            <h4>Step 1</h4>
+            <img src="./assets/Registration Icon.png" alt="" srcset="" width="50px">
+            <h4 class="one">Step 1</h4>
             <p>Register for
                 Free to be a
                 Member. And
@@ -187,7 +201,9 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
 
         <div class="box">
             <i></i>
-            <h4>Step 2</h4>
+   <img src="./assets/user-login-icon-png-4.png" alt="" srcset="" width="50px">
+
+            <h4 class="two">Step 2</h4>
             <p>During Auction
                 Day, login to your
                 account & wait for
@@ -203,7 +219,9 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
 
         <div class="box">
             <i></i>
-            <h4>Step 3</h4>
+    <img src="./assets/Bidding with Mobile Money.PNG" alt="" srcset="" width="50px">
+
+            <h4 class="three">Step 3</h4>
             <p>To Complete Your
                 bid, pay for the
                 product(s) at the
@@ -217,7 +235,9 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
 
         <div class="box">
             <i></i>
-            <h4>Step 4</h4>
+    <img src="./assets/Winner Icon.png" alt="" srcset="" width="50px">
+
+            <h4 class="four">Step 4</h4>
             <p>After the auction
                 deadline, we
                 announce the
@@ -231,7 +251,9 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
 
          <div class="box">
             <i></i>
-            <h4>Step 5</h4>
+    <img src="./assets/Phone Call Icon.png" alt="" srcset="" width="50px">
+
+            <h4 class="five">Step 5</h4>
             <p>We call the winner(s)
                 to confirm their
                 identity and they
@@ -263,10 +285,84 @@ Regardless Of Your Income, Background Or Status <br> <button onclick="registerPa
 
 </div>
 </div>
+ 
+<h1 class="auction-head"> Auction </h1>
+
+<div class="products">
+<div class="product">
+<h2 class="dead2">Upcoming Soon</h2>
+ <h2 class="alive"><span>20:12:123:132</span></h2>
+<img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+<div class="action">
+
+    <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share">Share</button></div>
+                <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
+    <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+<p class="mess">Fastest Bidder Winns</p>
+</div>
+</div>
+  <div class="product">
+      <h2 class="dead">Current Auction</h2>
+      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+      <div class="action">
+          <button class="bidBtn" onclick="notAuth()">Bid Now</button>
+          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+      <p class="mess">Fastest Bidder Winns</p>
+      </div>
+  </div>
+  <div class="product">
+      <h2 class="dead">Current Auction</h2>
+      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+      <div class="action">
+          <button class="bidBtn" onclick="notAuth()">Bid Now</button>
+          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+      <p class="mess">Fastest Bidder Winns</p>
+      </div>
+  </div>
+  <div class="product">
+      <h2 class="dead2">Upcoming Soon</h2>
+       <h2 class="alive"><span>20:12:123:132</span></h2>
+      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+      <div class="action">
+
+          <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share">Share</button></div>
+                      <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
+          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+      <p class="mess">Fastest Bidder Winns</p>
+      </div>
+  </div>
+
+  </div>
+</div>
+
 <p class="warn2">
 Note: When you bid for a product by paying for it, we <span> DO NOT REFUND.</span>  Be the fastest bidder to win at our bidding price,
 because <span> YOUR GAIN </span>  is more than the <span>BIDDING PRICE.</span>
 </p>
+
+<h1 class="auction-head"> Current Winners </h1>
+<div class="prof">
+    
+    <div class="bx1">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <h4>Benedict OKOLIE</h4>
+        <h5>Win Time: 02:10:200 </h5>
+        <p>Winner of Volkswagen Passat2020.02.28 </p>
+    </div>
+    <div class="bx1">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <h4>Morris MWITI</h4>
+        <h5>Win Time: 02:10:200 </h5>
+        <p>Winner of Volkswagen Passat2020.02.28 </p>
+    </div>
+    <div class="bx1">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <h4>Jules Hirwa</h4>
+        <h5>Win Time: 02:10:200 </h5>
+        <p>Winner of Volkswagen Passat2020.02.28 </p>
+    </div>
+
+</div>
 
 <footer>
 <div class="fot">
@@ -294,6 +390,22 @@ because <span> YOUR GAIN </span>  is more than the <span>BIDDING PRICE.</span>
 Copyright © 2020
 <span> Address: 4th Floor Kigali Height West Wing</span>
 
+</div>
+`
+
+let notAuthed = `
+    
+<div class="notSigned">
+        
+<div class="hold">
+    <div class="Close" id="closePay" onclick="landing()">+</div>
+</div>
+<div class="sign-in">
+    <h1 class="pay">Your Not Signed In </h1>
+    <button class="submit" onclick="loginPage()">Login</button>
+    <button class="submit" onclick="registerPage()">SignUp</button>
+
+   </div>
 </div>
 `
 App.innerHTML = landingPage
@@ -332,4 +444,8 @@ let landing = () => {
 
 let loginToproducts= () => {
     App.innerHTML = products
+}
+
+let notAuth = () => {
+    App.innerHTML = notAuthed
 }
