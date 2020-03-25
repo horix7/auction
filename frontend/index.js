@@ -95,11 +95,11 @@ let signUp = `
 </div>
 <div class="sign-in">
     <h1>Join Now </h1>
-    <input type="text" required placeholder="First Name" class="login"> 
-    <input type="text" required placeholder="Second Name" class="login">
+    <input type="text" required placeholder="Your Names" class="login"> 
+    <input type="text" required placeholder="User Name" class="login">
     <div class="mtn2">Your Birth Date </div>
     <input type="date" required placeholder="Second Name" class="login">
-
+    <input type="number" required placeholder="Your Phone" class="login"> 
     <input type="text" required placeholder="Your Email" class="login"> 
     <input type="password" required placeholder="Your Password" class="login"> 
     <button class="submit" onclick="loginToproducts()">Sign Up</button>
@@ -122,7 +122,7 @@ let login = `
 let landingPage = `
 <div class="bg">
 <nav>
-<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29.jpeg" alt="" width="70px">
+<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="70px">
 <button class="headbtn orange hide" id="register" onclick="registerPage()">Join Now</button>
 <button class="headbtn blue hide left full" id="login" onclick="loginPage()"> Log In</button>
 
@@ -286,7 +286,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 </div>
 </div>
  
-<h1 class="auction-head"> Auction </h1>
+<h1 class="play"> Auction </h1>
 
 <div class="products">
 <div class="product">
@@ -340,7 +340,7 @@ Note: When you bid for a product by paying for it, we <span> DO NOT REFUND.</spa
 because <span> YOUR GAIN </span>  is more than the <span>BIDDING PRICE.</span>
 </p>
 
-<h1 class="auction-head"> Current Winners </h1>
+<h1 class="play"> Current Winners </h1>
 <div class="prof">
     
     <div class="bx1">
