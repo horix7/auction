@@ -681,7 +681,7 @@ h2 {
     }
     nav {
         display: grid;
-        grid-template-columns: 40% 20% 20% 20%;
+        grid-template-columns: 40% 0% 40% 20%;
         margin: 1px;
     }
 
