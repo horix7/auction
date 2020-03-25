@@ -24,6 +24,7 @@ let products = `
 
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -33,6 +34,7 @@ let products = `
   </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -42,7 +44,7 @@ let products = `
   </div>
   <div class="product">
       <h2 class="dead2">Upcoming Soon</h2>
-       <h2 class="alive"><span>20:12:123:132</span></h2>
+       <h2 class="alive">20:12:123:132</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
@@ -54,7 +56,7 @@ let products = `
   </div>
   <div class="product">
       <h2 class="dead2">Upcoming Soon</h2>
-       <h2 class="alive"><span>20:12:123:132</span></h2>
+       <h2 class="alive">20:12:123:132</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
@@ -66,6 +68,7 @@ let products = `
   </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
 
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
@@ -76,6 +79,7 @@ let products = `
   </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="payment()">Bid Now</button>
@@ -113,7 +117,7 @@ let login = `
     </div>
     <div class="sign-in">
         <h1>Login</h1>
-            <input type="text" required placeholder="Your Email" class="login"> 
+            <input type="text" required placeholder="User Name" class="login"> 
         <input type="password" required placeholder="Your Password" class="login"> 
         <button class="submit" onclick="loginToproducts()"> Login</button>
        </div>
@@ -123,12 +127,13 @@ let landingPage = `
 <div class="bg">
 <nav>
 <img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="70px">
-<button class="headbtn orange hide" id="register" onclick="registerPage()">Join Now</button>
+<div></div>
+<button class="headbtn blue join hide" id="register" onclick="registerPage()">Join Now</button>
 <button class="headbtn blue hide left full" id="login" onclick="loginPage()"> Log In</button>
 
 <img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="100px">
     <button class="headbtn blue nnew" id="login" onclick="loginPage()"> Log In</button>
-    <button class="headbtn orange nnew" id="register" onclick="registerPage()">Join Now</button>
+    <button class="headbtn blue nnew" id="register" onclick="registerPage()">Join Now</button>
     
 </nav>
 <div class="header">
@@ -291,7 +296,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 <div class="products">
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
- <h2 class="alive"><span>20:12:123:132</span></h2>
+ <h2 class="alive">20:12:123:132</h2>
 <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
 <div class="action">
 
@@ -303,6 +308,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="notAuth()">Bid Now</button>
@@ -312,6 +318,7 @@ Regardless Of Your Income, Background Or Status <br></p>
   </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
+      <h2 class="alive">Deadline: 45 MINUTES</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="notAuth()">Bid Now</button>
@@ -321,7 +328,7 @@ Regardless Of Your Income, Background Or Status <br></p>
   </div>
   <div class="product">
       <h2 class="dead2">Upcoming Soon</h2>
-       <h2 class="alive"><span>20:12:123:132</span></h2>
+       <h2 class="alive">20:12:123:132</h2>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
