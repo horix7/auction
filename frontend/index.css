@@ -7,22 +7,190 @@ body {
     background-color:white;
 }
 
+.dashnfo {
+    color: black;
+    text-align: center;
+    width: 100%;
+}
+
+.create {
+    margin-top: 10%;
+    width: 80% ;
+    height: 50px;
+    background-color: rgb(41, 41, 41);
+    border: 1px solid black;
+    color: white;
+}
+
+.winnerHead  div, .productHead div, .userHead div{
+    background-color:rgb(41, 41, 41);
+    color: white;
+    text-align: center;
+    border-left: 1px solid black;
+    padding: 5px;
+
+}
+
+.winners {
+    margin-top: 20px;
+}
+
+.winner div{
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px;
+}
+
+.winner div:last-child{
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+.winnerHead, .winner {
+    width: 80%;
+    margin-left: 7%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+.productHead, .produi {
+    width: 80%;
+    margin-left: 7%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.produi div{
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px;
+}
+
+.produi div:last-child{
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+}
+
+
+
+.userHead, .useri {
+    width: 90%;
+    margin-left: 7%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.useri div{
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 10px;
+}
+
+.useri div:last-child{
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    text-align: center;
+}
+
+.flo {
+    float: right;
+    margin-bottom: 10px;
+
+}
+
+
+.flo input {
+    border: grey 1px solid;
+    padding: 10px;
+}
+
+.flo button {
+    background-color: white;
+    border: 1px solid grey;
+}
+.useri div:last-child button{
+    border: 1px solid white;
+    text-align: center;
+    background-color: rgb(70, 0, 0);
+    color: white;
+    padding: 2px;
+}
+
+.rg {
+    color: blue;
+    text-decoration: underline;
+    font-size: small;
+}
+
+
+.create  span {
+    font-size: large;
+    display: none
+    /* padding: 30px; */
+}
+.sign {
+    margin-left: 7%;
+}
+.dashInfo {
+    align-items: center;
+    background-color:  rgb(41, 41, 41);
+    text-align: center;
+    color: white;
+    width: 100%;
+    padding-top: 10px;
+    height: 60px;
+    border-radius: 20px
+}
+.grid-two {
+    display: grid;
+    grid-template-columns: 40% 40% 20%;
+}
+button, input {
+    outline: none;
+}
 h5 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.big-box {
+    margin: 20px;
+}
+.infos {
+    padding: 0px 5%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
 }
 .dash {
     width: 100%;
     display: grid;
-    grid-template-columns: 35% 30% 35%;
+    grid-template-columns: 20% 80%;
 }
 
+.menu {
+    text-align: center;
+    margin-top: 10%;
+}
 .pox {
-    background-color: var(--button-blue);
+    background-color: rgb(0, 64, 77);
     color: white;
-    font-size: small;
-    border: blue 1px solid ;
-    width: 100%;
-    height: 40px;
+    font-size: large;
+    font-weight: bolder;
+    border: none;
+    margin: 10px;
+    width: 80%;
+    height: 50px;
+    border-radius: 60px;
     text-transform: uppercase;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
@@ -852,4 +1020,9 @@ h3 {
     border: none;    
 }
 
+}
+
+
+.wes {
+    margin-left: 20%;
 }
