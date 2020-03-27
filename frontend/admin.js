@@ -43,7 +43,9 @@ let landing = `
         <th scope="col">age</th>
         <th scope="col">phone Number</th>
         <th scope="col">email</th>
-        <th scope="col">date Registered</th>
+        <th scope="col">Product</th>
+        <th scope="col">Bid Time</th>
+        <th scope="col">Win date</th>
         
       </tr>
     </thead>
@@ -55,6 +57,8 @@ let landing = `
         <td>34</td>
         <td>02393409234</td>
         <td>email@email.com</td>
+        <td>email@email.com</td>
+        <td>email@email.com</td>
         <td>12:31:12</td>
 
       </tr>
@@ -64,6 +68,8 @@ let landing = `
         <td>smansnds</td>
         <td>34</td>
         <td>02393409234</td>
+        <td>email@email.com</td>
+        <td>email@email.com</td>
         <td>email@email.com</td>
         <td>12:31:12</td>
 
@@ -192,7 +198,7 @@ let landing = `
 </div>
 
 
-<h4 class="leftter">
+<h4 class="ter">
 Dowload Data
 </h4>
 
@@ -218,24 +224,19 @@ let createProd = `
     <h1>Create Product </h1>
     <input type="text" required placeholder="Produc Name" class="inputsAdmin"> 
     
-    <div class="grid-two">
     <input type="number" required placeholder="Bid Target" class="inputsAdmin">
     <input type="number" required placeholder=" winners" class="inputsAdmin">
-    </div>
-    <div class="grid-two">
 
-    <div><div class="mtn2">Launching Date </div>
-    <input type="date" required  class="inputsAdmin left"></div>
-    <div><div class="mtn2 wes">Ending Date </div>
-    <input type="date" required  class="inputsAdmin rg wes"> </div>
-    </div>
+    <div class="mtn2">Launching Date </div>
+    <input type="date" required  class="inputsAdmin ">
+    <div class="mtn2 ">Ending Date </div>
+    <input type="date" required  class="inputsAdmin rg "> 
 
-    <div><div class="mtn2">Starting Hour </div>
-    <input type="time" required  class="inputsAdmin left"></div>
-    <div class="grid-two"><input type="number" required placeholder="Price" class="inputsAdmin"> </div>
+    <div class="mtn2">Starting Hour </div>
+    <input type="time" required  class="inputsAdmin ">
+    <input type="number" required placeholder="Price" class="inputsAdmin">
     <input type="text" required placeholder="Image Link" class="inputsAdmin"> 
     <button class="submit" onclick="inputsAdminToproducts()">Submit</button>
-   </div>
 </div>
 `
 adminPage.innerHTML = landing
@@ -248,13 +249,13 @@ let createWinner = `
 </div>
 <div class="sign">
 <h1>Publish A winner</h1>
-<div class="grid-two"><input type="text" required placeholder="Winner Name" class="inputsAdmin"> 
-    <input type="text" required placeholder="Won for" class="inputsAdmin"> </div>
-<div class="grid-two">
+<input type="text" required placeholder="Winner Name" class="inputsAdmin"> 
+    <input type="text" required placeholder="Won for" class="inputsAdmin"> 
+
 <input type="text" required placeholder="winning time" class="inputsAdmin">
 <input type="text"  placeholder="Picture link" class="inputsAdmin">
-</div>
-<div class="grid-two">
+
+
     <button class="submit" onclick="created()"> Publish Winner</button>
 </div>
 </div>
