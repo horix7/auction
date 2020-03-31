@@ -19,10 +19,10 @@ class User {
 
             let results = 
             `INSERT INTO products
-             (name,description,price,starts,ends,picture) VALUES
-             ($1,$2,$3,$4,$5,$6) RETURNING * 
+             (name,description,price,starts,ends,picture,hour,winner,target,status) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
             `
-             let inserts = [product.name,product.description ,product.price,product.starts,product.ends,product.picture]
+             let inserts = [product.name,product.description ,product.price,product.starts,product.ends,product.picture,product.hour,product.winners,product.target,product.status]
              
              await client.query(results, inserts)
              
@@ -48,8 +48,24 @@ class User {
     }
 
    async getAllbid() {
-        const allUsers = await client.query('select * from bids');
-        return allUsers.rows
+        const allBids = await client.query('select * from bids');
+        return allBids.rows
+    }
+
+    async allProduct() {
+        const allProdui = await client.query('select * from products');
+        return allProdui.rows
+    }
+
+    async activeAcution() {
+        const actives = await client.query('select * from products where status=$1', ["true"]);
+        return actives.rows
+    }
+
+    
+    async inactiveAuctions() {
+        const notActive = await client.query('select * from products where status=$1', ["false"]);
+        return notActive.rows
     }
 }
 

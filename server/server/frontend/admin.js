@@ -1,3 +1,4 @@
+import { response } from "express"
 
 let adminPage = document.querySelector('.body')
 let landing = `
@@ -49,7 +50,7 @@ let landing = `
         
       </tr>
     </thead>
-    <tbody>
+    <tbody id="winnerBody">
       <tr>
         <th scope="row">1</th>
         <td>smith</td>
@@ -115,7 +116,7 @@ let landing = `
         
       </tr>
     </thead>
-    <tbody>
+    <tbody id="upcomes">
       <tr>
         <th scope="row">1</th>
         <td>Iphone 30 max</td>
@@ -165,7 +166,7 @@ let landing = `
         
       </tr>
     </thead>
-    <tbody>
+    <tbody id="currentBody">
       <tr>
         <th scope="row">1</th>
         <td>Iphone 30 max</td>
@@ -214,6 +215,47 @@ Dowload Data
 
 `
 
+let opcomesOne = `
+<tr>
+<th scope="row">${responseData.id}</th>
+<td>${responseData.name}</td>
+<td>${responseData.current}</td>
+<td>${responseData.starts}</td>
+<td>${responseData.target}</td>
+<td>${responseData.ends}</td>
+<td><a href="">cancel Acution</a></td>
+</tr>
+
+`
+
+let currentOne = `
+<th scope="row">${responseData.id}</th>
+<td>${responseData.name}</td>
+<td>${responseData.id}</td>
+<td>${responseData.ends}</td>
+<td>${calcRevenue}</td>
+<td>${calcRevenue.starts}</td>
+`
+
+let winnerOne = `
+<tr>
+  <th scope="row">${responseData.id}</th>
+  <td>${responseData.firstname}</td>
+  <td>${responseData.secondname}</td>
+  <td>${responseData.age}</td>
+  <td>${responseData.phone}</td>
+  <td>${responseData.email}</td>
+  <td>${responseData.product}</td>
+  <td>${responseData.bidtime}</td>
+  <td>${responseData.date}</td>
+
+</tr>
+`
+let upcomes = document.querySelector('#upcomes')
+let currentBody = document.querySelector('#currentBody')
+let winnerBody = document.querySelector('#winnerBody')
+
+
 let createProd = `
     
 <div class="form">
@@ -222,23 +264,25 @@ let createProd = `
 </div>
 <div class="sign-in">
     <h1>Create Product </h1>
-    <input type="text" required placeholder="Produc Name" class="inputsAdmin"> 
+    <input type="text" required placeholder="Produc Name" class="inputsAdmin" id="produiName"> 
     
-    <input type="number" required placeholder="Bid Target" class="inputsAdmin">
-    <input type="number" required placeholder=" winners" class="inputsAdmin">
+    <input type="number" required placeholder="Bid Target" class="inputsAdmin" id="bidTarget">
+    <input type="number" required placeholder=" winners" class="inputsAdmin" id="winnTarget">
 
     <div class="mtn2">Launching Date </div>
-    <input type="date" required  class="inputsAdmin ">
+    <input type="date" required  class="inputsAdmin " id="launch">
     <div class="mtn2 ">Ending Date </div>
-    <input type="date" required  class="inputsAdmin rg "> 
+    <input type="date" required  class="inputsAdmin rg " id="ends"> 
 
     <div class="mtn2">Starting Hour </div>
-    <input type="time" required  class="inputsAdmin ">
-    <input type="number" required placeholder="Price" class="inputsAdmin">
-    <input type="text" required placeholder="Image Link" class="inputsAdmin"> 
+    <input type="time" required  class="inputsAdmin " id="hour">
+    <input type="number" required placeholder="Price" class="inputsAdmin" id="pricing">
+    <input type="text" required placeholder="Image Link" class="inputsAdmin" id="imageLink"> 
     <button class="submit" onclick="inputsAdminToproducts()">Submit</button>
 </div>
 `
+
+
 adminPage.innerHTML = landing
 
 let createWinner = `
@@ -249,11 +293,11 @@ let createWinner = `
 </div>
 <div class="sign">
 <h1>Publish A winner</h1>
-<input type="text" required placeholder="Winner Name" class="inputsAdmin"> 
-    <input type="text" required placeholder="Won for" class="inputsAdmin"> 
+<input type="text" required placeholder="Winner Name" class="inputsAdmin" id="winnerName"> 
+    <input type="text" required placeholder="Won for" class="inputsAdmin" id="winFor"> 
 
-<input type="text" required placeholder="winning time" class="inputsAdmin">
-<input type="text"  placeholder="Picture link" class="inputsAdmin">
+<input type="text" required placeholder="winning time" class="inputsAdmin" id="winTime">
+<input type="text"  placeholder="Picture link" class="inputsAdmin" id="profilePic">
 
 
     <button class="submit" onclick="created()"> Publish Winner</button>
@@ -262,8 +306,23 @@ let createWinner = `
  </div>
 
 `
+
 let createWin = () => {
     adminPage.innerHTML = createWinner
+    
+let winnerName = document.querySelector('#winnerName')
+let winFor = document.querySelector('#winFor')
+let winTime = document.querySelector('#winTime')
+let profilePic = document.querySelector('#profilePic')
+
+let postWinner = {
+  name: winnerName,
+  product : winFor,
+  bidTime : winTime,
+  picture : profilePic
+
+}
+
 }
 let admin = () => {
     adminPage.innerHTML = landing
@@ -277,5 +336,28 @@ let created = () => {
 
 let produi = () => {
     adminPage.innerHTML = createProd
+    
+let produiName = document.querySelector('#produiName')
+let bidTarget = document.querySelector('#bidTarget')
+let winnTarget = document.querySelector('#winnTarget')
+let launch = document.querySelector('#launch')
+let ends = document.querySelector('#ends')
+let hour = document.querySelector('#hour')
+let pricing = document.querySelector('#pricing')
+let imageLink = document.querySelector('#imageLink')
+
+let postProdui = {
+  "name": produiName,
+	"description": null,
+	"starts": launch,
+    "ends": ends,
+    "status": false,
+    "target": bidTarget,
+    "hour": hour,
+    "price": pricing,
+    "winners": winnTarget,
+    "picture": imageLink
+}
+
 }
 
