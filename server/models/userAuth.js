@@ -19,10 +19,15 @@ class User {
         const allUsers = await client.query('select * from users');
         let users = allUsers.rows
         const userExist = users.some(n => n.email == newUser.email)
+        const username = users.some(n => n.secondname == newUser.secondname)
+
         if( Object.keys(newUser).length <= 1) {
             return "true"
         } else if (userExist) {
             return "email"
+        }
+        else if (username) {
+            return "email2"
         }
         else {
             let values = Object.values(newUser)     

@@ -7,11 +7,12 @@ export default {
                             email: Joi.string().email().required(),
                             firstname: Joi.string().trim().required(), 
                             secondname: Joi.string().trim().required(),
-                            address: Joi.string().trim().required(),
+                            address: Joi.string().trim(),
                             phone: Joi.number(),
                             nationalid: Joi.number(),
                             othername: Joi.string().trim(),
                             passporturl: Joi.string().trim(),
+                            age: Joi.string().trim(),
                             password: Joi.string().min(5).required(),
                             usertype: Joi.string().valid(['user','candidate']),
                             isAdmin: Joi.boolean()

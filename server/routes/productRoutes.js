@@ -7,12 +7,16 @@ import checkToken from '../middleware/authentication'
 const router = express.Router()
 
 router.post("/product", checkToken, isAdmin, bids.createProduct)
-router.get("/product", checkToken, isAdmin, bids.allBallAuctionsids)
-router.get("/active", checkToken, isAdmin, bids.activeProdui)
-router.get("/inactive", checkToken, isAdmin, bids.inactiveProdui)
-
+router.get("/product", checkToken, bids.allBallAuctionsids)
+router.get("/product/:id", checkToken, bids.oneProd)
+router.get("/active", checkToken, bids.activeProdui)
+router.get("/inactive", checkToken, bids.inactiveProdui)
+router.post("/interest", checkToken, bids.interested)
+router.get("/userpro", checkToken, bids.interestedProducts)
 router.post("/bid",  checkToken, bids.bidProduct)
 router.get("/allbids", checkToken, isAdmin, bids.allBids)
+router.get("/uninterested", checkToken, bids.uninterested)
+
 
 
 

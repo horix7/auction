@@ -15,6 +15,11 @@ class userController {
                 "status": 409,
                 "error":"email you provide is already in use "
             });
+        }  else if (results == "email2") {
+            return res.status(409).json({
+                "status": 409,
+                "error":"username is already in use  "
+            });
         }
         else { 
             let newUSerInfo = results   
