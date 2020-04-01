@@ -67,6 +67,119 @@ class User {
         const notActive = await client.query('select * from products where status=$1', ["false"]);
         return notActive.rows
     }
+
+    async interest(createdBy, info) {
+        let results = 
+        `INSERT INTO interests
+         (createdby,productid) VALUES
+         ($1,$2) RETURNING * 
+        `
+
+        let inputs = [createdBy, info.productid]
+
+        await client.query(results, inputs)
+
+        return "done"
+
+    } 
+
+        async onePro(id) {
+        
+        let resul = await client.query('select * from products where id=$1', [id])
+
+        return resul.rows
+
+    }   
+
+    async interestProd(userID) {
+       
+       try {
+        let results = await client.query('select productid from interests where createdby=$1', [userID])
+        let newResults = []
+        results.rows.forEach(n => {
+            if(n.productid !== null) {
+                newResults.push(n.productid)
+            }
+        })
+
+        let displayPro = await client.query(`select * from products where id in (${newResults})`)
+        
+        return displayPro.rows
+       } catch(err) {
+           console.log(err)
+          
+       }
+
+    }   
+
+    async unintrestePro(userID) {
+       
+      try {
+        let results = await client.query('select productid from interests where createdby=$1', [userID])
+        let newResults = []
+        results.rows.forEach(n => {
+            if(n.productid !== null) {
+                newResults.push(n.productid)
+            }
+        })
+        let ids = await client.query(`select id from products`)
+        let fetchIds = []
+
+        ids.rows.forEach(n => {
+            if(!newResults.some(x => n.id == x)) {
+                fetchIds.push(n.id)
+            }
+        })
+
+        console.log(fetchIds)
+        let displayPro = await client.query(`select * from products where id in (${fetchIds})`)
+        console.log(ids)
+        return displayPro.rows
+      }
+      catch (err){
+          console.log(err)
+         
+      }
+
+    }   
+
+    async winners() {
+        let winnerInfo = await client.query('select * from winners')
+        let ids  = []
+        let prodIds = []
+        winnerInfo.rows.forEach(n => {
+            ids.push(n.userid)
+            prodIds.push(n.productid)
+        })
+
+        let insert = await client.query(`select * from users where id in (${ids})`)
+        let prod = await client.query(`select * from products where id in (${prodIds})`)
+
+        let winnersAll = insert.rows
+        let productAll = prod.rows
+
+       winnersAll.forEach(n => {
+           winnersAll[winnersAll.indexOf(n)].time = winnerInfo.rows[winnersAll.indexOf(n)].time
+           winnersAll[winnersAll.indexOf(n)].prodcut = productAll[winnersAll.indexOf(n)].name
+
+       })
+
+        return winnersAll
+    }
+
+    async createWinner(ins) {
+        let inserts = `
+        INSERT INTO publish
+        (name,product,bidtime,picture) VALUES
+        ($1,$2,$3,$4) RETURNING * 
+        `
+
+        let nect = [ins.name, ins.product, ins.bidtime, ins.picture]
+
+    await client.query(inserts, nect)
+
+    return 'done'
+    }
 }
 
 
