@@ -86,52 +86,6 @@ class userController {
         })
     }
     
-    interested(req, res) {
-        let tokenId = tokens.decode(req.token).id
-        product.interest(tokenId, req.body)
-        .then(results => {
-            return res.status(200).json({
-                "status": 200,
-                "data": results
-               });
-        })
-    }
-
-    interestedProducts(req, res) {
-        let tokenId = tokens.decode(req.token).id
-        product.interestProd(tokenId)
-        .then(results => {
-           
-            return res.status(200).json({
-                "status": 200,
-                "data": results
-               });
-        })
-    }
-
-    uninterested(req, res) {
-        let tokenId = tokens.decode(req.token).id
-        product.unintrestePro(tokenId)
-        .then(results => {
-           
-            return res.status(200).json({
-                "status": 200,
-                "data": results
-               });
-        })
-    }
-
-    oneProd(req, res) {
-        let tokenId = tokens.decode(req.token).id
-        product.onePro(req.params.id)
-        .then(results => {
-            return res.status(200).json({
-                "status": 200,
-                "data": results
-               });
-        })
-    }
-    
 }
 
 export default new userController()
