@@ -4,8 +4,32 @@ let allProData = []
 
 
 
-let displayCounter = (id) => {
-  let countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+let shareWolrd =() => {
+    let share = `
+    
+<div class="notSigned">
+        
+<div class="hold">
+    <div class="Close" id="closePay" onclick="displayProducts()">+</div>
+</div>
+<div class="sign-in">
+    <h1 class="pay">Share The Product </h1>
+    
+<a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
+<a href="#" class="fa fa-twitter"></a>
+
+   </div>
+</div>
+`
+
+App.innerHTML = share
+}
+
+let displayCounter = (id, date, hour) => {
+
+    let dateToDo = [date, hour].join(' ')
+
+  let countDownDate = new Date(dateToDo).getTime();
   
   let x = setInterval(function() {
   
@@ -20,21 +44,40 @@ let displayCounter = (id) => {
     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    let millSec =  Math.floor(distance % 1000) ;
+
   
     // Display the result in the element with id="demo"
-    document.getElementById(id).innerHTML = days + "d " + hours + "h "
-    + minutes + "m " + seconds + "s ";
+    document.getElementById(id).innerHTML = days  + " "  +" : " + hours  + " " + " : "
+    + minutes  + " " + " :  " + seconds  + " " + " : " + millSec + 'ms';
     
-    if (distance < 0) {
+    if (distance <= 0) {
       clearInterval(x);
       document.getElementById("alive").innerHTML = "EXPIRED";
+      updateStatus(id)
     }
-  }, 1000);
+  }, 10);
   }
 
 
 
+let updateStatus = (id) => {
+    let address=`api/v1/status/${id}`
 
+    fetch(url+address, {
+        method: 'POST',
+        credentials: 'same-origin',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type':'application/json',
+            'Authorization': localStorage.tokenAuth
+        }
+    })
+    .then(results => results.json())
+    .then(done => {
+        console.log(done)
+    })
+}
 
 
 let produiBack = () => {
@@ -42,6 +85,13 @@ let address = 'api/v1/userpro'
 let  displayElement;
 
 
+App.innerHTML += `<div class="midz">
+<div>
+ 
+ <div class="loader"></div>
+</div>
+</div>
+</div>`
 
 fetch( url+address ,{
     method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -83,25 +133,30 @@ fetch( url+address ,{
      inactive.forEach(element => {
          
 let intrestedBef = `
+        <div>
+        
+        
+<h2 class="alive2" id=${element.id}>${displayCounter(element.id, element.starts, element.hour)}</h2>
+
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
- <h2 class="alive" id=${element.id}>${displayCounter(element.id)}</h2>
- <img src=${element.picture} alt="" width="100%">
+ <img src=${element.picture} class="imagi" alt="" width="100%">
     <h2 class="alive"> ${element.name}</h2>
 
     <div class="action">
         <div><button class="unclick interest">Interested</button></div>
                     <h4 class="need"><span class="num">${element.target}</span> <span class="reds">People Needed</span> For sponsoship</h4>
-       <button class="share">Share</button>
+       <button class="share"  onclick="shareWolrd()"   >Share</button>
 
-                    <h3>Bidding  Price<br> <span class="blues"> ${element.price} Rwf</span></h3>
+                    <h5>Bidding  Price <span class="blues"> ${element.price} Rwf</span></h3>
     <p class="mess">Fastest Bidder Winns</p>
     </div>
     
 </div>
-
+        </div>
 
 `
+console.log(typeof element.picture)
 
 inactivePro.push(intrestedBef)
 allProData.push(element)
@@ -113,19 +168,23 @@ allProData.push(element)
      active.forEach(each => {
          console.log(each)
         let bidNow = `
+        <div>
+        <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+
         <div class="product">
         <h2 class="dead">Current Auction</h2>
-        <h2 class="alive">Deadline: ${deadlineCalc}</h2>
-        <img src=${each.picture} alt="" width="100%">
-        <h2 class="alive"> ${each.name}</h2>
+        <img src="${each.picture}"  class="imagi"   alt="Image Loading" width="100%">
+        <h5 class="alive"> ${each.name}</h5>
         <div class="action"><h4 class="need">Top <span class="num">${each.winner}</span> <span class="reds">People Needed</span>Winners</h4>
         </div>
         <div class="action">
         <button class="bidBtn" onclick="bidPro(${each.id})">Bid Now</button>
-            <h3>Bidding  Price<br> <span class="blues"> ${each.price} Rwf</span></h3>
+            <h5>Bidding  Price <span class="blues"> ${each.price} Rwf</span></h3>
         <p class="mess">Fastest Bidder Winns</p>
         </div>
         </div>
+        </div>
+
         `
 
         activeElement.push(bidNow)
@@ -179,7 +238,14 @@ let moreItems = () => {
     let  displayMore = [];
     
     console.log(App)
-    
+    App.innerHTML += `<div class="midz">
+<div>
+ 
+ <div class="loader"></div>
+</div>
+</div>
+</div>`
+
     fetch( url+address ,{
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         credentials: 'same-origin',
@@ -214,22 +280,26 @@ let moreItems = () => {
     inactive.forEach(element => {
         
 let intrestedBef = `
+<div>
+<h2 class="alive2" id=${element.id}>${displayCounter(element.id, element.starts, element.hour)}</h2>
+
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
-<h2 class="alive" id=${element.id}>${displayCounter(element.id)}</h2>
-<img src=${element.picture} alt="" width="100%">
+<img src=${element.picture} class="imagi" alt="Image Loading" width="100%">
    <h2 class="alive"> ${element.name}</h2>
 
    <div class="action">
        <div><button class="interest" onclick="claimIntreset(${element.id})">Am interested</button></div>
                    <h4 class="need"><span class="num">${element.target}</span> <span class="reds">People Needed</span> For sponsoship</h4>
-       <button class="share">Share</button>
+       <button class="share"  onclick="shareWolrd()"   >Share</button>
         
-                   <h3>Bidding  Price<br> <span class="blues"> ${element.price} Rwf</span></h3>
+                   <h5>Bidding  Price <span class="blues"> ${element.price} Rwf</span></h3>
    <p class="mess">Fastest Bidder Winns</p>
    </div>
    
 </div>
+</div>
+
 
 
 `
@@ -247,19 +317,23 @@ inactivePro.push(intrestedBef)
 
     active.forEach(each => {
        let bidNow = `
+       <div>
+       <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+
        <div class="product">
        <h2 class="dead">Current Auction</h2>
-       <h2 class="alive">Deadline: ${deadlineCalc}</h2>
-       <img src=${each.picture} alt="" width="100%">
-       <h2 class="alive"> ${each.name}</h2>
+       <img src"${each.picture}"  class="imagi"  alt="Image Loading" width="100%">
+       <h5 class="alive"> ${each.name}</h5>
        <div class="action"><h4 class="need">Top <span class="num">${each.winner}</span> <span class="reds">People Needed</span>Winners</h4>
        </div>
        <div class="action">
        <button class="bidBtn" onclick="bidPro(${each.id})">Bid Now</button>
-           <h3>Bidding  Price<br> <span class="blues"> ${each.price} Rwf</span></h3>
+           <h5>Bidding  Price <span class="blues"> ${each.price} Rwf</span></h3>
        <p class="mess">Fastest Bidder Winns</p>
        </div>
        </div>
+       </div>
+
        `
 
        activeElement.push(bidNow)
@@ -288,6 +362,15 @@ allProData.push(each)
 let bidPro = (id) => {
     let address = 'api/v1/bid'
     console.log(id)
+
+    App.innerHTML = `<div class="midz">
+    <div>
+     
+     <div class="loader"></div>
+    </div>
+    </div>
+    </div>`
+    
     let postForBid = {
         productid: id,
         time: Date.now()
@@ -332,11 +415,20 @@ let bidPro = (id) => {
 
 let claimIntreset = (elementId) => {
 let address = 'api/v1/interest'
+
+
+    App.innerHTML = `<div class="midz">
+    <div>
+     
+     <div class="loader"></div>
+    </div>
+    </div>
+    </div>`
+
 let productId = {
     productid: elementId
 }
 
-console.log(productId, document.querySelector('.product'), elementId)
 
 fetch( url + address , {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -350,6 +442,7 @@ fetch( url + address , {
 })
 .then(results =>results.json())
 .then(done => {
+
     produiBack()
     moreItems()
 
@@ -393,6 +486,7 @@ let erroMessage = document.querySelector('#err')
 
 
 subLog.onclick = async () => {
+    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Login in...`
     let loginInfo = {
         "email": loginName.value,
         "password": loginPass.value
@@ -412,6 +506,7 @@ let results = await fetch(url+address, {
   })
 
   let done = await results.json()
+  subLog.innerHTML = `Login`
 
   console.log(done)
       if(done.status >= 400 ) {
@@ -497,6 +592,8 @@ let signUpBack = () => {
     
     
     subLog.onclick = async () => {
+    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Signing Up...`
+
         let postData = {
             "firstname": names.value,
             "secondname": userName.value,
@@ -522,6 +619,7 @@ let signUpBack = () => {
       })
     
       let done = await results.json()
+      subLog.innerHTML = `Sign Up`
     
       console.log(done)
           if(done.status >= 400 ) {
@@ -560,18 +658,15 @@ let displayProducts = () => {
 
 
 
-
-
-
 let landingPage = `
 <div class="bg">
 <nav>
-<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="70px">
+<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="Image Loading" width="70px">
 <div></div>
 <button class="headbtn blue join hide" id="register" onclick="signUpBack()">Join Now</button>
 <button class="headbtn blue hide left full" id="login" onclick="loginBack()"> Log In</button>
 
-<img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="100px">
+<img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="Image Loading" width="100px">
     <button class="headbtn blue nnew" id="login" onclick="loginBack()"> Log In</button>
     <button class="headbtn blue nnew" id="register" onclick="signUpBack()">Join Now</button>
     
@@ -586,7 +681,7 @@ let landingPage = `
     <button class="btn" onclick="signUpBack()">Join Now</button>
 </div>
 <div class="secondHead">
-<img class="img" src="./assets/auction.png" alt="" width="80%">
+<img class="img" src="./assets/auction.png" alt="Image Loading" width="80%">
 
 
 </div>
@@ -599,7 +694,7 @@ let landingPage = `
     searching until you get it.” – Benedict Okolie
     </div>
 <div class="notice">
-    <img src="./assets/sad person.jpg" alt="" width="100%">
+    <img src="./assets/sad person.jpg" alt="Image Loading" width="100%">
     <p>Are you in need of something but cannot afford it? Now is your chance!   </p>
 </div>
 <p class="warn">
@@ -608,7 +703,7 @@ let landingPage = `
 
 <div class="people">
    
-    <img src="./assets/Smartphone users.jpeg" width="80%" alt="">
+    <img src="./assets/Smartphone users.jpeg" width="80%" alt="Image Loading">
     <p>Here, you could get what you want at the most ridiculously
         insane bidding price. If you’re the fastest bidder to pay for it.
         We Auction Products at a crazy bidding price for the fastest
@@ -623,7 +718,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 <div class="cont white">  <button onclick="registerPage()"> Join Now</button> <span>It’s Free to be a Member</span>
 </div>
 <div class="descr">
-   <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px" alt="">
+   <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px" alt="Image Loading">
     <h2>UNDER AGE 18 IS NOT ALLOWED TO BID</h2>
 </div>
 <div>
@@ -631,7 +726,7 @@ Regardless Of Your Income, Background Or Status <br></p>
     <div class="game">
         <div class="box">
             <i></i>
-            <img src="./assets/Registration Icon.png" alt="" srcset="" width="50px">
+            <img src="./assets/Registration Icon.png" alt="Image Loading" srcset="" width="50px">
             <h4 class="one">Step 1</h4>
             <p>Register for
                 Free to be a
@@ -646,7 +741,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-   <img src="./assets/user-login-icon-png-4.png" alt="" srcset="" width="50px">
+   <img src="./assets/user-login-icon-png-4.png" alt="Image Loading" srcset="" width="50px">
 
             <h4 class="two">Step 2</h4>
             <p>During Auction
@@ -664,7 +759,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-    <img src="./assets/Bidding with Mobile Money.PNG" alt="" srcset="" width="50px">
+    <img src="./assets/Bidding with Mobile Money.PNG" alt="Image Loading" srcset="" width="50px">
 
             <h4 class="three">Step 3</h4>
             <p>To Complete Your
@@ -680,7 +775,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-    <img src="./assets/Winner Icon.png" alt="" srcset="" width="50px">
+    <img src="./assets/Winner Icon.png" alt="Image Loading" srcset="" width="50px">
 
             <h4 class="four">Step 4</h4>
             <p>After the auction
@@ -696,7 +791,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
          <div class="box">
             <i></i>
-    <img src="./assets/Phone Call Icon.png" alt="" srcset="" width="50px">
+    <img src="./assets/Phone Call Icon.png" alt="Image Loading" srcset="" width="50px">
 
             <h4 class="five">Step 5</h4>
             <p>We call the winner(s)
@@ -716,15 +811,15 @@ Regardless Of Your Income, Background Or Status <br></p>
 <div class="prof">
     
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
         <h4>Benedict OKOLIE</h4>
     </div>
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
         <h4>Morris MWITI</h4>
     </div>
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
+        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
         <h4>Jules Hirwa</h4>
     </div>
 
@@ -737,32 +832,32 @@ Regardless Of Your Income, Background Or Status <br></p>
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
  <h2 class="alive">20:12:123:132</h2>
-<img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+<img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
 <div class="action">
 
-    <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share">Share</button></div>
+    <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share"  onclick="shareWolrd()"   >Share</button></div>
                 <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
-    <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+    <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
 <p class="mess">Fastest Bidder Winns</p>
 </div>
 </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
       <h2 class="alive">Deadline: 45 MINUTES</h2>
-      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+      <img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="notAuth()">Bid Now</button>
-          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
       <p class="mess">Fastest Bidder Winns</p>
       </div>
   </div>
   <div class="product">
       <h2 class="dead">Current Auction</h2>
       <h2 class="alive">Deadline: 45 MINUTES</h2>
-      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
+      <img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
       <div class="action">
           <button class="bidBtn" onclick="notAuth()">Bid Now</button>
-          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
       <p class="mess">Fastest Bidder Winns</p>
       </div>
   </div>
@@ -772,9 +867,9 @@ Regardless Of Your Income, Background Or Status <br></p>
       <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
       <div class="action">
 
-          <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share">Share</button></div>
+          <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share"  onclick="shareWolrd()"   >Share</button></div>
                       <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
-          <h3>Bidding  Price<br> <span class="blues"> 500 Rwf</span></h3>
+          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
       <p class="mess">Fastest Bidder Winns</p>
       </div>
   </div>

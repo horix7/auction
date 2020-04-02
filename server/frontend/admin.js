@@ -5,13 +5,229 @@ let App = document.querySelector(".body")
 let allProData = []
 
 
+// App.innerHTML = `<div class="midz">
+// <div>
+//  <h1 id="action">Loading Action ... </h1>
+//  <div class="loader"></div>
+// </div>
+// </div>
+// </div>`
+
+
+let loginBack = () => {
+  let address = 'api/v1/auth/signin'
+  
+      let login = `
+      <div class="form">
+      <div class="sign-in">
+          <h1>Admin Login</h1>
+              <input type="text" required placeholder="User Name" class="inputsAdmin"  id="loginName"> 
+          <input type="password" required placeholder="Your Password" class="inputsAdmin" id="loginPass"> 
+          <button class="submit" id="loginSub"> Login</button>
+         </div>      
+    </div>
+    <div id="err"  class="error"> 
+      
+    </div>
+   
+  `
+  // let loginPage = () => {postLogin
+      App.innerHTML = login
+      
+  let loginName = document.querySelector('#loginName')
+  let loginPass = document.querySelector('#loginPass')
+  let subLog = document.querySelector('#loginSub')
+  let erroMessage = document.querySelector('#err')
+  
+  
+  
+  
+  subLog.onclick = async () => {
+    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Loging in...`
+
+      let loginInfo = {
+          "email": loginName.value,
+          "password": loginPass.value
+      }
+  
+  
+      console.log(loginInfo)
+  
+  let results = await fetch(url+address, {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-cache',
+      body: JSON.stringify(loginInfo),
+      headers: {
+          'Content-Type':'application/json'
+      }
+    })
+  
+    let done = await results.json()
+    subLog.innerHTML = `Login`
+  
+    console.log(done)
+        if(done.status >= 400 ) {
+            console.log(done)
+            erroMessage.style.visibility =  'visible'
+            erroMessage.innerHTML = done.error
+            erroMessage.style.animationName =  'erroror';
+  
+            setTimeout(() => {
+            erroMessage.style.visibility =  'hidden'
+            erroMessage.style.animationName =  'none';
+            }, 5000)
+  
+        } else {
+
+            localStorage.setItem("tokenAuth", done.data[0].token)
+  
+            AdminEntry()
+  
+        }
+  
+  }
+  
+  }
+
+  loginBack()
+  
+
+let displayCounter = (id, date, hour) => {
+
+  let dateToDo = [date, hour].join(' ')
+
+let countDownDate = new Date(dateToDo).getTime();
+
+let x = setInterval(function() {
+
+  // Get today's date and time
+  let now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  let distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  let millSec =  Math.floor(distance % 1000) ;
+
+
+  // Display the result in the element with id="demo"
+  document.getElementById(id).innerHTML = days  + " "  +" : " + hours  + " " + " : "
+  + minutes  + " " + " :  " + seconds  + " " + " : " + millSec + '';
+  
+  if (distance <= 0) {
+    clearInterval(x);
+    console.log('hahah')
+    updateStatus(id)
+  }
+}, 10);
+}
+
+
+let adminCount = (id,date) => {
+
+
+  let countDownDate = new Date(date).getTime();
+  
+  
+  let x = setInterval(function() {
+  
+    let now = new Date().getTime();
+  
+    let distance = countDownDate - now;
+  
+    // Time calculations for days, hours, minutes and seconds
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    let millSec =  Math.floor(distance % 1000) ;
+  
+  
+    document.getElementById(id).innerHTML =  millSec   + " "  +" : " + seconds    + " " + " : "
+    + minutes  + " " + " :  " +  hours + " " + " : " + days + '';
+    
+    if (distance <= 0) {
+      clearInterval(x);
+      console.log('hahah')
+      updateStatus(id)
+    }
+  }, 10);
+  }
+  
+let prduiDz = () => {
+  let address=`api/v1/idz`
+  
+  fetch( url + address, {
+    method: 'GET',
+    credentials: 'same-origin',
+    cache: 'no-cache',
+    headers: {
+        'Authorization': localStorage.tokenAuth
+
+    }
+  }).then(results => results.json())
+  .then(response => {
+    response.data.forEach(n => {
+      updateWinnes(n)
+    })
+
+  })
+
+}
+
+prduiDz()
+let updateWinnes = (id) => {
+  let address=`api/v1/choose/${id}`
+
+  fetch( url + address, {
+    method: 'POST',
+    credentials: 'same-origin',
+    cache: 'no-cache',
+    headers: {
+        'Content-Type':'application/json',
+        'Authorization': localStorage.tokenAuth
+
+    }
+  })
+  .then(resul => resul.json())
+  .then(done =>{
+    console.log(done)
+  })
+
+}
+
+
+let updateStatus = (id) => {
+  let address=`api/v1/status/${id}`
+
+  fetch(url+address, {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-cache',
+      headers: {
+          'Content-Type':'application/json',
+          'Authorization': localStorage.tokenAuth
+
+      }
+  })
+  .then(results => results.json())
+  .then(done => {
+      console.log(done)
+  })
+}
+
 let landing = `
 
 
 <div class="mennu">
 <img src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="30%">
 <h2>Admin DashBoard</h2>
-<button>Logout</button>
+<button onclick="loginBack()">Logout</button>
 </div>
 
 <div class="infos">
@@ -82,7 +298,7 @@ let landing = `
         <th scope="col">interested</th>
         <th scope="col">launch time</th>
         <th scope="col">target</th>
-        <th scope="col">launch date</th>
+        <th scope="col">Lasting date</th>
         <th scope="col">Action</th>
         
       </tr>
@@ -140,9 +356,11 @@ Dowload Data
 let AdminEntry = () => {
   App.innerHTML = landing
 
+
+
   let WinnersInfo = () => {
     let address = 'api/v1/winners'
-
+    
     fetch(url+address, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       credentials: 'same-origin',
@@ -150,7 +368,7 @@ let AdminEntry = () => {
       // body: JSON.stringify(post),
       headers: {
           // 'Content-Type':'application/json',
-          'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyZWFsYm03MWFuQG1hbi5jb20iLCJpc2FkbWluIjoiVHJ1ZSIsImlhdCI6MTU4NDgwOTE4M30.d9SKQpCbr0TT3C7ebY4w5c4u__GIXkToDZLWqV95oxI"
+          'Authorization': localStorage.tokenAuth
       }
     
     })
@@ -199,7 +417,7 @@ let AdminEntry = () => {
       // body: JSON.stringify(post),
       headers: {
           // 'Content-Type':'application/json',
-          'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyZWFsYm03MWFuQG1hbi5jb20iLCJpc2FkbWluIjoiVHJ1ZSIsImlhdCI6MTU4NDgwOTE4M30.d9SKQpCbr0TT3C7ebY4w5c4u__GIXkToDZLWqV95oxI"
+          'Authorization': localStorage.tokenAuth
       }
     
     })
@@ -209,14 +427,14 @@ let AdminEntry = () => {
 
       let currents = []
             res.data.forEach(responseData => {
-                      let calcRevenue = 'now'    
+                      let calcRevenue = 0    
               let currentOne = `
               <th scope="row">${responseData.id}</th>
               <td>${responseData.name}</td>
-              <td>${responseData.id}</td>
-              <td>${responseData.ends}</td>
+              <td>${responseData.bids}</td>
+              <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends)}</td>
               <td>${calcRevenue}</td>
-              <td>${calcRevenue.starts}</td>
+              <td>${responseData.starts}</td>
               `
               currents.push(currentOne)
 
@@ -230,12 +448,11 @@ let AdminEntry = () => {
     })
   }
 
-
   currentInfo()
   
 
   let upcomesInfo = () => {
-    let address = 'api/v1/product'
+    let address = 'api/v1/inactive'
 
     fetch(url+address, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -244,7 +461,7 @@ let AdminEntry = () => {
       // body: JSON.stringify(post),
       headers: {
           // 'Content-Type':'application/json',
-          'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyZWFsYm03MWFuQG1hbi5jb20iLCJpc2FkbWluIjoiVHJ1ZSIsImlhdCI6MTU4NDgwOTE4M30.d9SKQpCbr0TT3C7ebY4w5c4u__GIXkToDZLWqV95oxI"
+          'Authorization': localStorage.tokenAuth
       }
     
     })
@@ -259,10 +476,10 @@ let AdminEntry = () => {
                       <th scope="row">${responseData.id}</th>
                       <td>${responseData.name}</td>
                       <td>${responseData.current}</td>
-                      <td>${responseData.starts}</td>
+                      <td id=${responseData.id}>${displayCounter(responseData.id, responseData.starts, responseData.hour)}</td>
                       <td>${responseData.target}</td>
                       <td>${responseData.ends}</td>
-                      <td><a href="">cancel Acution</a></td>
+                      <td><a href="" onclick="deleteAuction(${responseData.id})">cancel Acution</a></td>
                       </tr>
 
                       `
@@ -282,10 +499,31 @@ let AdminEntry = () => {
 
   upcomesInfo()
 
+  prduiDz()
 }
 
-AdminEntry()
 
+
+
+let deleteAuction = (id) => {
+  let address = `api/v1/cancel/${id}`
+
+  fetch(url+ address, {
+      method: 'POST',
+      credentials: 'same-origin',
+      cache: 'no-cache',
+      headers: {
+        'Authorization': localStorage.tokenAuth,
+          'Content-Type':'application/json',
+      } 
+  })
+  .then(results => results.json())
+  .then(done => {
+    console.log(done)
+    AdminEntry()
+
+  })
+}
 
 
 
@@ -323,7 +561,7 @@ let createWinner = `
  <div class="topper">
        
 <div class="hold">
-<div class="Close" onclick="admin()">+</div>
+<div class="Close" onclick="AdminEntry()">+</div>
 </div>
 <div class="sign">
 <h1>Publish A winner</h1>
@@ -369,7 +607,7 @@ fetch( url+address, {
   body: JSON.stringify(postWinner),
   headers: {
       'Content-Type':'application/json',
-      'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyZWFsYm03MWFuQG1hbi5jb20iLCJpc2FkbWluIjoiVHJ1ZSIsImlhdCI6MTU4NDgwOTE4M30.d9SKQpCbr0TT3C7ebY4w5c4u__GIXkToDZLWqV95oxI"
+      'Authorization': localStorage.tokenAuth
   }
 })
 .then(results => results.json())
@@ -399,7 +637,7 @@ let ends = document.querySelector('#ends')
 let hour = document.querySelector('#hour')
 let pricing = document.querySelector('#pricing')
 let imageLink = document.querySelector('#imageLink')
-
+console.log(hour.value)
 let postProdui = {
   "name": produiName.value,
 	"description": null,
@@ -420,7 +658,7 @@ fetch(url+address, {
   body: JSON.stringify(postProdui),
   headers: {
       'Content-Type':'application/json',
-      'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyZWFsYm03MWFuQG1hbi5jb20iLCJpc2FkbWluIjoiVHJ1ZSIsImlhdCI6MTU4NDgwOTE4M30.d9SKQpCbr0TT3C7ebY4w5c4u__GIXkToDZLWqV95oxI"
+      'Authorization': localStorage.tokenAuth
   }
 
 })

@@ -152,6 +152,48 @@ class userController {
             })
         })
     }
+
+    deleteProd(req,res) {
+        product.deleteAuction(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
+
+    updateUpcomes(req,res) {
+        product.updatePord(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
+
+    
+    chooseWinn(req,res) {
+        product.chooseWinner(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": 'results'
+            })
+        })
+    }
+    
+    
+    idzz(req,res) {
+        product.returnIdz()
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results.map(n => n.id)
+            })
+        })
+    }
     
 }
 

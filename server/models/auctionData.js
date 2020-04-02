@@ -38,11 +38,28 @@ class User {
          (createdby,productid,time) VALUES
          ($1,$2,$3) RETURNING * 
         `
-         let inserts = [createdBy, bid.productid, bid.time]
+         let inserts = [createdBy, bid.productid, new Date().getTime()]
          
          await client.query(results, inserts)
          
          let rezult = await client.query('select * from bids')
+
+
+
+         let productBids = await client.query('select bids from products where id=$1', [bid.productid])
+         let bids = productBids.rows[0].bids
+         
+ 
+         let createAdd = (num) => {
+             if(parseInt(num).toString() == 'NaN') {
+                 return 0
+             } else {
+                 return 1
+             }
+         }
+         await client.query('update products set bids=$2 where id=$1', [bid.productid, createAdd(bids) + 1 ])
+
+
         
          return rezult.rows
     }
@@ -76,8 +93,19 @@ class User {
         `
 
         let inputs = [createdBy, info.productid]
-
         await client.query(results, inputs)
+        let productsInfo = await client.query('select current from products where id=$1', [info.productid])
+        let current = productsInfo.rows[0].current
+        
+
+        let createAdd = (num) => {
+            if(parseInt(num).toString() == 'NaN') {
+                return 0
+            } else {
+                return 1
+            }
+        }
+        await client.query('update products set current=$2 where id=$1', [info.productid, createAdd(current) + 1 ])
 
         return "done"
 
@@ -143,28 +171,49 @@ class User {
 
     }   
 
-    async winners() {
-        let winnerInfo = await client.query('select * from winners')
-        let ids  = []
-        let prodIds = []
-        winnerInfo.rows.forEach(n => {
-            ids.push(n.userid)
-            prodIds.push(n.productid)
+
+    async chooseWinner(id) {
+        let prodData = await client.query('select winner from products where id=$1', [id])
+       
+        let bidsData = await client.query('select * from bids where productid=$1', [id])
+
+        bidsData.rows.splice(prodData.rows[0].winner)
+        let inserts = `
+        INSERT INTO winners
+        (userid,productid,bidtime) VALUES
+        ($1,$2,$3) RETURNING * 
+        `
+
+        let inserts2 = `
+        INSERT INTO viewin
+        (firstname,secondname,age,phone,email,time,product) VALUES
+        ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
+        `
+
+        bidsData.rows.forEach(async n => {
+            let inputs = [n.createdby, n.productid, n.time]
+            await client.query(inserts, inputs)
+            let userInfo = await client.query('select firstname,secondname,age,phone,email from users where id=$1', [n.createdby])
+            let prodName = await client.query('select name from products where id=$1', [n.productid])
+            console.log(userInfo.rows, prodName.rows)
+            let inputs2 = [userInfo.rows[0].firstname, userInfo.rows[0].secondname, userInfo.rows[0].age, userInfo.rows[0].phone, userInfo.rows[0].email, n.time, prodName.rows[0].name]
+
+            await client.query(inserts2, inputs2)
+            
+
         })
 
-        let insert = await client.query(`select * from users where id in (${ids})`)
-        let prod = await client.query(`select * from products where id in (${prodIds})`)
+        console.log(prodData.rows, bidsData.rows)
 
-        let winnersAll = insert.rows
-        let productAll = prod.rows
+    }
 
-       winnersAll.forEach(n => {
-           winnersAll[winnersAll.indexOf(n)].time = winnerInfo.rows[winnersAll.indexOf(n)].time
-           winnersAll[winnersAll.indexOf(n)].prodcut = productAll[winnersAll.indexOf(n)].name
+    async winners() {
+        let winnerInfo = await client.query('select * from viewin')
 
-       })
+        await client.query('delete from viewin')
 
-        return winnersAll
+        console.log(winnerInfo.rows)
+        return winnerInfo.rows
     }
 
     async createWinner(ins) {
@@ -179,6 +228,26 @@ class User {
     await client.query(inserts, nect)
 
     return 'done'
+    }
+
+
+    async deleteAuction(id) {
+       
+    await client.query('delete from products where id=$1', [id])
+
+    return 'done'
+    }
+
+    
+    async updatePord(id) {
+        await client.query(`update products set status='true' where id=$1`, [id]);
+       return 'done'
+    }
+
+    async returnIdz() {
+        let ids = await client.query('select id from products')
+
+        return ids.rows
     }
 }
 

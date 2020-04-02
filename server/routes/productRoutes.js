@@ -13,14 +13,15 @@ router.get("/active", checkToken, bids.activeProdui)
 router.get("/inactive", checkToken, bids.inactiveProdui)
 router.post("/interest", checkToken, bids.interested)
 router.get("/userpro", checkToken, bids.interestedProducts)
+router.post("/status/:id", checkToken, bids.updateUpcomes)
 router.post("/bid",  checkToken, bids.bidProduct)
 router.get("/allbids", checkToken, isAdmin, bids.allBids)
 router.get("/winners", checkToken, isAdmin, bids.allWinners)
 router.post("/publish", checkToken, isAdmin, bids.publishWin)
-
+router.post("/cancel/:id", checkToken, isAdmin, bids.deleteProd)
+router.get("/idz", checkToken, isAdmin, bids.idzz)
+router.post("/choose/:id", checkToken, isAdmin, bids.chooseWinn)
 router.get("/uninterested", checkToken, bids.uninterested)
-
-
 
 
 export  default router 
