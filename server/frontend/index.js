@@ -53,8 +53,9 @@ let displayCounter = (id, date, hour) => {
     
     if (distance <= 0) {
       clearInterval(x);
-      document.getElementById("alive").innerHTML = "EXPIRED";
+      document.getElementById(id).innerHTML = "EXPIRED";
       updateStatus(id)
+      displayProducts()
     }
   }, 10);
   }

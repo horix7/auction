@@ -121,8 +121,10 @@ let x = setInterval(function() {
   
   if (distance <= 0) {
     clearInterval(x);
-    console.log('hahah')
+    document.getElementById(id).innerHTML = "expired"
     updateStatus(id)
+    AdminEntry()
+
   }
 }, 10);
 }
@@ -154,6 +156,8 @@ let adminCount = (id,date) => {
     if (distance <= 0) {
       clearInterval(x);
       console.log('hahah')
+    document.getElementById(id).innerHTML = "expired"
+      AdminEntry()
       updateStatus(id)
     }
   }, 10);
