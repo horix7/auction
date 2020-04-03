@@ -1,6 +1,6 @@
 
 
-const  url = "http://localhost:5000/"
+const  url = "https://afternoon-journey-05524.herokuapp.com/"
 let App = document.querySelector(".body")
 let allProData = []
 
@@ -648,7 +648,7 @@ let postProdui = {
     "hour": hour.value,
     "price": pricing.value,
     "winners": winnTarget.value,
-    "picture": imageLink
+    "picture": imageLink.value
 }
 
 fetch(url+address, {
@@ -665,6 +665,7 @@ fetch(url+address, {
 
 .then( results => results.json())
 .then(done => {
+
   AdminEntry()
 })
 
