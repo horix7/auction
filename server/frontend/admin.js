@@ -113,6 +113,7 @@ let x = setInterval(function() {
   + minutes  + " " + " :  " + seconds  + " " + " : " + millSec + '';
   
   if (distance <= 0) {
+    clearInterval(x);
     document.getElementById(id).innerHTML = "expired"
     updateStatus(id)
     AdminEntry()
