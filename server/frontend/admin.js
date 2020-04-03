@@ -5,13 +5,6 @@ let App = document.querySelector(".body")
 let allProData = []
 
 
-// App.innerHTML = `<div class="midz">
-// <div>
-//  <h1 id="action">Loading Action ... </h1>
-//  <div class="loader"></div>
-// </div>
-// </div>
-// </div>`
 
 
 let loginBack = () => {
@@ -43,7 +36,7 @@ let loginBack = () => {
   
   
   subLog.onclick = async () => {
-    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Loging in...`
+    subLog.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
 
       let loginInfo = {
           "email": loginName.value,
@@ -326,8 +319,6 @@ let landing = `
         <th scope="col">bids</th>
         <th scope="col">dead line</th>
         <th scope="col">revenue</th>
-        <th scope="col"> date</th>
-        
       </tr>
     </thead>
     <tbody id="currentBody">
@@ -414,6 +405,13 @@ let AdminEntry = () => {
   let currentInfo = () => {
     let address = 'api/v1/active'
 
+    App.innerHTML = ` <div class="midz">
+  <div>
+   <h1 id="action">Loading Action ... </h1>
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>  ` 
     fetch(url+address, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       credentials: 'same-origin',
@@ -437,8 +435,7 @@ let AdminEntry = () => {
               <td>${responseData.name}</td>
               <td>${responseData.bids}</td>
               <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends)}</td>
-              <td>${calcRevenue}</td>
-              <td>${responseData.starts}</td>
+              <td>${calcRevenue} Rwf</td>
               `
               currents.push(currentOne)
 
@@ -452,11 +449,20 @@ let AdminEntry = () => {
     })
   }
 
-  currentInfo()
   
-
+  
+  
   let upcomesInfo = () => {
     let address = 'api/v1/inactive'
+
+    
+    App.innerHTML = ` <div class="midz">
+  <div>
+   <h1 id="action">Loading Action ... </h1>
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>  ` 
 
     fetch(url+address, {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
@@ -500,9 +506,10 @@ let AdminEntry = () => {
             })
     })
   }
+  currentInfo()
 
   upcomesInfo()
-
+  App.innerHTML = landing
   prduiDz()
 }
 
@@ -641,6 +648,8 @@ let ends = document.querySelector('#ends')
 let hour = document.querySelector('#hour')
 let pricing = document.querySelector('#pricing')
 let imageLink = document.querySelector('#imageLink')
+
+
 console.log(hour.value)
 let postProdui = {
   "name": produiName.value,
@@ -654,6 +663,8 @@ let postProdui = {
     "winners": winnTarget.value,
     "picture": imageLink.value
 }
+
+document.querySelector('.submit').innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
 
 fetch(url+address, {
   method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -669,6 +680,7 @@ fetch(url+address, {
 
 .then( results => results.json())
 .then(done => {
+  document.querySelector('.submit').innerHTML = `Done`
 
   AdminEntry()
 })
