@@ -487,7 +487,7 @@ let erroMessage = document.querySelector('#err')
 
 
 subLog.onclick = async () => {
-    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Login in...`
+    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i>`
     let loginInfo = {
         "email": loginName.value,
         "password": loginPass.value
@@ -593,7 +593,7 @@ let signUpBack = () => {
     
     
     subLog.onclick = async () => {
-    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i> Signing Up...`
+    subLog.innerHTML = ` <i class="fa fa-spinner fa-spin"></i>`
 
         let postData = {
             "firstname": names.value,
