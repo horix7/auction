@@ -174,7 +174,7 @@ allProData.push(element)
 
         <div class="product">
         <h2 class="dead">Current Auction</h2>
-        <img src="${each.picture}"  class="imagi"   alt="Image Loading" width="100%">
+        <img   src=${each.picture}  class="imagi"   alt="Image Loading" width="100%">
         <h5 class="alive"> ${each.name}</h5>
         <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
         </div>
@@ -323,7 +323,7 @@ inactivePro.push(intrestedBef)
 
        <div class="product">
        <h2 class="dead">Current Auction</h2>
-       <img src"${each.picture}"  class="imagi"  alt="Image Loading" width="100%">
+       <img  src=${each.picture}  class="imagi"  alt="Image Loading" width="100%">
        <h5 class="alive"> ${each.name}</h5>
        <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
        </div>
