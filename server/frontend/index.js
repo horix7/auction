@@ -1,4 +1,5 @@
 const  url = "https://afternoon-journey-05524.herokuapp.com/"
+
 let App = document.querySelector(".body")
 let allProData = []
 
@@ -21,6 +22,9 @@ let shareWolrd =() => {
    </div>
 </div>
 `
+
+
+
 
 App.innerHTML = share
 }
@@ -81,6 +85,41 @@ let updateStatus = (id) => {
 }
 
 
+
+
+
+let adminCount = (id,date, hour) => {
+
+    let dateToDo = [date, hour].join(' ')
+  
+    let countDownDate = new Date(dateToDo).getTime();
+    
+    
+    let x = setInterval(function() {
+    
+      let now = new Date().getTime();
+    
+      let distance = countDownDate - now;
+    
+      // Time calculations for days, hours, minutes and seconds
+      let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    
+    
+      document.getElementById(id).innerHTML ="Deadline: " +  hours + "hours"
+      
+      if (distance <= 0) {
+        clearInterval(x);
+      document.getElementById(id).innerHTML = "expired"
+      }
+    }, 10);
+    }
+    
+  
+
+
+
+
+
 let produiBack = () => {
 let address = 'api/v1/userpro'
 let  displayElement;
@@ -95,12 +134,10 @@ App.innerHTML += `<div class="midz">
 </div>`
 
 fetch( url+address ,{
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    method: 'GET', 
     credentials: 'same-origin',
     cache: 'no-cache',
-    // body: JSON.stringify(post),
     headers: {
-        // 'Content-Type':'application/json',
         'Authorization': localStorage.tokenAuth
     }
   } )
@@ -170,7 +207,7 @@ allProData.push(element)
          console.log(each)
         let bidNow = `
         <div>
-        <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+        <h2 class="alive2" id=${each.id}>${adminCount(each.id,each.ends, each.description)}</h2>
 
         <div class="product">
         <h2 class="dead">Current Auction</h2>
@@ -248,7 +285,7 @@ let moreItems = () => {
 </div>`
 
     fetch( url+address ,{
-        method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        method: 'GET', 
         credentials: 'same-origin',
         cache: 'no-cache',
         // body: JSON.stringify(post),
@@ -319,7 +356,7 @@ inactivePro.push(intrestedBef)
     active.forEach(each => {
        let bidNow = `
        <div>
-       <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+       <h2 class="alive2" id=${each.id}>${adminCount(each.id,each.ends, each.description)}</h2>
 
        <div class="product">
        <h2 class="dead">Current Auction</h2>
@@ -379,7 +416,7 @@ let bidPro = (id) => {
 
     
     fetch( url + address , {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        method: 'POST', 
         credentials: 'same-origin',
         cache: 'no-cache',
         body: JSON.stringify(postForBid),
@@ -432,7 +469,7 @@ let productId = {
 
 
 fetch( url + address , {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    method: 'POST', 
     credentials: 'same-origin',
     cache: 'no-cache',
     body: JSON.stringify(productId),
@@ -558,7 +595,7 @@ let signUpBack = () => {
        <input type="text" required placeholder="Your Names" class="login" id="names"> 
        <input type="text" required placeholder="User Name" class="login" id="userName">
        <div class="mtn2">Your Birth Date </div>
-       <input type="date" required placeholder="Second Name" class="login" id="date">
+       <input type="number" required placeholder="Your Age" class="login" id="date">
        <input type="number" required placeholder="Your Phone" class="login" id="phoneNumber"> 
        <input type="text" required placeholder="Your Email" class="login" id="email"> 
        <input type="password" required placeholder="Your Password" class="login" id="pass"> 
@@ -675,7 +712,7 @@ let landingPage = `
 <div class="header">
     
 <div class="description">
-    <h1>WELCOME TO YOUR TRUSTED DIGITAL AUCTION MARKETPLACE</h1>
+    <h1>WELCOME TO YOUR ALU RWANDA DIGITAL AUCTION MARKETPLACE</h1>
     <p>Where The Fastest Bidder Wins, Not The Highest, Richest or Smartest </p>
     <div class="note2">Every Milliseconds Counts
     </div>
@@ -716,7 +753,7 @@ let landingPage = `
     We Only Exist To Serve And Connect You The Fortune Seeker To Treasure;
 Regardless Of Your Income, Background Or Status <br></p>
 
-<div class="cont white">  <button onclick="registerPage()"> Join Now</button> <span>It’s Free to be a Member</span>
+<div class="cont white">  <button onclick="signUpBack()"> Join Now</button> <span>It’s Free to be a Member</span>
 </div>
 <div class="descr">
    <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px" alt="Image Loading">
@@ -751,7 +788,7 @@ Regardless Of Your Income, Background Or Status <br></p>
                 the final
                 countdown to start
                 bidding. Ensure to
-                have money your
+                have money in your
                 Mobile Money
                 Account
                 
@@ -829,51 +866,7 @@ Regardless Of Your Income, Background Or Status <br></p>
  
 <h1 class="play"> Auction </h1>
 
-<div class="products">
-<div class="product">
-<h2 class="dead2">Upcoming Soon</h2>
- <h2 class="alive">20:12:123:132</h2>
-<img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
-<div class="action">
-
-    <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share"  onclick="shareWolrd()"   >Share</button></div>
-                <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
-    <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
-<p class="mess">Fastest Bidder Winns</p>
-</div>
-</div>
-  <div class="product">
-      <h2 class="dead">Current Auction</h2>
-      <h2 class="alive">Deadline: 45 MINUTES</h2>
-      <img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
-      <div class="action">
-          <button class="bidBtn" onclick="notAuth()">Bid Now</button>
-          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
-      <p class="mess">Fastest Bidder Winns</p>
-      </div>
-  </div>
-  <div class="product">
-      <h2 class="dead">Current Auction</h2>
-      <h2 class="alive">Deadline: 45 MINUTES</h2>
-      <img src="./assets/volkswagon passat image.jpg" alt="Image Loading" width="100%">
-      <div class="action">
-          <button class="bidBtn" onclick="notAuth()">Bid Now</button>
-          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
-      <p class="mess">Fastest Bidder Winns</p>
-      </div>
-  </div>
-  <div class="product">
-      <h2 class="dead2">Upcoming Soon</h2>
-       <h2 class="alive">20:12:123:132</h2>
-      <img src="./assets/volkswagon passat image.jpg" alt="" width="100%">
-      <div class="action">
-
-          <div><button class="interest" onclick="notAuth()">Am Interested</button> <button class="share"  onclick="shareWolrd()"   >Share</button></div>
-                      <h4 class="need"><span class="num">340</span> <span class="reds">People Needed</span> For sponsoship</h4>
-          <h5>Bidding  Price <span class="blues"> 500 Rwf</span></h3>
-      <p class="mess">Fastest Bidder Winns</p>
-      </div>
-  </div>
+<div class="products"  id="frontpro" onload="frontDisplayPros()"> 
 
   </div>
 </div>
@@ -884,47 +877,28 @@ because <span> YOUR GAIN </span>  is more than the <span>BIDDING PRICE.</span>
 </p>
 
 <h1 class="play"> Current Winners </h1>
-<div class="prof">
-    
-    <div class="bx1">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
-        <h4>Benedict OKOLIE</h4>
-        <h5>Win Time: 02:10:200 </h5>
-        <p>Winner of Volkswagen Passat2020.02.28 </p>
-    </div>
-    <div class="bx1">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
-        <h4>Morris MWITI</h4>
-        <h5>Win Time: 02:10:200 </h5>
-        <p>Winner of Volkswagen Passat2020.02.28 </p>
-    </div>
-    <div class="bx1">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="">
-        <h4>Jules Hirwa</h4>
-        <h5>Win Time: 02:10:200 </h5>
-        <p>Winner of Volkswagen Passat2020.02.28 </p>
-    </div>
+<div class="prof"  id="wiin">
 
 </div>
 
 <footer>
 <div class="fot">
     <h4>Conditions</h4>
-    <a href="">Terms And Conditions</a>
-    <a href="">Non-Refund Policy</a>
-    <a href="">Privacy & Cookie Policy</a>
+    <a href="#" onclick="displayInfo()">Terms And Conditions</a>
+    <a href="#" onclick="displayInfo()">Non-Refund Policy</a>
+    <a href="#"onclick="displayInfo()">Privacy & Cookie Policy</a>
    
 </div>
 <div class="fot">
     <h4>Contact Us</h4>
-    <a href="">Email: customercare@fortuneauction.com</a>
-    <a href="">Call Us: 078000000</a>
+    <a href="#" onclick="">Email: customercare@fortuneauction.com</a>
+    <a href="#" onclick="">Call Us: 078000000</a>
 
 </div>
 <div class="fot">
     <h4>Documentation</h4>
-    <a href="">FAQ</a>
-    <a href="">Legal Document</a>
+    <a href="#" onclick="">FAQ</a>
+    <a href="#" onclick="">Legal Document</a>
 
 </div>
 </footer>
@@ -934,7 +908,65 @@ Copyright © 2020
 <span> Address: 4th Floor Kigali Height West Wing</span>
 
 </div>
+
+
+<div id="myModal" class="modal" onload="popup()">
+
+  <div class="modal-content" >
+    <span class="close" onclick="closeBan()">&times;</span>
+    <h1 class="attention"> ATTENTION! ATTENTION!! ATTENTION! ! !</h1>
+
+    <p class="attention2">Fortune Auction is establish to auction sponsored valuable
+    products to our esteem users. However, due to the coronavirus
+    pandemic & country lockdown. We will temporally auction
+    sponsored funds to support students welfare.
+    </p>
+
+    <p class="attention3"> Note: After the lockdown, we will resume auctioning sponsored products </p>
+
+    <div class="attention4"> 
+    <img src="./assets/410b2019-7501-483a-a461-b50de6a78ca6-img_9273-2.jpg" alt="" width="100px">
+    <button class="midBtn" onclick="shareSec()">SHARE NOW TO HELP OTHERS IN NEED.</button>
+  <img src="./assets/brown-leather-wallet-with-lots-money_68708-304.jpg" alt=""  width="100px">
+    </div>
+  </div>
+
+</div>
+
+<script>
+    
+
+
+</script>
 `
+
+setTimeout( () => {
+    document.getElementById("myModal").style.display = 'block'
+    }, 4000)
+
+let closeBan = () => {
+    document.getElementById("myModal").style.display = 'none'
+}
+
+
+
+let slideIndex = 1;
+
+let plusDivs = (n) =>{
+  showDivs(slideIndex += n);
+}
+
+let  showDivs = (n) => {
+  let i;
+  let x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+     x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}
+
 
 let notAuthed = `
     
@@ -945,8 +977,8 @@ let notAuthed = `
 </div>
 <div class="sign-in">
     <h1 class="pay">Your Not Signed In </h1>
-    <button class="submit" onclick="loginPage()">Login</button>
-    <button class="submit" onclick="registerPage()">SignUp</button>
+    <button class="submit" onclick="loginBack()">Login</button>
+    <button class="submit" onclick="signUpBack()">SignUp</button>
 
    </div>
 </div>
@@ -965,12 +997,172 @@ let notAuthed = `
 
 
 
+let frontDisplayPros = () => {
+    let address = 'api/v1/frontpro'
+    let diplayIn = document.getElementById('frontpro')
+
+    diplayIn.innerHTML = `<div class="midz">
+    <div>
+     
+     <div class="loader"></div>
+    </div>
+    </div>
+    </div>`
+
+    fetch(url + address , {
+        method: 'GET', 
+        credentials: 'same-origin',
+        cache: 'no-cache',
+    })
+    .then(results => results.json())
+    .then(resopnse => {
+       
+        console.log(resopnse)
+
+        let active = []
+        let inactive = []
+    
+    
+         responseData = resopnse.data
+            responseData.forEach(x => {
+                if(x.status == 'true') {
+                    active.push(x)
+                } else {
+                    inactive.push(x)
+                }
+
+            })
+
+            
+    let inactivePro = []
+    deadlineCalc = '32 Minutes'
+    inactive.forEach(element => {
+        
+let intrestedBef = `
+<div>
+<h2 class="alive2" id=${element.id}>${displayCounter(element.id, element.starts, element.hour)}</h2>
+
+<div class="product">
+<h2 class="dead2">Upcoming Soon</h2>
+<img src=${element.picture} class="imagi" alt="Image Loading" width="100%">
+   <h2 class="alive"> ${element.name}</h2>
+
+   <div class="action">
+       <div><button class="interest" onclick="notAuth()">Am interested</button></div>
+                   <h4 class="need"><span class="num">${element.target}</span> <span class="reds">People Needed</span> For sponsoship</h4>
+       <button class="share"  onclick="shareSec()"   >Share</button>
+        
+                   <h5>Bidding  Price <span class="blues"> ${element.price} Rwf</span></h3>
+   <p class="mess">Fastest Bidder Winns</p>
+   </div>
+   
+</div>
+</div>
+
+
+
+`
+
+
+
+
+allProData.push(element)
+
+inactivePro.push(intrestedBef)
+        
+    });
+
+    activeElement = []
+
+    active.forEach(each => {
+       let bidNow = `
+       <div>
+       <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+
+       <div class="product">
+       <h2 class="dead">Current Auction</h2>
+       <img  src=${each.picture}  class="imagi"  alt="Image Loading" width="100%">
+       <h5 class="alive"> ${each.name}</h5>
+       <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
+       </div>
+       <div class="action">
+       <button class="bidBtn" onclick="notAuth()">Bid Now</button>
+           <h5>Bidding  Price <span class="blues"> ${each.price} Rwf</span></h3>
+       <p class="mess">Fastest Bidder Winns</p>
+       </div>
+       </div>
+       </div>
+
+       `
+
+       activeElement.push(bidNow)
+allProData.push(each)
+
+    })
+
+    let displayMore = [...inactivePro, ...activeElement].sort( () => Math.random() - 0.5)
+     diplayIn.innerHTML = null
+
+    displayMore.forEach( n => {
+        diplayIn.innerHTML += n
+    })        
+        
+    })
+}
+
+
+
+let displayFrontWinners = () =>  {
+    let address = 'api/v1/frontwin'
+    let diplayIn = document.querySelector('#wiin')
+    diplayIn.innerHTML = `<div class="midz">
+    <div>
+     
+     <div class="loader"></div>
+    </div>
+    </div>
+    </div>`
+    fetch(url + address , {
+        method: 'GET', 
+        credentials: 'same-origin',
+        cache: 'no-cache',
+    })
+    .then(results => results.json())
+    .then(response => {
+
+        console.log(response)
+        diplayIn.innerHTML = null
+
+        response.data.forEach( data => {
+    let oneBox = `         
+    <div class="bx1">
+    <img class="profile" src=${data.picture} width="200px" alt="">
+    <h4>${data.name}</h4>
+    <h5>${data.bidtime}</h5>
+    <p>${data.product}</p>
+    </div>
+`
+
+diplayIn.innerHTML +=  oneBox
+
+        })
+    })
+}
+
+
+
+
 
 
 
 
 let landing = () => {
+
     App.innerHTML = landingPage
+
+frontDisplayPros()
+displayFrontWinners()
+
 }
 
 landing()
@@ -979,6 +1171,53 @@ landing()
 //     App.innerHTML = products
 // }
 
-// let notAuth = () => {
-//     App.innerHTML = notAuthed
-// }
+let notAuth = () => {
+    App.innerHTML = notAuthed
+}
+
+
+
+let shareSec =() => {
+    let share = `
+    
+<div class="notSigned">
+        
+<div class="hold">
+    <div class="Close" id="closePay" onclick="landing()">+</div>
+</div>
+<div class="sign-in">
+    <h1 class="pay">Share The Product </h1>
+    
+<a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
+<a href="https://twitter.com/intent/horix7.github.io/auction/server/frontend/" class="fa fa-twitter"></a>
+<a  href="whatsapp://send?text=horix7.github.io/auction/server/frontend/" data-action="share/whatsapp/share" class="fa fa-whatsapp" style="font-size:48px;color:green"></a>
+
+   </div>
+</div>
+`
+
+App.innerHTML = share
+}
+
+
+
+
+let displayInfo = (heading) => {
+    
+    let insertData = `
+
+  <div class="mido">
+  <div class="hold">
+  <div class="close1" onclick="landing()">+</div>
+  </div>
+
+  <img src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="" width="100px">
+  <h1>terms And Conditions</h1>
+  <p>Information will be here ....</p>
+  </div>
+
+   
+    `
+
+    App.innerHTML = insertData
+}

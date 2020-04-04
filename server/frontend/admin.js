@@ -123,10 +123,11 @@ let x = setInterval(function() {
 }
 
 
-let adminCount = (id,date) => {
+let adminCount = (id,date, hour) => {
 
+  let dateToDo = [date, hour].join(' ')
 
-  let countDownDate = new Date(date).getTime();
+  let countDownDate = new Date(dateToDo).getTime();
   
   
   let x = setInterval(function() {
@@ -153,6 +154,20 @@ let adminCount = (id,date) => {
   }, 10);
   }
   
+
+
+  let winningDate = (id,mill) => {
+    var time = new Date(parseInt(mill)).getTime();
+    var date = new Date(time);
+    let x = setInterval(function() {
+      document.getElementById(id).innerHTML =  date.toString()
+      
+    }, 10);
+    
+
+  }
+
+
 let prduiDz = () => {
   let address=`api/v1/idz`
   
@@ -215,6 +230,8 @@ let updateStatus = (id) => {
   })
 }
 
+
+
 let landing = `
 
 
@@ -227,19 +244,19 @@ let landing = `
 <div class="infos">
 <div class="big-box">
     <h5 class="tabble">Total Revenue</h5>
- <div class="dashInfo">RWF 231000</div>
+ <div class="dashInfo">RWF 0</div>
 </div>
 <div class="big-box">
  <h5 class="tabble">Total Customers</h5>
-<div class="dashInfo">231000</div>
+<div class="dashInfo">${localStorage.userNum}</div>
 </div>
 <div class="big-box">
  <h5 class="tabble">New Customers</h5>
-<div class="dashInfo">231000</div>
+<div class="dashInfo">${localStorage.userNum}</div>
 </div>
 <div class="big-box">
 <h5 class="tabble">Total Winners</h5>
-<div class="dashInfo">20</div>
+<div class="dashInfo">${localStorage.winnNum}</div>
 </div>
 </div>
 
@@ -260,7 +277,6 @@ let landing = `
         <th scope="col">email</th>
         <th scope="col">Product</th>
         <th scope="col">Bid Time</th>
-        <th scope="col">Win date</th>
         
       </tr>
     </thead>
@@ -276,6 +292,7 @@ let landing = `
 <div >
 <button class="submit" onclick="winnPub()"> Publish Winner</button>
 <button class="submit" onclick="created()"> Create An Auction</button>
+<button class="submit" onclick="AdminEntry()"> Refresh Data</button>
 
 </div>
 
@@ -330,10 +347,9 @@ Dowload Data
 </h4>
 
 <ul class="liist">
-<li><a href="">All Users Data</a></li>
-<li><a href="">All product Data</a></li>
-<li><a href="">All bids Data</a></li>
-<li><input type="number" placeholder="Id " class="soso"> <a href="">One Auction Data </a></li>
+<li><a href="#" onclick="getAllUsers()">All Users Data</a></li>
+<li><a href="#" onclick="getAllProz()">All product Data</a></li>
+<li><a href="#" onclick="getAllBids()">All bids Data</a></li>
 
 </ul>
 
@@ -367,6 +383,7 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
+      localStorage.setItem('winnNum', res.data.length)
 
       let allWinners = []
             res.data.forEach(responseData => {
@@ -379,8 +396,7 @@ let AdminEntry = () => {
                 <td>${responseData.phone}</td>
                 <td>${responseData.email}</td>
                 <td>${responseData.product}</td>
-                <td>${responseData.time}</td>
-                <td>${responseData.age}</td>
+                <td id=${responseData.id} >${winningDate(responseData.id,responseData.time)}</td>
   
               </tr>
   `
@@ -431,7 +447,7 @@ let AdminEntry = () => {
               <th scope="row">${responseData.id}</th>
               <td>${responseData.name}</td>
               <td>${responseData.bids}</td>
-              <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends)}</td>
+              <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends, responseData.description)}</td>
               <td>${calcRevenue} Rwf</td>
               `
               currents.push(currentOne)
@@ -486,7 +502,7 @@ let AdminEntry = () => {
                       <td id=${responseData.id}>${displayCounter(responseData.id, responseData.starts, responseData.hour)}</td>
                       <td>${responseData.target}</td>
                       <td>${responseData.ends}</td>
-                      <td><a href="" onclick="deleteAuction(${responseData.id})">cancel Acution</a></td>
+                      <td><a href="#" onclick="deleteAuction(${responseData.id})">cancel Acution</a></td>
                       </tr>
 
                       `
@@ -557,6 +573,8 @@ let createProd = `
 
     <div class="mtn2">Starting Hour </div>
     <input type="time" required  class="inputsAdmin " id="hour">
+    <div class="mtn2">Ending Hour </div>
+    <input type="time" required  class="inputsAdmin " id="hour2">
     <input type="number" required placeholder="Price" class="inputsAdmin" id="pricing">
     <input type="text" required placeholder="Image Link" class="inputsAdmin" id="imageLink"> 
     <button class="submit" onclick="produi()">Submit</button>
@@ -598,6 +616,9 @@ let winnerName = document.querySelector('#winnerName')
 let winFor = document.querySelector('#winFor')
 let winTime = document.querySelector('#winTime')
 let profilePic = document.querySelector('#profilePic')
+
+document.querySelector('.submit').innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
+
 
 let postWinner = {
   name: winnerName.value,
@@ -643,6 +664,8 @@ let winnTarget = document.querySelector('#winnTarget')
 let launch = document.querySelector('#launch')
 let ends = document.querySelector('#ends')
 let hour = document.querySelector('#hour')
+let hour2 = document.querySelector('#hour2')
+
 let pricing = document.querySelector('#pricing')
 let imageLink = document.querySelector('#imageLink')
 
@@ -658,7 +681,8 @@ let postProdui = {
     "hour": hour.value,
     "price": pricing.value,
     "winners": winnTarget.value,
-    "picture": imageLink.value
+    "picture": imageLink.value,
+    "description": hour2.value
 }
 
 document.querySelector('.submit').innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
@@ -683,4 +707,108 @@ fetch(url+address, {
 })
 
 }
+
+
+let getAllUsers = () => {
+  let address = 'api/v1/allusers'
+  let before = App.innerHTML
+
+  App.innerHTML = `<div class="midz">
+  <div>
+   
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>`
+
+
+  fetch(url+address, {
+          method: 'GET', 
+          credentials: 'same-origin',
+          cache: 'no-cache',
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': localStorage.tokenAuth
+          }
+  })
+  .then(data => data.json())
+  .then(results => {
+    console.log(results.data)
+    localStorage.setItem('userNum', results.data.length)
+
+    alert(JSON.stringify(results.data))
+    App.innerHTML = before
+  })
+}
+
+
+
+
+
+let getAllProz = () => {
+  let address = 'api/v1/product'
+  let before = App.innerHTML
+
+  App.innerHTML = `<div class="midz">
+  <div>
+   
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>`
+
+
+  fetch(url+address, {
+          method: 'GET', 
+          credentials: 'same-origin',
+          cache: 'no-cache',
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': localStorage.tokenAuth
+          }
+  })
+  .then(data => data.json())
+  .then(results => {
+    alert(JSON.stringify(results.data))
+    App.innerHTML = before
+
+  })
+}
+
+
+
+
+let getAllBids = () => {
+  let address = 'api/v1/allbids'
+  let before = App.innerHTML
+
+  App.innerHTML = `<div class="midz">
+  <div>
+   
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>`
+
+
+  fetch(url+address, {
+      
+          method: 'GET', 
+          credentials: 'same-origin',
+          cache: 'no-cache',
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': localStorage.tokenAuth
+          }
+  })
+  .then(data => data.json())
+  .then(results => {
+    alert(JSON.stringify(results.data))
+    App.innerHTML = before
+
+  })
+}
+
+
+
 

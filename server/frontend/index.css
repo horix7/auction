@@ -54,6 +54,43 @@ body {
     color: white;
   }
   
+  
+.attention, .attention3 {
+    color: red;
+}
+
+.attention2 {
+    font-size: x-large;
+}
+
+.attention3 {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.attention4 {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+}
+
+.attention4 img {
+    width: 100%;
+    align-self: center;
+}
+
+.attention4 button{
+    text-align: center;
+    background-color: var(--button-blue);
+    height: 40%;
+    align-self: center;
+    color: white;
+    padding: 2px;
+
+}
+  
+
+
   .fa-snapchat-ghost {
     background: #fffc00;
     color: white;
@@ -601,13 +638,41 @@ h4 {
     font-weight: lighter;
 }
 
+.mido {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.close1 {
+    margin-bottom: 10%;
+    transform: rotate(45deg);
+    font-size: xx-large;
+    color: red;
+    float: right;
+    padding-right: 10%;
+    font-weight: bolder;
+    cursor: pointer;
+
+}
+
 .prof {
     margin: 20px;
     display: grid;
     grid-template-columns: 30% 30% 30%;
     justify-content: center;
+
     align-items: center;
 }
+
+#wiin {
+    margin: 0px;
+    display: flex;
+    overflow-x: auto;
+    overflow-wrap: break-word;
+
+    margin-bottom: 20px;
+}
+
 
 .bx img {
     margin-left: 20%;
@@ -821,6 +886,7 @@ h2 {
     padding: 10px;
     border: 2px solid black;
     margin: 10px;
+    width: 100%;
 }
 
 .alive {
@@ -913,6 +979,30 @@ h2 {
     }
     .mess {
     }
+
+    
+.attention, .attention3 {
+    color: red;
+}
+
+.attention2 {
+    font-size: small;
+}
+
+.attention3 {
+    font-size: x-small;
+    font-weight: bold;
+}
+
+.attention4 button {
+    height: 60%;
+}
+
+
+
+
+  
+
     .dead2 {
        font-size: 
     }
@@ -1324,4 +1414,46 @@ li {
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+
+
+
+  .modal {
+    display: none; 
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    transition: linear 200ms;
+
+  }
+  
+  /* The Close Button */
+  .close {
+    color: blue;
+    float: right;
+    font-size: 48px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
   }
