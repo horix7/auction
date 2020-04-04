@@ -22,6 +22,9 @@ router.post("/cancel/:id", checkToken, isAdmin, bids.deleteProd)
 router.get("/idz", checkToken, isAdmin, bids.idzz)
 router.post("/choose/:id", checkToken, isAdmin, bids.chooseWinn)
 router.get("/uninterested", checkToken, bids.uninterested)
+router.get("/frontpro",bids.forntUsers)
+router.post("/offside/:id",checkToken, bids.changeNull)
+
 
 
 export  default router 

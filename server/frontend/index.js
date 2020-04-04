@@ -18,8 +18,6 @@ let shareWolrd =() => {
     
 <a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
 <a href="#" class="fa fa-twitter"></a>
-<a  href="whatsapp://send?text=horix7.github.io/auction/server/frontend/" data-action="share/whatsapp/share" class="fa fa-whatsapp" style="font-size:48px;color:green"></a>
-
 
    </div>
 </div>
@@ -86,6 +84,24 @@ let updateStatus = (id) => {
     })
 }
 
+let updateOff  = (id) => {
+    let address=`api/v1/offside/${id}`
+
+    fetch(url+address, {
+        method: 'POST',
+        credentials: 'same-origin',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type':'application/json',
+            'Authorization': localStorage.tokenAuth
+        }
+    })
+    .then(results => results.json())
+    .then(done => {
+        console.log(done)
+    })
+}
+
 
 
 
@@ -111,7 +127,10 @@ let adminCount = (id,date, hour) => {
       
       if (distance <= 0) {
         clearInterval(x);
+
       document.getElementById(id).innerHTML = "expired"
+      updateOff(id)
+      displayProducts()
       }
     }, 10);
     }
@@ -157,7 +176,7 @@ fetch( url+address ,{
         responseData.forEach(x => {
             if(x.status == 'true') {
                 active.push(x)
-            } else {
+            } else if (x.status == 'false'){
                 inactive.push(x)
             }
         })
@@ -306,11 +325,11 @@ let moreItems = () => {
     
          responseData = resopnse.data
             responseData.forEach(x => {
-                if(x.status == 'true') {
-                    active.push(x)
-                } else {
-                    inactive.push(x)
-                }
+                    if(x.status == 'true') {
+                        active.push(x)
+                    } else if (x.status == 'false'){
+                        inactive.push(x)
+                    }
 
             })
 
@@ -1027,11 +1046,11 @@ let frontDisplayPros = () => {
     
          responseData = resopnse.data
             responseData.forEach(x => {
-                if(x.status == 'true') {
-                    active.push(x)
-                } else {
-                    inactive.push(x)
-                }
+                    if(x.status == 'true') {
+                        active.push(x)
+                    } else if (x.status == 'false'){
+                        inactive.push(x)
+                    }
 
             })
 
@@ -1223,3 +1242,12 @@ let displayInfo = (heading) => {
 
     App.innerHTML = insertData
 }
+
+
+
+
+
+
+
+
+

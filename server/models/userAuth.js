@@ -34,11 +34,11 @@ class User {
             
             let results = 
             `INSERT INTO users
-             (firstname,secondname,email,phone,password,userprofile,address,userId,usertype,isadmin) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
+             (firstname,secondname,email,phone,password,userprofile,address,userId,usertype,isadmin, age) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
             `
 
-             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.userprofile,newUser.address,newUser.userId,newUser.usertype, newUser.isadmin]
+             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.userprofile,newUser.address,newUser.userId,newUser.usertype, newUser.isadmin, newUser.age]
              
              await client.query(results, inserts, (err) => {
                  if(err) {
@@ -55,9 +55,9 @@ class User {
     async logiUser(userInfo) {
         const Alluser = await client.query('select * from users');
         const users = Alluser.rows
-        let userExist = users.some(n => n.email == userInfo.email)
+        let userExist = users.some(n => n.secondname == userInfo.email)
         if (userExist) {
-            let fullInfo = await client.query('select * from users where email=$1', [userInfo.email]);
+            let fullInfo = await client.query('select * from users where secondname=$1', [userInfo.email]);
            if(fullInfo.rows[0].password == userInfo.password) {
                 return fullInfo.rows
            } else {
@@ -73,6 +73,11 @@ class User {
    async allUsers() {
         const allUsers = await client.query('select * from users');
         return allUsers.rows
+    }
+
+    async frontUsers() {
+        const allwinners = await client.query('select * from publish');
+        return allwinners.rows
     }
 
     async oneUser(userId) {

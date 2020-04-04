@@ -32,6 +32,27 @@ let loginBack = () => {
   let subLog = document.querySelector('#loginSub')
   let erroMessage = document.querySelector('#err')
   
+
+  let updateOff  = (id) => {
+    let address=`api/v1/offside/${id}`
+
+    fetch(url+address, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type':'application/json',
+            'Authorization': localStorage.tokenAuth
+        }
+    })
+    .then(results => results.json())
+    .then(done => {
+        console.log(done)
+    })
+}
+
+
+
   
   
   
@@ -150,6 +171,8 @@ let adminCount = (id,date, hour) => {
     if (distance <= 0) {
       clearInterval(x);
     document.getElementById(id).innerHTML = "expired"
+    updateOff(id)
+    AdminEntry()
     }
   }, 10);
   }

@@ -63,7 +63,7 @@ class userController {
         } else if (resi == "dont match") {
             return res.status(403).json({
                 "status": 403,
-                "error":"your password does not match your email"
+                "error":"your password does not match your UserName"
             }); 
         }
         else {
@@ -135,6 +135,17 @@ class userController {
             }); 
            }
        })
+    }
+
+
+    allWinners(req,res) {
+        account.frontUsers()
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                data: results
+            })
+        })
     }
 }
 

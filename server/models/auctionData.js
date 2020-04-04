@@ -249,6 +249,35 @@ class User {
 
         return ids.rows
     }
+
+    async frontPro() {
+        const allProdui = await client.query('select * from products');
+        return allProdui.rows.splice(0,4)
+    }
+
+    async changeToNull(id) {
+       try {
+        let expireData = await client.query(`select * from products where id=$1`, [id]);
+
+        console.log(expireData)
+
+        let results = 
+        `INSERT INTO expired
+         (name,price,starts,ends,picture,winner,current) VALUES
+         ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
+        `
+         let inserts = [expireData.rows[0].name,expireData.rows[0].price,expireData.rows[0].starts,expireData.rows[0].ends,expireData.rows[0].picture,expireData.rows[0].winners,expireData.rows[0].current]
+         
+         await client.query(results, inserts)
+         
+         await client.query('delete from products where id=$1', [id])
+        
+
+       } catch(err) {
+           console.log(err)
+       }
+         return 'done'
+    }
 }
 
 

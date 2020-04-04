@@ -194,6 +194,26 @@ class userController {
             })
         })
     }
+
+    forntUsers(req, res) {
+        product.frontPro()
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
+
+    changeNull(req, res) {
+        product.changeToNull(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
     
 }
 
