@@ -709,6 +709,35 @@ fetch(url+address, {
 }
 
 
+let pop = (data, before) => {
+  
+  let dataIn =  `
+    
+
+<div class="modal-content" >
+  <span class="close" onclick="closeBan()">&times;</span>
+  ${data}
+</div>
+
+
+  `
+// </div>
+
+// <div id="myModal" class="modal" onload="popup()">
+
+  // document.getElementById("myModal").style.display = 'block'
+
+  alert(data)
+
+  App.innerHTML = dataIn
+
+   setTimeout(() => {
+    App.innerHTML = before
+   }, 6000)
+ 
+  
+}
+
 let getAllUsers = () => {
   let address = 'api/v1/allusers'
   let before = App.innerHTML
@@ -720,6 +749,8 @@ let getAllUsers = () => {
   </div>
   </div>
   </div>`
+
+
 
 
   fetch(url+address, {
@@ -736,8 +767,8 @@ let getAllUsers = () => {
     console.log(results.data)
     localStorage.setItem('userNum', results.data.length)
 
-    alert(JSON.stringify(results.data))
-    App.innerHTML = before
+    pop(JSON.stringify(results.data), before)
+    
   })
 }
 
@@ -769,8 +800,8 @@ let getAllProz = () => {
   })
   .then(data => data.json())
   .then(results => {
-    alert(JSON.stringify(results.data))
-    App.innerHTML = before
+    pop(JSON.stringify(results.data), before)
+    
 
   })
 }
@@ -803,8 +834,8 @@ let getAllBids = () => {
   })
   .then(data => data.json())
   .then(results => {
-    alert(JSON.stringify(results.data))
-    App.innerHTML = before
+    pop(JSON.stringify(results.data), before)
+    
 
   })
 }

@@ -594,7 +594,7 @@ let signUpBack = () => {
        <h1>Join Now </h1>
        <input type="text" required placeholder="Your Names" class="login" id="names"> 
        <input type="text" required placeholder="User Name" class="login" id="userName">
-       <div class="mtn2">Your Birth Date </div>
+       <div class="mtn2">Your Current age </div>
        <input type="number" required placeholder="Your Age" class="login" id="date">
        <input type="number" required placeholder="Your Phone" class="login" id="phoneNumber"> 
        <input type="text" required placeholder="Your Email" class="login" id="email"> 
