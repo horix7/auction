@@ -18,6 +18,8 @@ let shareWolrd =() => {
     
 <a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
 <a href="#" class="fa fa-twitter"></a>
+<a  href="whatsapp://send?text=horix7.github.io/auction/server/frontend/" data-action="share/whatsapp/share" class="fa fa-whatsapp" style="font-size:48px;color:green"></a>
+
 
    </div>
 </div>
