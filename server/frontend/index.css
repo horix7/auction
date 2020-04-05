@@ -775,11 +775,15 @@ a {
    
 }
 .share {
-    background-color: var(--button-blue);
-    color: white;
-    height: 30px;
+    background-color: rgb(233, 233, 233);
+    color: var(--button-blue);
+    height: 20px;
     border: none;
     border-radius: 5px;
+    margin-top: -10%;
+    font-size: smaller;
+    margin-bottom: 4px;
+
 }
 .products {
     display: grid;
@@ -892,7 +896,7 @@ h2 {
 .alive {
     text-align: center;
     text-transform: uppercase;
-    font-size: x-small;
+    font-size: small;
     margin-top: 1%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: black;
@@ -923,6 +927,7 @@ h2 {
 .need {
     font-size: x-small;
     font-weight: normal;
+    margin-bottom: 1px;
 }
 
 .num {
@@ -974,6 +979,9 @@ h2 {
 }
 
 @media screen and (max-width: 1000px) {
+    .out {
+        width: 70px;
+    }
     body {
         /* background-color: red; */
     }
@@ -985,6 +993,9 @@ h2 {
     color: red;
 }
 
+.attention {
+    font-size: small;
+}
 .attention2 {
     font-size: small;
 }
@@ -995,7 +1006,15 @@ h2 {
 }
 
 .attention4 button {
-    height: 60%;
+    height: 100%;
+}
+
+.attention4 {
+    grid-template-columns: 10% 80% 10%;
+}
+
+.money {
+    display: none;
 }
 
 
@@ -1458,3 +1477,32 @@ li {
     text-decoration: none;
     cursor: pointer;
   }
+
+
+
+  .ddata {
+      background-color: rgb(36, 36, 41);
+      height: 1000px;
+      font-weight: lighter;
+      font-style: oblique;
+      color: white;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+
+
+
+.foo {
+    float: left;
+    font-size: medium;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin-bottom: 2%;
+
+}
+
+.money {
+    font-weight: bolder;
+    font-size: x-small;
+}

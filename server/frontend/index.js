@@ -14,10 +14,13 @@ let shareWolrd =() => {
     <div class="Close" id="closePay" onclick="displayProducts()">+</div>
 </div>
 <div class="sign-in">
-    <h1 class="pay">Share The Product </h1>
+    <h5 class="pay">Share The Product </h5>
     
-<a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
-<a href="#" class="fa fa-twitter"></a>
+  
+    <a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
+    <a href="https://twitter.com/intent/horix7.github.io/auction/server/frontend/" class="fa fa-twitter"></a>
+    <a  href="whatsapp://send?text=horix7.github.io/auction/server/frontend/" data-action="share/whatsapp/share" class="fa fa-whatsapp" style="font-size:48px;color:green"></a>
+    
 
    </div>
 </div>
@@ -111,7 +114,7 @@ let adminCount = (id,date, hour) => {
     let dateToDo = [date, hour].join(' ')
   
     let countDownDate = new Date(dateToDo).getTime();
-    
+    let xy = 10
     
     let x = setInterval(function() {
     
@@ -121,10 +124,59 @@ let adminCount = (id,date, hour) => {
     
       // Time calculations for days, hours, minutes and seconds
       let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
     
     
-      document.getElementById(id).innerHTML ="Deadline: " +  hours + "hours"
-      
+      document.getElementById(id).innerHTML ="Deadline: " +  hours + "h" + ":00"
+      let manageMin = (min) => {
+          if(min > 55) {
+              return 59
+          } else 
+          if(min > 50) {
+            return 55
+        } else
+        if(min > 45) {
+            return 50
+        }
+        else
+        if(min > 40) {
+            return 45
+        }
+        else
+        if(min > 35) {
+            return 40
+        }
+
+        else
+        if(min > 30) {
+            return 35
+        } else
+        if(min > 25) {
+            return 30
+        }
+        else
+        if(min > 20) {
+            return 25
+        }
+
+        else
+        if(min > 15) {
+            return 20
+        }
+
+        
+        else
+        if(min > 10) {
+            return 15
+        }
+        else {
+            return min
+        }
+      }
+      if(hours == 0 ) {
+        document.getElementById(id).innerHTML ="Deadline: " +  manageMin(minutes)  + "minutes"
+      }
       if (distance <= 0) {
         clearInterval(x);
 
@@ -132,7 +184,7 @@ let adminCount = (id,date, hour) => {
       updateOff(id)
       displayProducts()
       }
-    }, 10);
+    }, xy);
     }
     
   
@@ -205,7 +257,7 @@ let intrestedBef = `
     <div class="action">
         <div><button class="unclick interest">Interested</button></div>
                     <h4 class="need"><span class="num">${element.target}</span> <span class="reds">People Needed</span> For sponsoship</h4>
-       <button class="share"  onclick="shareWolrd()"   >Share</button>
+       <button class="share"  onclick="shareWolrd()"   >Share   Now </button>
 
                     <h5>Bidding  Price <span class="blues"> ${element.price} Rwf</span></h3>
     <p class="mess">Fastest Bidder Winns</p>
@@ -258,6 +310,8 @@ allProData.push(each)
 
 let products = `
 <button class="out" onclick="landing()">Log Out </button>
+<button class="out" onclick="displayProducts()">Refresh</button>
+
 <h1 class="auction-head"> Auction </h1>
 <div class="products" id="products">
 
@@ -350,7 +404,7 @@ let intrestedBef = `
    <div class="action">
        <div><button class="interest" onclick="claimIntreset(${element.id})">Am interested</button></div>
                    <h4 class="need"><span class="num">${element.target}</span> <span class="reds">People Needed</span> For sponsoship</h4>
-       <button class="share"  onclick="shareWolrd()"   >Share</button>
+       <button class="share"  onclick="shareWolrd()"   >Share   Now </button>
         
                    <h5>Bidding  Price <span class="blues"> ${element.price} Rwf</span></h3>
    <p class="mess">Fastest Bidder Winns</p>
@@ -948,7 +1002,7 @@ Copyright © 2020
     <div class="attention4"> 
     <img src="./assets/410b2019-7501-483a-a461-b50de6a78ca6-img_9273-2.jpg" alt="" width="100px">
     <button class="midBtn" onclick="shareSec()">SHARE NOW TO HELP OTHERS IN NEED.</button>
-  <img src="./assets/brown-leather-wallet-with-lots-money_68708-304.jpg" alt=""  width="100px">
+  <div> <img src="./assets/brown-leather-wallet-with-lots-money_68708-304.jpg" alt=""  width="100px"> <p class="money"> make money from home </p> </div>
     </div>
   </div>
 
@@ -1098,7 +1152,7 @@ inactivePro.push(intrestedBef)
     active.forEach(each => {
        let bidNow = `
        <div>
-       <h2 class="alive2">Deadline: ${deadlineCalc}</h2>
+       <h2 class="alive2" id=${each.id}>${adminCount(each.id,each.ends, each.description)}</h2>
 
        <div class="product">
        <h2 class="dead">Current Auction</h2>
@@ -1207,7 +1261,7 @@ let shareSec =() => {
     <div class="Close" id="closePay" onclick="landing()">+</div>
 </div>
 <div class="sign-in">
-    <h1 class="pay">Share The Product </h1>
+    <h5 class="pay">Share The Product </h5>
     
 <a href="https://www.facebook.com/sharer/sharer.php?u=horix7.github.io/auction/server/frontend/" class="fa fa-facebook"></a>
 <a href="https://twitter.com/intent/horix7.github.io/auction/server/frontend/" class="fa fa-twitter"></a>

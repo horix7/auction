@@ -1,6 +1,6 @@
 
-
 const  url = "https://afternoon-journey-05524.herokuapp.com/"
+
 let App = document.querySelector(".body")
 let allProData = []
 
@@ -16,7 +16,7 @@ let loginBack = () => {
           <h1>Admin Login</h1>
               <input type="text" required placeholder="User Name" class="inputsAdmin"  id="loginName"> 
           <input type="password" required placeholder="Your Password" class="inputsAdmin" id="loginPass"> 
-          <button class="submit" id="loginSub"> Login</button>
+          <button class="submit" id="loginSub"> Login </button>
          </div>      
     </div>
     <div id="err"  class="error"> 
@@ -307,6 +307,8 @@ let landing = `
      
     </tbody>
   </table>
+<a href="#" onclick="winnersPro()" class="foo">downLoad Data</a>
+
 </div>
 
 
@@ -342,6 +344,8 @@ let landing = `
       </tr>
     </tbody>
   </table>
+<a href="#" onclick="activeComes()" class="foo">downLoad Data</a>
+
 </div>
 
 
@@ -362,6 +366,8 @@ let landing = `
    
     </tbody>
   </table>
+<a href="#" onclick="downUpcomes()" class="foo">downLoad Data</a>
+
 </div>
 
 
@@ -407,6 +413,7 @@ let AdminEntry = () => {
     .then( results => results.json())
     .then( res => {
       localStorage.setItem('winnNum', res.data.length)
+      localStorage.setItem('allWinners', JSON.stringify(res.data))
 
       let allWinners = []
             res.data.forEach(responseData => {
@@ -462,6 +469,7 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
+      localStorage.setItem('activePro', JSON.stringify(res.data))
 
       let currents = []
             res.data.forEach(responseData => {
@@ -514,6 +522,7 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
+      localStorage.setItem('inactivePro', JSON.stringify(res.data))
 
       let upcomez = []
             res.data.forEach(responseData => {
@@ -737,26 +746,21 @@ let pop = (data, before) => {
   let dataIn =  `
     
 
-<div class="modal-content" >
-  <span class="close" onclick="closeBan()">&times;</span>
+<div class="ddata">
   ${data}
 </div>
 
 
   `
-// </div>
 
-// <div id="myModal" class="modal" onload="popup()">
 
-  // document.getElementById("myModal").style.display = 'block'
-
-  alert(data)
+  alert("press Ok  to continue")
 
   App.innerHTML = dataIn
 
    setTimeout(() => {
     App.innerHTML = before
-   }, 6000)
+   }, 30000)
  
   
 }
@@ -863,6 +867,76 @@ let getAllBids = () => {
   })
 }
 
+
+let downUpcomes = () => {
+  let inner = App.innerHTML
+
+  alert("press Ok  to continue")
+
+
+  App.innerHTML =  `
+
+  
+<div class="ddata">
+${localStorage.inactivePro}
+</div>
+
+
+  `
+
+  setTimeout(() => {
+    App.innerHTML = inner
+  },30000)
+}
+
+
+
+let activeComes = () => {
+  let inner = App.innerHTML
+
+  alert("press Ok  to continue")
+
+
+  App.innerHTML =  `
+
+  
+<div class="ddata">
+${localStorage.activePro}
+</div>
+
+
+  `
+
+  
+  setTimeout(() => {
+    App.innerHTML = inner
+  }, 30000)
+}
+
+
+
+
+
+let winnersPro = () => {
+  let inner = App.innerHTML
+
+  alert("press Ok  to continue")
+
+
+  App.innerHTML =  `
+
+  
+<div class="ddata">
+${localStorage.allWinners}
+</div>
+
+
+  `
+
+  setTimeout(() => {
+    App.innerHTML = inner
+  }, 30000)
+}
 
 
 
