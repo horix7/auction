@@ -26,7 +26,9 @@ class userController {
 
     bidProduct(req, res) {
         let tokenId = tokens.decode(req.token).id
-        product.bid(parseInt(tokenId), req.body)
+        let userData = tokens.decode(req.token)
+
+        product.bid(parseInt(tokenId), req.body, userData)
        .then(resi => {
             const {id,createdby , time, productid} =  resi[resi.length - 1]
             return res.status(200).json({
@@ -88,7 +90,8 @@ class userController {
     
     interested(req, res) {
         let tokenId = tokens.decode(req.token).id
-        product.interest(tokenId, req.body)
+        let userData = tokens.decode(req.token)
+        product.interest(tokenId, req.body, userData)
         .then(results => {
             return res.status(200).json({
                 "status": 200,
@@ -215,6 +218,27 @@ class userController {
         })
     }
     
+
+    oneBid(req, res) {
+        product.oneBidd(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
+
+    
+    oneIntrest(req, res) {
+        product.oneInterest(req.params.id)
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
 }
 
 export default new userController()

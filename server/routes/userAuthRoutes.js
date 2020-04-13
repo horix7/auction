@@ -11,6 +11,8 @@ router.post("/auth/signin", user.userSignIn)
 router.get("/allusers", checkToken, isAdmin, user.getAllUsers)
 router.get("/useraccount/:id",checkToken, user.getOneUser)
 router.get("/frontwin", user.allWinners)
+router.get("/dataday/", checkToken, isAdmin, user.userNums)
+
 
 
 

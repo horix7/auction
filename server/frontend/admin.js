@@ -1,12 +1,31 @@
 
-const  url = "https://afternoon-journey-05524.herokuapp.com/"
+// const  url = "https://afternoon-journey-05524.herokuapp.com/"
+const url = 'http://localhost:5000/'
 
 let App = document.querySelector(".body")
 let allProData = []
 
+let downLoadData = (objArray) => {
+  let items = objArray;
+        const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+        const header = Object.keys(items[0]);
+        let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+        csv.unshift(header.join(','));
+        csv = csv.join('\r\n');
 
+        alert("Press Ok To DownLoad Csv")
 
+        let downloadLink = document.createElement("a");
+        let blob = new Blob(["\ufeff", csv]);
+        let url = URL.createObjectURL(blob);
+        downloadLink.href = url;
+        downloadLink.download = `${parseInt(Math.floor(Math.random * 100000) + 1000000).toString()}fortuneData.csv`;  //Name the file here
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
 
+}
+ 
 let loginBack = () => {
   let address = 'api/v1/auth/signin'
   
@@ -180,8 +199,8 @@ let adminCount = (id,date, hour) => {
 
 
   let winningDate = (id,mill) => {
-    var time = new Date(parseInt(mill)).getTime();
-    var date = new Date(time);
+    let time = new Date(parseInt(mill)).getTime();
+    let date = new Date(time);
     let x = setInterval(function() {
       document.getElementById(id).innerHTML =  date.toString()
       
@@ -267,19 +286,19 @@ let landing = `
 <div class="infos">
 <div class="big-box">
     <h5 class="tabble">Total Revenue</h5>
- <div class="dashInfo">RWF 0</div>
+ <div class="dashInfo" id="totalR">RWF 0</div>
 </div>
 <div class="big-box">
  <h5 class="tabble">Total Customers</h5>
-<div class="dashInfo">${localStorage.userNum}</div>
+<div class="dashInfo" id="totalU">0</div>
 </div>
 <div class="big-box">
  <h5 class="tabble">New Customers</h5>
-<div class="dashInfo">${localStorage.userNum}</div>
+<div class="dashInfo" id="totalUU">0</div>
 </div>
 <div class="big-box">
 <h5 class="tabble">Total Winners</h5>
-<div class="dashInfo">${localStorage.winnNum}</div>
+<div class="dashInfo" id="totalW"> 0 </div>
 </div>
 </div>
 
@@ -307,7 +326,7 @@ let landing = `
      
     </tbody>
   </table>
-<a href="#" onclick="winnersPro()" class="foo">downLoad Data</a>
+<a href="#" id="winer" class="foo">downLoad Data</a>
 
 </div>
 
@@ -344,7 +363,7 @@ let landing = `
       </tr>
     </tbody>
   </table>
-<a href="#" onclick="activeComes()" class="foo">downLoad Data</a>
+<a href="#" id="innts" class="foo">downLoad Data</a>
 
 </div>
 
@@ -366,7 +385,7 @@ let landing = `
    
     </tbody>
   </table>
-<a href="#" onclick="downUpcomes()" class="foo">downLoad Data</a>
+<a href="#" id="bidds" class="foo">downLoad Data</a>
 
 </div>
 
@@ -412,8 +431,10 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
-      localStorage.setItem('winnNum', res.data.length)
-      localStorage.setItem('allWinners', JSON.stringify(res.data))
+      document.querySelector('#totalW').innerHTML =  res.data.length
+
+      document.querySelector('#winer').onclick = () => downLoadData(res.data)
+
 
       let allWinners = []
             res.data.forEach(responseData => {
@@ -469,17 +490,22 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
-      localStorage.setItem('activePro', JSON.stringify(res.data))
+      document.querySelector('#bidds').onclick = () => downLoadData(res.data)
+
+      let newAt = res.data.map(n => parseInt(n.bids) * parseInt(n.price))
+
+      
+      document.querySelector('#totalR').innerHTML =  "RWF" + " " + newAt.reduce((a,b) => a + b)
+
 
       let currents = []
             res.data.forEach(responseData => {
-                      let calcRevenue = 0    
               let currentOne = `
               <th scope="row">${responseData.id}</th>
-              <td>${responseData.name}</td>
+              <td onclick="oneBiid(${responseData.id})">${responseData.name}</td>
               <td>${responseData.bids}</td>
               <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends, responseData.description)}</td>
-              <td>${calcRevenue} Rwf</td>
+              <td>${parseInt(responseData.bids) * parseInt(responseData.price)} Rwf</td>
               `
               currents.push(currentOne)
 
@@ -494,7 +520,33 @@ let AdminEntry = () => {
   }
 
   
-  
+  let getUserNums = () => {
+    let address = 'api/v1/dataday'
+
+    
+    fetch(url+address, {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      credentials: 'same-origin',
+      cache: 'no-cache',
+      // body: JSON.stringify(post),
+      headers: {
+          // 'Content-Type':'application/json',
+          'Authorization': localStorage.tokenAuth
+      }
+    
+    })
+
+    .then( results => results.json())
+    .then( res => {
+      document.querySelector('#totalUU').innerHTML = res.data.todaty
+      document.querySelector('#totalU').innerHTML = res.data.allTime
+
+
+    })
+
+  }
+
+  getUserNums()
   
   let upcomesInfo = () => {
     let address = 'api/v1/inactive'
@@ -522,14 +574,14 @@ let AdminEntry = () => {
 
     .then( results => results.json())
     .then( res => {
-      localStorage.setItem('inactivePro', JSON.stringify(res.data))
+      document.querySelector('#innts').onclick = () => downLoadData(res.data)
 
       let upcomez = []
             res.data.forEach(responseData => {
                       let opcomesOne = `
                       <tr>
                       <th scope="row">${responseData.id}</th>
-                      <td>${responseData.name}</td>
+                      <td  onclick="oneInnt(${responseData.id})">${responseData.name}</td>
                       <td>${responseData.current}</td>
                       <td id=${responseData.id}>${displayCounter(responseData.id, responseData.starts, responseData.hour)}</td>
                       <td>${responseData.target}</td>
@@ -743,25 +795,13 @@ fetch(url+address, {
 
 let pop = (data, before) => {
   
-  let dataIn =  `
-    
-
-<div class="ddata">
-  ${data}
-</div>
-
-
-  `
-
-
+  
   alert("press Ok  to continue")
+  downLoadData(data)
 
-  App.innerHTML = dataIn
-
-   setTimeout(() => {
+  setTimeout(() => {
     App.innerHTML = before
-   }, 30000)
- 
+  },1000)
   
 }
 
@@ -791,10 +831,8 @@ let getAllUsers = () => {
   })
   .then(data => data.json())
   .then(results => {
-    console.log(results.data)
-    localStorage.setItem('userNum', results.data.length)
+    pop(results.data, before)
 
-    pop(JSON.stringify(results.data), before)
     
   })
 }
@@ -827,7 +865,7 @@ let getAllProz = () => {
   })
   .then(data => data.json())
   .then(results => {
-    pop(JSON.stringify(results.data), before)
+    pop(results.data, before)
     
 
   })
@@ -861,82 +899,181 @@ let getAllBids = () => {
   })
   .then(data => data.json())
   .then(results => {
-    pop(JSON.stringify(results.data), before)
+    pop(results.data, before)
     
 
   })
 }
 
 
-let downUpcomes = () => {
-  let inner = App.innerHTML
-
-  alert("press Ok  to continue")
 
 
-  App.innerHTML =  `
+
+let oneBiid = (id) => {
+  let address = `api/v1/onebid/${id}`
+  let before = App.innerHTML
 
   
-<div class="ddata">
-${localStorage.inactivePro}
-</div>
+  App.innerHTML = ` <div class="midz">
+  <div>
+   <h1 id="action">Loading Action ... </h1>
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>  ` 
+
+  let oneData = `
+  
+  <table class="table  table-dark">
+    <thead class="thead-red">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">name</th>
+        <th scope="col">username</th>
+        <th scope="col">phone</th>
+        <th scope="col">email</th>
+        <th scope="col">Product</th>
+        <th scope="col">Bid Time</th>
+        <th scope="col">Revenue</th>
+
+        
+      </tr>
+    </thead>
+    <tbody id="int">
+     
+    </tbody>
+  </table>
+
+<button class="submit" onclick="AdminEntry()">Back</button>
+<button class="submit" id="down"> Download Data</button>
 
 
   `
 
-  setTimeout(() => {
-    App.innerHTML = inner
-  },30000)
+
+  
+  let timeMill = (num) => {
+    let numR =  num.split('T').splice(1)
+    return numR.join('').split('+')[0]
+  }
+
+  fetch(url+address, {
+      
+          method: 'GET', 
+          credentials: 'same-origin',
+          cache: 'no-cache',
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': localStorage.tokenAuth
+          }
+  })
+  .then(data => data.json())
+  .then(results => {
+    
+    oneIntrest = JSON.stringify(results.data)
+    App.innerHTML = oneData
+    let tab = document.querySelector('#int')
+    let newData = results.data.map(n => `
+    <th scope="col">${n.id}</th>
+    <th scope="col">${n.name}</th>
+    <th scope="col">${n.username}</th>
+    <th scope="col">${n.phone}</th>
+    <th scope="col">${n.email}</th>
+    <th scope="col">${n.productintrest}</th>
+    <th scope="col">${timeMill(n.bidtime)}</th>
+    <th scope="col">${n.revenue}</th>
+
+   `)
+
+   newData.forEach(n => {
+    tab.innerHTML += n
+   })
+
+   document.querySelector('#down').onclick = () => downLoadData(results.data)
+
+
+  })
 }
 
 
 
-let activeComes = () => {
-  let inner = App.innerHTML
 
-  alert("press Ok  to continue")
+let oneInnt = (id) => {
+  let address = `api/v1/oneint/${id}`
+  let before = App.innerHTML
 
 
-  App.innerHTML =  `
+  App.innerHTML = ` <div class="midz">
+  <div>
+   <h1 id="action">Loading Action ... </h1>
+   <div class="loader"></div>
+  </div>
+  </div>
+  </div>  ` 
 
+  let oneData = `
   
-<div class="ddata">
-${localStorage.activePro}
-</div>
+  <table class="table  table-dark">
+    <thead class="thead-red">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">name</th>
+        <th scope="col">username</th>
+        <th scope="col">phone</th>
+        <th scope="col">email</th>
+        <th scope="col">Product</th>
+        <th scope="col">Bid Time</th>
+        <th scope="col">Total</th>
+
+        
+      </tr>
+    </thead>
+    <tbody id="int">
+     
+    </tbody>
+  </table>
+<button class="submit" onclick="AdminEntry()"> Back</button>
+<button class="submit" id="down"> Download Data</button>
 
 
   `
 
-  
-  setTimeout(() => {
-    App.innerHTML = inner
-  }, 30000)
+  let timeMill = (num) => {
+    let numR =  num.split('T').splice(1)
+    return numR.join('').split('+')[0]
+  }
+  fetch(url+address, {
+      
+          method: 'GET', 
+          credentials: 'same-origin',
+          cache: 'no-cache',
+          headers: {
+              'Content-Type':'application/json',
+              'Authorization': localStorage.tokenAuth
+          }
+  })
+  .then(data => data.json())
+  .then(results => {
+    App.innerHTML = oneData
+    let tab = document.querySelector('#int')
+    let newData = results.data.map(n => `
+    <th scope="col">${n.id}</th>
+    <th scope="col">${n.name}</th>
+    <th scope="col">${n.username}</th>
+    <th scope="col">${n.phone}</th>
+    <th scope="col">${n.email}</th>
+    <th scope="col">${n.productintrest}</th>
+    <th scope="col">${timeMill(n.time)}</th>
+    <th scope="col">${n.total}</th>
+
+   `)
+
+   newData.forEach(n => {
+    tab.innerHTML += n
+   })
+
+   document.querySelector('#down').onclick = () => downLoadData(results.data)
+
+  })
 }
-
-
-
-
-
-let winnersPro = () => {
-  let inner = App.innerHTML
-
-  alert("press Ok  to continue")
-
-
-  App.innerHTML =  `
-
-  
-<div class="ddata">
-${localStorage.allWinners}
-</div>
-
-
-  `
-
-  setTimeout(() => {
-    App.innerHTML = inner
-  }, 30000)
-}
-
-
 

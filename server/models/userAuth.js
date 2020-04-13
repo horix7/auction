@@ -38,13 +38,11 @@ class User {
              ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
             `
 
-             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.userprofile,newUser.address,newUser.userId,newUser.usertype, newUser.isadmin, newUser.age]
+            let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
+
+             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.userprofile,newUser.address,dateForNow,newUser.usertype, newUser.isadmin, newUser.age]
              
-             await client.query(results, inserts, (err) => {
-                 if(err) {
-                     console.log(err)
-                 }
-             })
+             await client.query(results, inserts)
 
              let rezult = await client.query('select * from users where email=$1', [newUser.email])
             
@@ -73,6 +71,19 @@ class User {
    async allUsers() {
         const allUsers = await client.query('select * from users');
         return allUsers.rows
+    }
+
+    async todayUsers() {
+        let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
+
+        const allUsers = await client.query('select * from users where userid=$1', [dateForNow]);
+        const allUsers2 = await client.query('select * from users');
+
+        return {
+            todaty: allUsers.rowCount,
+            allTime: allUsers2.rowCount
+        }
+
     }
 
     async frontUsers() {

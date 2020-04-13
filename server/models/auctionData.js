@@ -31,15 +31,17 @@ class User {
              return rezult.rows
      }
 
-    async bid(createdBy,bid) {
+    async bid(createdBy,bid, user) {
 
         let results = 
         `INSERT INTO bids
-         (createdby,productid,time) VALUES
-         ($1,$2,$3) RETURNING * 
+         (createdby,productid,time, revenue) VALUES
+         ($1,$2,$3, $4) RETURNING * 
         `
-         let inserts = [createdBy, bid.productid, new Date().getTime()]
-         
+         let revenue = await client.query('select price from products where id=$1', [bid.productid])
+
+         let inserts = [createdBy, bid.productid, new Date().getTime(), revenue.rows[0].price]
+
          await client.query(results, inserts)
          
          let rezult = await client.query('select * from bids')
@@ -49,12 +51,35 @@ class User {
          let productBids = await client.query('select bids from products where id=$1', [bid.productid])
          let bids = productBids.rows[0].bids
          
+        
+         await client.query(results, inserts)
+
+
+         let productsInfo = await client.query('select current from products where id=$1', [bid.productid])
+         let productName = await client.query('select name from products where id=$1', [bid.productid])
+         let interestCount = await client.query('select * from bids where createdby=$1', [createdBy])
  
+ 
+         let current = productsInfo.rows[0].current
+         
+         let results2 = 
+         `INSERT INTO upb
+          (name ,username , phone ,email ,productIntrest ,bidtime ,revenue, proid) VALUES
+          ($1,$2,$3,$4,$5,$6,$7, $8) RETURNING * 
+         `
+ 
+         let timee =  new Date()
+         console.log(new Date(timee.getTime()), user)
+         let inputs3 = [user.firstname, user.secondname, user.phone, user.email, productName.rows[0].name,new Date(timee.getTime()), revenue.rows[0].price, bid.productid]
+ 
+         await client.query(results2, inputs3)
+
+         
          let createAdd = (num) => {
              if(parseInt(num).toString() == 'NaN') {
                  return 0
              } else {
-                 return 1
+                 return parseInt(num)
              }
          }
          await client.query('update products set bids=$2 where id=$1', [bid.productid, createAdd(bids) + 1 ])
@@ -85,7 +110,7 @@ class User {
         return notActive.rows
     }
 
-    async interest(createdBy, info) {
+    async interest(createdBy, info, user) {
         let results = 
         `INSERT INTO interests
          (createdby,productid) VALUES
@@ -93,16 +118,33 @@ class User {
         `
 
         let inputs = [createdBy, info.productid]
+
         await client.query(results, inputs)
         let productsInfo = await client.query('select current from products where id=$1', [info.productid])
+        let productName = await client.query('select name from products where id=$1', [info.productid])
+        let interestCount = await client.query('select * from interests where createdby=$1', [createdBy])
+
+
         let current = productsInfo.rows[0].current
         
+        let results2 = 
+        `INSERT INTO upi
+         (name ,username , phone ,email ,productIntrest ,time ,total, proid) VALUES
+         ($1,$2,$3,$4,$5,$6,$7, $8) RETURNING * 
+        `
+
+        let timee =  new Date()
+        console.log(new Date(timee.getTime()), user)
+        let inputs3 = [user.firstname, user.secondname, user.phone, user.email, productName.rows[0].name,new Date(timee.getTime()), interestCount.rowCount, info.productid]
+
+        await client.query(results2, inputs3)
+
 
         let createAdd = (num) => {
             if(parseInt(num).toString() == 'NaN') {
                 return 0
             } else {
-                return 1
+                return parseInt(num)
             }
         }
         await client.query('update products set current=$2 where id=$1', [info.productid, createAdd(current) + 1 ])
@@ -277,6 +319,20 @@ class User {
            console.log(err)
        }
          return 'done'
+    }
+
+    async oneInterest (id) {
+        let data = await  client.query('select * from upi where proid=$1', [id])
+        console.log(data.rows)
+        return data.rows
+    }
+
+
+    async oneBidd (id) {
+        let data = await  client.query('select * from upb where proid=$1', [id])
+        console.log(data.rows)
+
+        return data.rows
     }
 }
 
