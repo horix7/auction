@@ -1,6 +1,5 @@
 
-// const  url = "https://afternoon-journey-05524.herokuapp.com/"
-const url = 'http://localhost:5000/'
+const  url = "https://afternoon-journey-05524.herokuapp.com/"
 
 let App = document.querySelector(".body")
 let allProData = []
