@@ -18,7 +18,7 @@ let downLoadData = (objArray) => {
         let blob = new Blob(["\ufeff", csv]);
         let url = URL.createObjectURL(blob);
         downloadLink.href = url;
-        downloadLink.download = `${parseInt(Math.floor(Math.random * 100000) + 1000000).toString()}fortuneData.csv`;  //Name the file here
+        downloadLink.download = `${parseInt(Math.floor(Math.random() * 100678700000) + 1000000).toString()}fortuneData.csv`;  //Name the file here
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
@@ -706,7 +706,7 @@ document.querySelector('.submit').innerHTML = `<i class="fa fa-spinner fa-spin">
 let postWinner = {
   name: winnerName.value,
   product : winFor.value,
-  bidTime : winTime.value,
+  bidtime : winTime.value,
   picture : profilePic.value
 
 }
