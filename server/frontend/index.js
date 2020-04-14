@@ -2539,8 +2539,6 @@ let bidPro = (id) => {
    .then(resul => {
        if(resul.code >= 400) {
         alert(JSON.stringify(resul))
-        displayProducts()
-       } else {
         fetch( url + address , {
             method: 'POST', 
             credentials: 'same-origin',
