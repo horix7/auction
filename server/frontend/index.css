@@ -728,6 +728,92 @@ a {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+
+ .payOp {
+      display: grid;
+      width: 50%;
+      grid-template-columns: auto auto auto;
+      align-items: center;
+      margin-bottom: 10px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+    }
+  
+    .tigo {
+      text-align: center;
+      font-weight: bolder;
+      color: white;
+      background-color: blue;
+      padding: 5px 0px 5px 0px;
+      cursor: pointer;
+
+    }
+  
+    .airtel {
+      text-align: center;
+      font-weight: bolder;
+      color: white;
+      background-color: rgb(190, 0, 0);
+      padding: 5px 0px 5px 0px;
+      cursor: pointer;
+
+    }
+  
+     .mmtn {
+      text-align: center;
+      font-weight: bolder;
+      color: white;
+      background-color: rgb(240, 200, 0);
+      padding: 5px 0px 5px 0px;
+      cursor: pointer;
+
+    }
+    
+    .realTalk {
+       width: 98%;
+       height: 80%;
+       border: none;
+       outline: none;
+       font-size: small;
+    }
+  
+    .leave div  {
+        justify-content: center;
+        text-align: center;
+        font-size: medium;
+    }
+    .leave input  {
+        padding-left: 2%;
+        height: 120%;
+        width: 100%;
+        border: 2px solid grey;
+
+        color: black;
+
+    }
+
+    .reed {
+        color: blue;
+        cursor: pointer;
+    }
+    .leave {
+        align-items: center;
+        visibility: hidden;
+        background-color: rgb(3, 0, 0);
+        color: white;
+       font-weight: bold;
+       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+       font-size: small;  
+       width: 80%;
+       height: 30px;
+       display: grid;
+       grid-template-columns: 15% 85%;
+
+       margin: 30px 0px;
+    }
+  
+  
+
 .foot span {
     float: right;
     margin-right: 4%;

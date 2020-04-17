@@ -250,8 +250,9 @@ class User {
     }
 
     async winners() {
-        let winnerInfo = await client.query('select * from viewin')
 
+        
+        let winnerInfo = await client.query('select * from viewin')
         await client.query('delete from viewin')
 
         console.log(winnerInfo.rows)

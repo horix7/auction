@@ -1,6 +1,8 @@
 
 const  url = "https://afternoon-journey-05524.herokuapp.com/"
 
+
+
 let App = document.querySelector(".body")
 let allProData = []
 
@@ -24,6 +26,15 @@ let downLoadData = (objArray) => {
         document.body.removeChild(downloadLink);
 
 }
+
+let changeNaN = (number) => {
+  if (isNaN(number)) {
+    return 0
+  } else {
+    return number
+  }
+}
+
  
 let loginBack = () => {
   let address = 'api/v1/auth/signin'
@@ -491,7 +502,7 @@ let AdminEntry = () => {
     .then( res => {
       document.querySelector('#bidds').onclick = () => downLoadData(res.data)
 
-      let newAt = res.data.map(n => parseInt(n.bids) * parseInt(n.price))
+      let newAt = res.data.map(n => changeNaN(parseInt(n.bids)) * parseInt(n.price))
 
       
       document.querySelector('#totalR').innerHTML =  "RWF" + " " + newAt.reduce((a,b) => a + b)
@@ -501,10 +512,10 @@ let AdminEntry = () => {
             res.data.forEach(responseData => {
               let currentOne = `
               <th scope="row">${responseData.id}</th>
-              <td onclick="oneBiid(${responseData.id})">${responseData.name}</td>
-              <td>${responseData.bids}</td>
+              <td onclick="oneBiid(${responseData.id})" class="reed">${responseData.name}</td>
+              <td>${responseData.bids || 0}</td>
               <td id=${responseData.id}>${adminCount(responseData.id,responseData.ends, responseData.description)}</td>
-              <td>${parseInt(responseData.bids) * parseInt(responseData.price)} Rwf</td>
+              <td>${changeNaN(parseInt(responseData.bids)) * parseInt(responseData.price)} Rwf</td>
               `
               currents.push(currentOne)
 
@@ -580,8 +591,8 @@ let AdminEntry = () => {
                       let opcomesOne = `
                       <tr>
                       <th scope="row">${responseData.id}</th>
-                      <td  onclick="oneInnt(${responseData.id})">${responseData.name}</td>
-                      <td>${responseData.current}</td>
+                      <td  onclick="oneInnt(${responseData.id})"  class="reed">${responseData.name}</td>
+                      <td>${responseData.current || 0}</td>
                       <td id=${responseData.id}>${displayCounter(responseData.id, responseData.starts, responseData.hour)}</td>
                       <td>${responseData.target}</td>
                       <td>${responseData.ends}</td>
@@ -980,7 +991,7 @@ let oneBiid = (id) => {
     <th scope="col">${n.email}</th>
     <th scope="col">${n.productintrest}</th>
     <th scope="col">${timeMill(n.bidtime)}</th>
-    <th scope="col">${n.revenue}</th>
+    <th scope="col">${changeNaN(n.revenue)}</th>
 
    `)
 

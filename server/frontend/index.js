@@ -2283,7 +2283,7 @@ allProData.push(element)
 
         <div class="product">
         <h2 class="dead">Current Auction</h2>
-        <img   src=${each.picture}  class="imagi"   alt="Image Loading" width="100%">
+        <img   src=${each.picture}  class="imagi"   width="100%">
         <h5 class="alive"> ${each.name}</h5>
         <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
         </div>
@@ -2397,7 +2397,7 @@ let intrestedBef = `
 
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
-<img src=${element.picture} class="imagi" alt="Image Loading" width="100%">
+<img src=${element.picture} class="imagi" width="100%">
    <h2 class="alive"> ${element.name}</h2>
 
    <div class="action">
@@ -2434,7 +2434,7 @@ inactivePro.push(intrestedBef)
 
        <div class="product">
        <h2 class="dead">Current Auction</h2>
-       <img  src=${each.picture}  class="imagi"  alt="Image Loading" width="100%">
+       <img  src=${each.picture}  class="imagi"  width="100%">
        <h5 class="alive"> ${each.name}</h5>
        <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
        </div>
@@ -2486,6 +2486,9 @@ let bidPro = (id) => {
     let infoPro = allProData.filter(n => n.id == id)
     let address12 = 'https://api.havanao.com/api/sale/purchase?api_token=NJoyXg1on9rG4RDUDfNN0nBUR1JJp8E4FRuGR6h767ApnuQ1cJmiqgNZW7wZ'
 
+
+    
+    
     let pay = `
     <div class="form">
     <div class="hold">
@@ -2495,28 +2498,39 @@ let bidPro = (id) => {
         <h1 class="pay">Pay To Finish The Bid</h1>
         <h3 class="pay">Bidding For: <span> ${infoPro[0].name} </span></h3>
         <h4 class="pay">Paying For: <span>${infoPro[0].price} rwf</span></h4>
-        <div class="mtn">Pay With MTN  Mobile Money</div>
-            <input type="text" required placeholder="Phone Number" class="login" id="payer"> 
-        <button class="submit" id="payer1">Pay</button>
+        <div class="mtn">Choose Your  Mobile Money Account </div>      
+<div>
+<div class="payOp">
+    <div class="mmtn" id="mmtn">
+      MTN
+    </div>
+    <div class="airtel" id="hava11">
+      Airtel
+    </div>
+    <div class="tigo" id="hava22">
+      Tigo
+    </div>
+  </div>
+  <div class="leave">  
+    <div> 250 </div>
+    <input type="number" placeholder="Mobile Number" class="realTalk" id="payer"/>
+  </div>
+   </div> 
+    <button class="submit" id="payeNow">Pay</button> 
     </div>
     </div>
     `
     App.innerHTML = pay
-    
+
+    let mTn = document.querySelector('#mmtn')
+    let hava = document.querySelector('#hava11')
+    let hava2 = document.querySelector('#hava22')
+    let submitPay = document.querySelector('#payeNow')    
+    let formm = document.querySelector('.leave')
     let userNumber = document.querySelector('#payer')
 
-    let subBtn = document.querySelector('#payer1')
 
-    
-    let postForBid = {
-        productid: id,
-        time: Date.now()
-    }
-
-    subBtn.onclick = () =>  {
         
-    subBtn.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
-
     let postForPayment = {
         amount: infoPro[0].price,
         customer: userNumber.value,
@@ -2524,8 +2538,87 @@ let bidPro = (id) => {
         comment: "new customer"
     }
 
- 
-    fetch(address12 , {
+    let hhava = true
+    mTn.onclick = () => {
+        formm.style.visibility = "visible"
+        formm.style.backgroundColor = "rgb(192, 141, 0)"
+        formm.style.border = "rgb(192, 141, 0) 6px solid"
+        userNumber.style.borderColor = "rgb(192, 141, 0)"
+
+
+        userNumber.placeholder = "Mtn-number"
+        address12 = "http://qa.mvendpay.com/api/requestpayment/"
+        hhava = false
+
+      
+
+    }
+
+
+        
+    hava.onclick = () => {
+        formm.style.visibility = "visible"
+        formm.style.backgroundColor = "red"
+        formm.style.border = "red 6px solid"
+        userNumber.placeholder = "Airtel-number"
+        userNumber.style.borderColor = "red"
+
+
+        address12 = 'https://api.havanao.com/api/sale/purchase?api_token=NJoyXg1on9rG4RDUDfNN0nBUR1JJp8E4FRuGR6h767ApnuQ1cJmiqgNZW7wZ'
+        hhava = true
+
+        postForPayment = {
+            amount: infoPro[0].price,
+            customer: userNumber.value,
+            transactionid: new Date().getTime() + "-id-" + infoPro[0].id,
+            comment: "new customer"
+        }
+
+        
+    
+    }
+
+    
+    hava2.onclick = () => {
+        formm.style.visibility = "visible"
+        formm.style.backgroundColor = "blue"
+        formm.style.border = "blue 6px solid"
+        userNumber.placeholder = "Tigo-number"
+        userNumber.style.borderColor = "blue"
+
+        
+        address12 = 'https://api.havanao.com/api/sale/purchase?api_token=NJoyXg1on9rG4RDUDfNN0nBUR1JJp8E4FRuGR6h767ApnuQ1cJmiqgNZW7wZ'
+
+        hhava = true
+      
+
+    }
+
+    submitPay.addEventListener( "click", () =>  {
+        if(hhava == true) {
+            postForPayment = {
+                amount: infoPro[0].price,
+                customer: "250" + userNumber.value,
+                transactionid: new Date().getTime() + "-id-" + infoPro[0].id,
+                comment: "new Payment"
+            }
+        } else {
+            postForPayment = {
+                "requesttype":"PaymentRequest",
+                "amount": infoPro[0].price,
+                "appid":"10100004",
+                "timestamp": new Date().getTime(),
+                "appkey": "FORTUNEPAY", 
+                "payment_account": "250" + userNumber.value,
+                "txref": new Date().getTime() + "-id-" + infoPro[0].id,
+                "currency":"RWF", 
+                "integrity_hash": "0759e4360e2e38fec26c999070795526486b6fa9056cdc4ad86dffb9f3ca870c"
+            }
+        }
+
+    
+        submitPay.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
+        fetch(address12 , {
         method: 'POST', 
         credentials: 'same-origin',
         cache: 'no-cache',
@@ -2533,17 +2626,19 @@ let bidPro = (id) => {
         headers: {
             'Content-Type':'application/json',
         }
-    })
-    
-   .then(resul => resul.json())
-   .then(resul => {
-       if(resul.code >= 400) {
-        alert(JSON.stringify(resul))
+        })
+        .then(resul => resul.json())
+        .then(resul => {
+        if(resul.code == 200 || resul.returnCode == 100) {
+       
         fetch( url + address , {
             method: 'POST', 
             credentials: 'same-origin',
             cache: 'no-cache',
-            body: JSON.stringify(postForBid),
+            body: JSON.stringify( {
+                productid: id,
+                time: new Date().getTime()
+            }),
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': localStorage.tokenAuth
@@ -2551,14 +2646,22 @@ let bidPro = (id) => {
         })
             .then(results =>results.json())
             .then(done => {
-               
-        
+                displayProducts()
             })
-       }
-   })
-  
-    
+        
+ 
+    } else {
+
+        alert("Payment Failed ")
+
+        displayProducts()
     }
+})
+})
+    
+    
+  
+  
 }
 
 
@@ -2813,12 +2916,12 @@ let displayProducts = () => {
 let landingPage = `
 <div class="bg">
 <nav>
-<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="Image Loading" width="70px">
+<img class="hide iimg" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" width="70px">
 <div></div>
 <button class="headbtn blue join hide" id="register" onclick="signUpBack()">Join Now</button>
 <button class="headbtn blue hide left full" id="login" onclick="loginBack()"> Log In</button>
 
-<img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" alt="Image Loading" width="100px">
+<img class="nnew" src="./assets/WhatsApp Image 2020-03-24 at 19.55.29 (1).jpeg" width="100px">
     <button class="headbtn blue nnew" id="login" onclick="loginBack()"> Log In</button>
     <button class="headbtn blue nnew" id="register" onclick="signUpBack()">Join Now</button>
     
@@ -2833,7 +2936,7 @@ let landingPage = `
     <button class="btn" onclick="signUpBack()">Join Now</button>
 </div>
 <div class="secondHead">
-<img class="img" src="./assets/auction.png" alt="Image Loading" width="80%">
+<img class="img" src="./assets/auction.png" width="80%">
 
 
 </div>
@@ -2846,16 +2949,17 @@ let landingPage = `
     searching until you get it.” – Benedict Okolie
     </div>
 <div class="notice">
-    <img src="./assets/sad person.jpg" alt="Image Loading" width="100%">
+    <img src="./assets/sad person.jpg" width="100%">
     <p>Are you in need of something but cannot afford it? Now is your chance!   </p>
 </div>
 <p class="warn">
-    Note: Fortune Auction is a <span>LEGALLY REGISTERED</span> business at the Rwanda Development Board. See Legal Document page below
+Note: When you bid for a product by paying for it, we DO NOT REFUND. Be the fastest bidder to win at our bidding price; because YOUR REWARD is more than the BIDDING PRICE. Also, we use the paid bid to provide the <span> cost of transportation, communication, charge fees etc. </span> of running this platform and to reach Sponsor who will provide your need.
+ 
 </p>
 
 <div class="people">
    
-    <img src="./assets/Smartphone users.jpeg" width="80%" alt="Image Loading">
+    <img src="./assets/Smartphone users.jpeg" width="80%">
     <p>Here, you could get what you want at the most ridiculously
         insane bidding price. If you’re the fastest bidder to pay for it.
         We Auction Products at a crazy bidding price for the fastest
@@ -2870,7 +2974,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 <div class="cont white">  <button onclick="signUpBack()"> Join Now</button> <span>It’s Free to be a Member</span>
 </div>
 <div class="descr">
-   <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px" alt="Image Loading">
+   <img src="./assets/1200px-Icon-not-under18.svg.png" width="50px">
     <h2>UNDER AGE 18 IS NOT ALLOWED TO BID</h2>
 </div>
 <div>
@@ -2878,7 +2982,7 @@ Regardless Of Your Income, Background Or Status <br></p>
     <div class="game">
         <div class="box">
             <i></i>
-            <img src="./assets/Registration Icon.png" alt="Image Loading" srcset="" width="50px">
+            <img src="./assets/Registration Icon.png" srcset="" width="50px">
             <h4 class="one">Step 1</h4>
             <p>Register for
                 Free to be a
@@ -2893,7 +2997,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-   <img src="./assets/user-login-icon-png-4.png" alt="Image Loading" srcset="" width="50px">
+   <img src="./assets/user-login-icon-png-4.png" srcset="" width="50px">
 
             <h4 class="two">Step 2</h4>
             <p>During Auction
@@ -2911,15 +3015,15 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-    <img src="./assets/Bidding with Mobile Money.PNG" alt="Image Loading" srcset="" width="50px">
+    <img src="./assets/Bidding with Mobile Money.PNG" srcset="" width="50px">
 
             <h4 class="three">Step 3</h4>
             <p>To Complete Your
                 bid, pay for the
                 product(s) at the
                 giving bidding price
-                using MTN Mobile
-                Money.
+                using MTN Airtel and Tigon Mobile
+                Money Account.
                 REMEMBER TO BE
                 THE FASTEST!
                 </p>
@@ -2927,7 +3031,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
         <div class="box">
             <i></i>
-    <img src="./assets/Winner Icon.png" alt="Image Loading" srcset="" width="50px">
+    <img src="./assets/Winner Icon.png" srcset="" width="50px">
 
             <h4 class="four">Step 4</h4>
             <p>After the auction
@@ -2943,7 +3047,7 @@ Regardless Of Your Income, Background Or Status <br></p>
 
          <div class="box">
             <i></i>
-    <img src="./assets/Phone Call Icon.png" alt="Image Loading" srcset="" width="50px">
+    <img src="./assets/Phone Call Icon.png" srcset="" width="50px">
 
             <h4 class="five">Step 5</h4>
             <p>We call the winner(s)
@@ -2959,20 +3063,22 @@ Regardless Of Your Income, Background Or Status <br></p>
         </div>
     </div>
 </div>
+
+<div class="warn"> NOTE: IF YOU DON'T HAVE MOMO ACCOUNT, FIND SOMEONE WHO HAS AN ACCOUNT AND MONEY IN IT. DON'T MISS OUT! </div>
 <h1 class="play">TEAM</h1>
 <div class="prof">
     
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
+        <img class="profile" src="./assets/my picture.jpg" width="200px">
         <h4>Benedict OKOLIE</h4>
     </div>
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
+        <img class="profile" src="./assets/WhatsApp Image 2020-04-12 at 09.27.00.jpeg" width="200px">
         <h4>Morris MWITI</h4>
     </div>
     <div class="bx">
-        <img class="profile" src="./assets/my picture.jpg" width="200px" alt="Image Loading">
-        <h4>Jules Hirwa</h4>
+    <img class="profile"  src="../frontend/assets/WhatsApp Image 2020-03-30 at 13.12.03.jpg" width="200px" alt="">
+        <h4>Paul Mahoro</h4>
     </div>
 
 </div>
@@ -3158,7 +3264,7 @@ let intrestedBef = `
 
 <div class="product">
 <h2 class="dead2">Upcoming Soon</h2>
-<img src=${element.picture} class="imagi" alt="Image Loading" width="100%">
+<img src=${element.picture} class="imagi" width="100%">
    <h2 class="alive"> ${element.name}</h2>
 
    <div class="action">
@@ -3195,7 +3301,7 @@ inactivePro.push(intrestedBef)
 
        <div class="product">
        <h2 class="dead">Current Auction</h2>
-       <img  src=${each.picture}  class="imagi"  alt="Image Loading" width="100%">
+       <img  src=${each.picture}  class="imagi"  width="100%">
        <h5 class="alive"> ${each.name}</h5>
        <div class="action"><h4 class="need">For <span class="num">${each.winner}</span> <span class="reds">Top</span>Winners</h4>
        </div>
