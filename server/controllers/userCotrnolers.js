@@ -15,23 +15,26 @@ class userController {
                 "status": 409,
                 "error":"email you provide is already in use "
             });
-        }  else if (results == "email2") {
-            return res.status(409).json({
-                "status": 409,
-                "error":"username is already in use  "
-            });
         }
         else { 
             let newUSerInfo = results   
 
-            const {id,firstname , secondname, email, phone,userprofile,isadmin, age} =  newUSerInfo[0]
+            const {id,firstname , secondname, email, phone,userprofile,isadmin} =  newUSerInfo[0]
             return res.status(201).json({
                 "status": 201,
                 "data": [
                     
                    {
-                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age})
-                       
+                        "token": tokens.encode({isadmin, firstname,id,email}),
+                        "user": {
+                            id: id,
+                            firstname: firstname,
+                            secondname: secondname,
+                            email: email,
+                            phoneNumber: phone,
+                            passportUrl: userprofile || "",
+                            isAdmin: false
+                        }
                     }
                 ]
                });
@@ -55,17 +58,27 @@ class userController {
         } else if (resi == "dont match") {
             return res.status(403).json({
                 "status": 403,
-                "error":"your password does not match your UserName"
+                "error":"your password does not match your email"
             }); 
         }
         else {
-            const {id,firstname , secondname, email, phone,userprofile,isadmin,age, password} =  resi[0]
+            const {id,firstname , secondname, email, phone,userprofile,isadmin, password} =  resi[0]
             return res.status(200).json({
                 "status": 200,
                 "data": [
                     
                    {
-                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age})
+                        "token": tokens.encode({id,email,isadmin}),
+                        "user": {
+                            id: id,
+                            firstname: firstname,
+                            secondname: secondname,
+                            email: email,
+                            phoneNumber: phone,
+                            passportUrl: userprofile || "",
+                            isAdmin: isadmin || false,
+                            password: password
+                        }
                     }
                 ]
                });
@@ -117,28 +130,6 @@ class userController {
             }); 
            }
        })
-    }
-
-
-    allWinners(req,res) {
-        account.frontUsers()
-        .then(results => {
-            return res.status(200).json({
-                status: 200,
-                data: results
-            })
-        })
-    }
-
-    
-    userNums(req,res) {
-        account.todayUsers()
-        .then(results => {
-            return res.status(200).json({
-                status: 200,
-                data: results
-            })
-        })
     }
 }
 
