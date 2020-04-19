@@ -7,12 +7,26 @@ import checkToken from '../middleware/authentication'
 const router = express.Router()
 
 router.post("/product", checkToken, isAdmin, bids.createProduct)
-router.get("/product", checkToken, isAdmin, bids.allBallAuctionsids)
-router.get("/active", checkToken, isAdmin, bids.activeProdui)
-router.get("/inactive", checkToken, isAdmin, bids.inactiveProdui)
-
+router.get("/product", checkToken, bids.allBallAuctionsids)
+router.get("/product/:id", checkToken, bids.oneProd)
+router.get("/active", checkToken, bids.activeProdui)
+router.get("/inactive", checkToken, bids.inactiveProdui)
+router.post("/interest", checkToken, bids.interested)
+router.get("/userpro", checkToken, bids.interestedProducts)
+router.post("/status/:id", bids.updateUpcomes)
 router.post("/bid",  checkToken, bids.bidProduct)
 router.get("/allbids", checkToken, isAdmin, bids.allBids)
+router.get("/winners", checkToken, isAdmin, bids.allWinners)
+router.post("/publish", checkToken, isAdmin, bids.publishWin)
+router.get("/onebid/:id", checkToken, isAdmin, bids.oneBid)
+router.get("/oneint/:id", checkToken, isAdmin, bids.oneIntrest)
+router.post("/cancel/:id", checkToken, isAdmin, bids.deleteProd)
+router.get("/bidss/", checkToken, isAdmin, bids.allBiidds)
+router.get("/idz", checkToken, isAdmin, bids.idzz)
+router.post("/choose/:id", checkToken, isAdmin, bids.chooseWinn)
+router.get("/uninterested", checkToken, bids.uninterested)
+router.get("/frontpro",bids.forntUsers)
+router.post("/offside/:id",checkToken, bids.changeNull)
 
 
 
