@@ -1,4 +1,6 @@
-const  url = "https://afternoon-journey-05524.herokuapp.com/"
+// const  url = "https://afternoon-journey-05524.herokuapp.com/"
+const url = "http://localhost:5000/"
+
 
 
 
@@ -2767,7 +2769,10 @@ let bidPro = (id) => {
 
     }
 
-    submitPay.addEventListener( "click", () =>  {
+    submitPay.addEventListener( "click", async() =>  {
+
+        submitPay.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
+
         if(hhava == true) {
             postForPayment = {
                 amount: infoPro[0].price,
@@ -2775,95 +2780,191 @@ let bidPro = (id) => {
                 transactionid: new Date().getTime() + "-id-" + infoPro[0].id,
                 comment: "new Payment"
             }
-        } else {     
-            postForPayment = {
-                "requesttype":"PaymentRequest",
-                "amount": infoPro[0].price,
-                "appid":"10100004",
-                "timestamp": new Date().getTime(),
-                "appkey": "FORTUNEPAY", 
-                "payment_account": "250" + userNumber.value,
-                "txref": new Date().getTime() + "-id-" + infoPro[0].id,
-                "currency":"RWF", 
-                "integrity_hash": "0759e4360e2e38fec26c999070795526486b6fa9056cdc4ad86dffb9f3ca870c"
-            }
-        }
 
-        let firstLink = `https://api.havanao.com/api/sale/status?transactionId=${postForPayment.transactionid}&api_token=NJoyXg1on9rG4RDUDfNN0nBUR1JJp8E4FRuGR6h767ApnuQ1cJmiqgNZW7wZ`
-    
-        submitPay.innerHTML = `<i class="fa fa-spinner fa-spin"></i>`
-        fetch(address12 , {
-        method: 'POST', 
-        credentials: 'same-origin',
-        cache: 'no-cache',
-        body: JSON.stringify(postForPayment),
-        headers: {
-            'Content-Type':'application/json',
-        }
-        })
-        .then(resul => resul.json())
-        .then(resul => {
-        if(resul.code == 200 || resul.returnCode == 100) {
-            alert("Payment Request Sent To Your Mobile ")
-            alert("place Ok If You Have Confirmed on Your Mobile")
             
-            fetch(firstLink, {
-                method: 'GET', 
-                credentials: 'same-origin',
-                cache: 'no-cache',
+        fetch(address12 , {
+            method: 'POST', 
+            credentials: 'same-origin',
+            cache: 'no-cache',
+            body: JSON.stringify(postForPayment),
+            headers: {
+                'Content-Type':'application/json',
+            }
             })
             .then(resul => resul.json())
-            .then(done => {
-                if(done.transactionStatus == "APPROVED") {
-           
-                    fetch( url + address , {
-                        method: 'POST', 
-                        credentials: 'same-origin',
-                        cache: 'no-cache',
-                        body: JSON.stringify( {
-                            productid: id,
-                            time: new Date().getTime(),
-                            momopay: userNumber.value
-                        }),
-                        headers: {
-                            'Content-Type':'application/json',
-                            'Authorization': localStorage.tokenAuth
-                        }
-                    })
-                        .then(results =>results.json())
-                        .then(done => {
-                        alert(`Your bid for ${infoPro[0].name} was successfull`)
+            .then(resul => {
+        let firstLink = `https://api.havanao.com/api/sale/status?transactionId=${postForPayment.transactionid}&api_token=NJoyXg1on9rG4RDUDfNN0nBUR1JJp8E4FRuGR6h767ApnuQ1cJmiqgNZW7wZ`
 
-                            displayProducts()
+            if(resul.code == 200) {
+                alert("Payment Request Sent To Your Mobile ")
+                alert("Press Ok If You Have Confirmed on Your Mobile")
+                
+                fetch(firstLink, {
+                    method: 'GET', 
+                    credentials: 'same-origin',
+                    cache: 'no-cache',
+                })
+                .then(resul => resul.json())
+                .then(done => {
+                    if(done.transactionStatus == "APPROVED") {
+               
+                        fetch( url + address , {
+                            method: 'POST', 
+                            credentials: 'same-origin',
+                            cache: 'no-cache',
+                            body: JSON.stringify( {
+                                productid: id,
+                                time: new Date().getTime(),
+                                momopay: userNumber.value
+                            }),
+                            headers: {
+                                'Content-Type':'application/json',
+                                'Authorization': localStorage.tokenAuth
+                            }
                         })
-                    
-                   }
-
-                   else if (done.transactionStatus == "REQUESTED") {
-        alert("did not Approve the request on Your Mobile")
-        displayProducts()
-
-                   }  else if  (done.transactionStatus == "DECLINED") {
-                    alert("Payment Was Declined")
-                    displayProducts()
-                   }
-             
-            })
-     
-    } else {
-
-        alert("Payment Failed ")
-
-        displayProducts()
-    }
-})
-})
+                            .then(results =>results.json())
+                            .then(done => {
+                            alert(`Your bid for ${infoPro[0].name} was successfull`)
     
+                                displayProducts()
+                            })
+                        
+                       }
     
-  
+                       else if (done.transactionStatus == "REQUESTED") {
+            alert("did not Approve the request on Your Mobile")
+            displayProducts()
+    
+                       }  else if  (done.transactionStatus == "DECLINED") {
+                        alert("Payment Was Declined")
+                        displayProducts()
+                       }
+                 
+                })
+         
+        } else {
+    
+            alert("Payment Failed ")
+    
+            displayProducts()
+        }
+    })
+
+
+
+        } else {   
+            
+                let adss = "hash"
+                let data = {
+                    "requesttype":"PaymentRequest",
+                    "amount": infoPro[0].price,
+                    "appid":"10100004",
+                    "timestamp": new Date().getTime(),
+                    "appkey": "FORTUNEPAY", 
+                    "payment_account": "250" + userNumber.value,
+                    "txref": new Date().getTime() + Math.floor(Math.random()),
+                    "currency":"RWF", 
+                    "integrity_hash": "nothing"
+                }
+
+              fetch(url + adss, {
+                    method: 'POST', 
+                    credentials: 'same-origin',
+                    cache: 'no-cache',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type':'application/json',
+                    }
+                })
+                .then(rez => rez.json())
+                .then(newData => {
+                    let arryz = data
+                    arryz.integrity_hash = newData.data
+                    postForPayment =  arryz
+
+                        payWithMomo(postForPayment)
+                   
+                })
+               
+
+
+              
+            
+        }    
+    
+    })
   
 }
 
+
+let payWithMomo = (postForPayment) => {
+    fetch("http://qa.mvendpay.com/api/requestpayment/" , {
+        method: 'POST', 
+        body: JSON.stringify(postForPayment),
+        headers: {
+            'Content-Type':'text/plain',
+        }
+        })
+    .then(reso => reso.json())
+    .then(resol => {
+        if(resol.status_code == "100") {
+            alert("Payment Request Sent To Your Mobile ")
+            alert("Press Ok If You Have Confirmed on Your Mobile")
+            fetch("http://qa.mvendpay.com/api/requestpayment/", {
+                method: 'POST', 
+                body: JSON.stringify({
+                    "requesttype": "gettransactionstatus",
+                    "appid": "10100004",
+                    "appkey":"FORTUNEPAY",
+                    "timestamp": postForPayment.timestamp,
+                    "txref": postForPayment.txref,
+                    "integrity_hash": "97c17679854b1dcf53448fceb1f12a83ec384cf8dab2213616ae999927d4e208"
+               }),
+                headers: {
+                    'Content-Type':'text/plain',
+                }
+                })
+                .then(reso => reso.json())
+                .then(results => {
+
+                    let address = "api/v1/bid"
+
+                    if(results.status == "Completed") {
+                        
+                        fetch( url + address , {
+                            method: 'POST', 
+                            credentials: 'same-origin',
+                            cache: 'no-cache',
+                            body: JSON.stringify( {
+                                productid: id,
+                                time: new Date().getTime(),
+                                momopay: userNumber.value
+                            }),
+                            headers: {
+                                'Content-Type':'application/json',
+                                'Authorization': localStorage.tokenAuth
+                            }
+                        })
+                            .then(results =>results.json())
+                            .then(done => {
+                            alert(`Your bid for ${infoPro[0].name} was successfull`)
+    
+                                displayProducts()
+                            })
+                        
+                    } else  {
+                        alert("did not Approve the request on Your Mobile")
+                        displayProducts()
+    
+                    }
+                })
+            
+        } else  {
+            alert("Payment Failed")
+            displayProducts()
+        }
+    })
+}
 
 
 let claimIntreset = (elementId) => {
