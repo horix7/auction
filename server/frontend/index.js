@@ -2805,7 +2805,7 @@ let bidPro = (id) => {
                 })
                 .then(resul => resul.json())
                 .then(done => {
-                    if(done.transactionStatus !== "APPROVED") {
+                    if(done.transactionStatus == "APPROVED") {
                
                         fetch( url + address , {
                             method: 'POST', 
