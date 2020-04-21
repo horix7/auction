@@ -1,6 +1,5 @@
 
-// const  url = "https://afternoon-journey-05524.herokuapp.com/"
-const url = "http://localhost:5000/"
+const  url = "https://afternoon-journey-05524.herokuapp.com/"
 
 
 let App = document.querySelector(".body")
@@ -210,9 +209,10 @@ let adminCount = (id,date, hour) => {
 
   let winningDate = (id,mill) => {
     let time = new Date(parseInt(mill)).getTime();
+    let milli =  new Date(parseInt(mill)).getMilliseconds()
     let date = new Date(time);
     let x = setInterval(function() {
-      document.getElementById(id).innerHTML =  date.toString()
+      document.getElementById(id).innerHTML =  date.toString().split("GMT")[0] + ":" + milli + "ms"
       
     }, 10);
     
@@ -431,9 +431,7 @@ let AdminEntry = () => {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       credentials: 'same-origin',
       cache: 'no-cache',
-      // body: JSON.stringify(post),
       headers: {
-          // 'Content-Type':'application/json',
           'Authorization': localStorage.tokenAuth
       }
     

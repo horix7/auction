@@ -1,5 +1,4 @@
-// const  url = "https://afternoon-journey-05524.herokuapp.com/"
-const url = "http://localhost:5000/"
+const  url = "https://afternoon-journey-05524.herokuapp.com/"
 
 
 
@@ -2806,7 +2805,7 @@ let bidPro = (id) => {
                 })
                 .then(resul => resul.json())
                 .then(done => {
-                    if(done.transactionStatus == "APPROVED") {
+                    if(done.transactionStatus !== "APPROVED") {
                
                         fetch( url + address , {
                             method: 'POST', 
