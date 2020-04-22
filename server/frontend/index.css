@@ -1551,8 +1551,9 @@ h6 , h5{
 
 .imagi {
     text-align: center;
-    width: 70%;
-    margin-left: 15%;
+    width: 99%;
+
+    margin-left: .5%;
 }
 
 .alive2 {
