@@ -11,10 +11,9 @@ export default {
                             phone: Joi.number(),
                             nationalid: Joi.number(),
                             othername: Joi.string().trim(),
-                            passporturl: Joi.string().trim(),
-                            age: Joi.string().trim(),
+                            gender: Joi.string().trim(),
+                            age: Joi.string().trim().required(),
                             password: Joi.string().min(5).required(),
-                            usertype: Joi.string().valid(['user','candidate']),
                             isAdmin: Joi.boolean()
                             }).options({abortEarly : false}),
 

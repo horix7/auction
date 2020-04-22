@@ -1,5 +1,5 @@
 const  url = "https://afternoon-journey-05524.herokuapp.com/"
-
+// let url = "http://localhost:5000/"
 
 
 
@@ -3112,10 +3112,21 @@ let signUpBack = () => {
        <input type="text" required placeholder="Your Names" class="login" id="names"> 
        <input type="text" required placeholder="User Name" class="login" id="userName">
        <div class="mtn2">Your Current age </div>
+       <div>
        <input type="number" required placeholder="Your Age" class="login" id="date">
+       <div class="mtn2">Your Gender</div>
+       <select class="logix" id="date2">
+        <option value="male">Male</option>
+        <option value="female">Female </option>
+        <option value="other"> Other</option>
+
+       </select>
+
+       </div>
        <input type="number" required placeholder="Your Phone" class="login" id="phoneNumber"> 
        <input type="text" required placeholder="Your Email" class="login" id="email"> 
        <input type="password" required placeholder="Your Password" class="login" id="pass"> 
+       <div class="tise">By Signing Up You Agree To Our Terms And Conditions </div>
        <button class="submit" id="signSub" >Sign Up</button>
       </div>
    </div>
@@ -3135,6 +3146,8 @@ let signUpBack = () => {
     let date = document.querySelector('#date')
     let phoneNumber = document.querySelector('#phoneNumber')
     let pass = document.querySelector('#pass')
+    let gender = document.querySelector('#date2')
+
 
 
 
@@ -3157,6 +3170,7 @@ let signUpBack = () => {
             "address": address.value,
             "phone": phoneNumber.value,
             "age": 	date.value,
+            gender: gender.value
     }
 
     
@@ -3179,7 +3193,6 @@ let signUpBack = () => {
       console.log(done)
           if(done.status == 400 ) {
               console.log(done)
-              alert("Validation Error")
               let errorMess = done.message || done.error
               let respnses = errorMess.split(/\"/)
               let errorz = []
@@ -3198,9 +3211,20 @@ let signUpBack = () => {
                 errorz.push("names")
               }
 
+              if (respnses.some(n => n == "age")){
+                errorz.push("date")
+              }
               errorz.forEach(n => {
                   document.querySelector(`#${n}`).style.border = "1px red solid"
+
               })
+
+             setTimeout(() => {
+                errorz.forEach(n => {
+                    document.querySelector(`#${n}`).style.border = "1px grey solid"
+                    
+                })
+             }, 2000)
     
           }else if(done.status == 409) {
             erroMessage.style.visibility =  'visible'
@@ -3344,7 +3368,7 @@ Regardless Of Your Income, Background Or Status <br></p>
                 bid, pay for the
                 product(s) at the
                 giving bidding price
-                using MTN Airtel and Tigon Mobile
+                using MTN Airtel and Tigo Mobile
                 Money Account.
                 REMEMBER TO BE
                 THE FASTEST!
@@ -3447,7 +3471,7 @@ Note: When you bid for a product by paying for it, we DO NOT REFUND. Be the fast
 
 <div class="foot">
 Copyright © 2020
-<span> Address: 4th Floor Kigali Height West Wing</span>
+<span> Address: 2nd Floor Kigali Height Rwanda</span>
 
 </div>
 

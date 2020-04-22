@@ -1,5 +1,6 @@
 
 const  url = "https://afternoon-journey-05524.herokuapp.com/"
+// let url = "http://localhost:5000/"
 
 
 let App = document.querySelector(".body")
@@ -977,7 +978,7 @@ let oneBiid = (id) => {
   })
   .then(data => data.json())
   .then(results => {
-    
+    let ukked = []
     oneIntrest = JSON.stringify(results.data)
     App.innerHTML = oneData
     let tab = document.querySelector('#int')
@@ -992,7 +993,19 @@ let oneBiid = (id) => {
     <th scope="col">${changeNaN(n.revenue)}</th>
 
    `)
-
+   
+   ukked = results.data.map(n => {
+    return {
+     id:n.id,
+     name: n.name,
+     user_name: n.username,
+     phone:  n.phone,
+     email: n.email,
+     product: n.productintrest,
+     bidTime: new Date(n.time),
+     total: changeNaN(n.revenue)
+   }
+   })
    newData.forEach(n => {
     tab.innerHTML += n
    })
@@ -1062,6 +1075,7 @@ let oneInnt = (id) => {
   })
   .then(data => data.json())
   .then(results => {
+    let ukked = []
     App.innerHTML = oneData
     let tab = document.querySelector('#int')
     let newData = results.data.map(n => `
@@ -1076,11 +1090,23 @@ let oneInnt = (id) => {
 
    `)
 
+ukked = results.data.map(n => {
+ return {
+  id:n.id,
+  name: n.name,
+  user_name: n.username,
+  phone:  n.phone,
+  email: n.email,
+  product: n.productintrest,
+  intrestedAt: new Date(n.time),
+  total: n.total
+}
+})
    newData.forEach(n => {
     tab.innerHTML += n
    })
 
-   document.querySelector('#down').onclick = () => downLoadData(results.data)
+   document.querySelector('#down').onclick = () => downLoadData(ukked)
 
   })
 }

@@ -34,13 +34,13 @@ class User {
             
             let results = 
             `INSERT INTO users
-             (firstname,secondname,email,phone,password,userprofile,address,userId,usertype,isadmin, age) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
+             (firstname,secondname,email,phone,password,address,userId,isadmin, age, gender) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
             `
 
             let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
 
-             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.userprofile,newUser.address,dateForNow,newUser.usertype, newUser.isadmin, newUser.age]
+             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.address,dateForNow, newUser.isadmin, newUser.age, newUser.gender]
              
              await client.query(results, inserts)
 
