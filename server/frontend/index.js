@@ -2979,11 +2979,16 @@ let payWithMomo = (postForPayment, secind, nameyy) => {
                                     displayProducts()
                                 })
                             
-                        } else  {
+                        } else if(nab.transactionstatus !== "Completed") {
                             alert("did not Approve the request on Your Mobile")
                             displayProducts()
         
-                        }
+                        }   
+                     else {
+                        alert("erro Occured Porcessing Your Order")
+                        displayProducts()
+    
+                    }
                     })
             })
            

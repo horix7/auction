@@ -910,8 +910,8 @@ a {
    
 }
 .share {
-    background-color: rgb(233, 233, 233);
-    color: var(--button-blue);
+    background-color:  rgb(48, 120, 253);
+    color: white;
     height: 20px;
     border: none;
     border-radius: 5px;
