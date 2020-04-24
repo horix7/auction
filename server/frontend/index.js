@@ -2680,14 +2680,14 @@ let bidPro = (id) => {
             userNumber.style.borderColor = "black"
             payOption.value = "mtn"
     
-            userNumber.placeholder = "Mtn-number"
+            userNumber.value = "78"
             address12 = "http://qa.mvendpay.com/api/requestpayment/"
             hhava = false
         } else if(payOption.value == "airtel")  {
             formm.style.visibility = "visible"
             formm.style.backgroundColor = "black"
             formm.style.border = "black 6px solid"
-            userNumber.placeholder = "Airtel-number"
+            userNumber.value = "73"
             userNumber.style.borderColor = "black"
     
             payOption.value = "airtel"
@@ -2699,7 +2699,7 @@ let bidPro = (id) => {
             formm.style.visibility = "visible"
             formm.style.backgroundColor = "black"
             formm.style.border = "black 6px solid"
-            userNumber.placeholder = "Tigo-number"
+            userNumber.value = "72"
             userNumber.style.borderColor = "black"
     
             payOption.value = "tigo"
@@ -2718,7 +2718,7 @@ let bidPro = (id) => {
         userNumber.style.borderColor = "rgb(192, 141, 0)"
         payOption.value = "mtn"
 
-        userNumber.placeholder = "Mtn-number"
+        userNumber.value = "78"
         address12 = "http://qa.mvendpay.com/api/requestpayment/"
         hhava = false
 
@@ -2732,7 +2732,7 @@ let bidPro = (id) => {
         formm.style.visibility = "visible"
         formm.style.backgroundColor = "red"
         formm.style.border = "red 6px solid"
-        userNumber.placeholder = "Airtel-number"
+        userNumber.value = "73"
         userNumber.style.borderColor = "red"
 
         payOption.value = "airtel"
@@ -2756,7 +2756,7 @@ let bidPro = (id) => {
         formm.style.visibility = "visible"
         formm.style.backgroundColor = "blue"
         formm.style.border = "blue 6px solid"
-        userNumber.placeholder = "Tigo-number"
+        userNumber.value = "72"
         userNumber.style.borderColor = "blue"
 
         payOption.value = "tigo"
@@ -2805,7 +2805,7 @@ let bidPro = (id) => {
                 })
                 .then(resul => resul.json())
                 .then(done => {
-                    if(done.transactionStatus == "APPROVED") {
+                    if(done.transactionstatus == "APPROVED") {
                
                         fetch( url + address , {
                             method: 'POST', 
@@ -2854,14 +2854,16 @@ let bidPro = (id) => {
         } else {   
             
                 let adss = "hash"
+                let dataTime = new Date().getTime()
+                let texret = new Date().getTime()
                 let data = {
                     "requesttype":"PaymentRequest",
                     "amount": infoPro[0].price,
                     "appid":"10100004",
-                    "timestamp": new Date().getTime(),
+                    "timestamp": dataTime,
                     "appkey": "FORTUNEPAY", 
                     "payment_account": "250" + userNumber.value,
-                    "txref": new Date().getTime() + Math.floor(Math.random()),
+                    "txref": texret,
                     "currency":"RWF", 
                     "integrity_hash": "nothing"
                 }
@@ -2879,9 +2881,13 @@ let bidPro = (id) => {
                 .then(newData => {
                     let arryz = data
                     arryz.integrity_hash = newData.data
-                    postForPayment =  arryz
-
-                        payWithMomo(postForPayment)
+                    let requestInfo = arryz
+                    let payeeMan =  {
+                    productid: id,
+                    time: new Date().getTime(),
+                    momopay: userNumber.value
+                    }
+                        payWithMomo(requestInfo, payeeMan, infoPro[0].name)
                    
                 })
                
@@ -2896,7 +2902,9 @@ let bidPro = (id) => {
 }
 
 
-let payWithMomo = (postForPayment) => {
+let payWithMomo = (postForPayment, secind, nameyy) => {
+    let newObj = postForPayment
+
     fetch("http://qa.mvendpay.com/api/requestpayment/" , {
         method: 'POST', 
         body: JSON.stringify(postForPayment),
@@ -2907,56 +2915,78 @@ let payWithMomo = (postForPayment) => {
     .then(reso => reso.json())
     .then(resol => {
         if(resol.status_code == "100") {
+            let changeToPerf = (num) => {
+                let newNum = num.toString().split('')
+                newNum.pop()
+
+                return newNum.join('')
+            }
+            let postTHis = {
+                "requesttype": "gettransactionstatus",
+                "appid": "10100004",
+                "appkey":"FORTUNEPAY",
+                "timestamp":newObj.timestamp,
+                "txref": newObj.txref,
+                "integrity_hash": ""
+           }
             alert("Payment Request Sent To Your Mobile ")
             alert("Press Ok If You Have Confirmed on Your Mobile")
-            fetch("http://qa.mvendpay.com/api/requestpayment/", {
-                method: 'POST', 
-                body: JSON.stringify({
-                    "requesttype": "gettransactionstatus",
-                    "appid": "10100004",
-                    "appkey":"FORTUNEPAY",
-                    "timestamp": postForPayment.timestamp,
-                    "txref": postForPayment.txref,
-                    "integrity_hash": "97c17679854b1dcf53448fceb1f12a83ec384cf8dab2213616ae999927d4e208"
-               }),
-                headers: {
-                    'Content-Type':'text/plain',
-                }
-                })
-                .then(reso => reso.json())
-                .then(results => {
 
-                    let address = "api/v1/bid"
 
-                    if(results.status == "Completed") {
-                        
-                        fetch( url + address , {
-                            method: 'POST', 
-                            credentials: 'same-origin',
-                            cache: 'no-cache',
-                            body: JSON.stringify( {
-                                productid: id,
-                                time: new Date().getTime(),
-                                momopay: userNumber.value
-                            }),
-                            headers: {
-                                'Content-Type':'application/json',
-                                'Authorization': localStorage.tokenAuth
-                            }
-                        })
-                            .then(results =>results.json())
-                            .then(done => {
-                            alert(`Your bid for ${infoPro[0].name} was successfull`)
+           fetch(url + "hash1", {
+            method: 'POST', 
+            body: JSON.stringify(postTHis),
+            headers: {
+                'Content-Type':'application/json'
+            }
+            })
+            .then(n => n.json())
+            .then(r => {
+                postTHis.integrity_hash = r.data
+                let data2 = JSON.stringify(postTHis)
+                
+                fetch("http://qa.mvendpay.com/api/requestpayment/", {
+                    method: 'POST',
+                    body: data2,
+                     headers: {
+                      'Content-Type':'text/plain',
+                      }
+                   
+                    })
+                .then(reso =>reso.text())
+                 .then(man => {
+                  let nab = JSON.parse(man.split("null").join(''))
+          
+      
+                        let address = "api/v1/bid"
     
-                                displayProducts()
+                        if(nab.transactionstatus == "Completed") {
+
+                            fetch( url + address , {
+                                method: 'POST', 
+                                credentials: 'same-origin',
+                                cache: 'no-cache',
+                                body: JSON.stringify(secind),
+                                headers: {
+                                    'Content-Type':'application/json',
+                                    'Authorization': localStorage.tokenAuth
+                                }
                             })
-                        
-                    } else  {
-                        alert("did not Approve the request on Your Mobile")
-                        displayProducts()
-    
-                    }
-                })
+                                .then(results =>results.json())
+                                .then(done => {
+                                alert(`Your bid for ${nameyy} was successfull`)
+        
+                                    displayProducts()
+                                })
+                            
+                        } else  {
+                            alert("did not Approve the request on Your Mobile")
+                            displayProducts()
+        
+                        }
+                    })
+            })
+           
             
         } else  {
             alert("Payment Failed")

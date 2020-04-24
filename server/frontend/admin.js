@@ -348,6 +348,7 @@ let landing = `
 <button class="submit" onclick="winnPub()"> Publish Winner</button>
 <button class="submit" onclick="created()"> Create An Auction</button>
 <button class="submit" onclick="AdminEntry()"> Refresh Data</button>
+<button class="submit" onclick="sendMoney()"> Send Money</button>
 
 </div>
 
@@ -916,7 +917,93 @@ let getAllBids = () => {
 
 
 
+let sendMoney = () => {
+  
+let sendMoney = `
+<div class="topper">
+      
+<div class="hold">
+<div class="Close" onclick="AdminEntry()">+</div>
+</div>
+<div class="sign">
+<h1>Send Money</h1>
+<div class="grid-two">
 
+ <input type="number" required placeholder="Winner Number" class="inputsAdmin" id="payeeNum" value="25078">
+ <input type="number" required placeholder="Ammount" class="inputsAdmin" id="amma">
+
+</div>
+   <button class="submit" id="sendy"> Send Money </button>
+</div>
+</div>
+</div>
+
+`
+
+App.innerHTML = sendMoney
+
+
+let sendMomo = document.querySelector("#sendy")
+let sendMomoNum = document.querySelector("#payeeNum")
+let amountMomo = document.querySelector("#amma")
+
+
+
+
+ sendMomo.addEventListener("click", () => {
+
+  sendMomo.innerHTML =  `<i class="fa fa-spinner fa-spin"></i>`
+let sendData = {
+  "requesttype": "makepayment",
+   "appid": "10100004",
+   "appkey": "FORTUNEPAY",
+  "timestamp": new Date().getTime(),
+  "creditaccount": sendMomoNum.value,
+  "txref": new Date().getTime(),
+  "amount": amountMomo.value,
+  "integrity_hash":""
+  } 
+
+
+  fetch(url + "hash2", {
+    method: "POST",
+    credentials: 'same-origin',
+    cache: 'no-cache',
+    body: JSON.stringify(sendData),
+    headers: {
+        'Content-Type':'application/json',
+        'Authorization': localStorage.tokenAuth
+    }
+
+  }).then(reso => reso.json())
+  .then(results  => {
+    sendData.integrity_hash = results.data
+
+     fetch("http://qa.mvendpay.com/api/requestpayment/", {
+      method: "POST",
+      body: JSON.stringify(sendData),
+      headers: {
+          'Content-Type':'text/plain',
+      }
+    }).then( reso => reso.json())
+    .then( results => {
+
+      if(results.status_code == "100") {
+        alert("Payment sent Successfully ")
+        AdminEntry()
+
+      }else {
+        alert("payment Failed ")
+        AdminEntry()
+
+      }
+    })
+  })
+ 
+
+})
+
+}
 
 let oneBiid = (id) => {
   let address = `api/v1/onebid/${id}`
