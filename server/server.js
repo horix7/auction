@@ -4,13 +4,12 @@ import productRouter from './routes/productRoutes'
 import parser  from 'body-parser';
 import  sha256 from 'js-sha256';
 
-// import parser  from '../server/frontend';
-
 
 const app = express()
-
 app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
+
+app.use(express.static('public'))
 
 
 app.use(function(req, res, next) {
@@ -22,6 +21,7 @@ app.use(function(req, res, next) {
 
 app.use('/api/v1', userRouter)
 app.use('/api/v1', productRouter)
+
 
 app.post("/hash",  (req,res) => {
 
@@ -41,6 +41,7 @@ let createHash = (num) => {
 })
 
 })
+
 
 app.post("/hash1",  (req,res) => {
 

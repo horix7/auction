@@ -1,5 +1,5 @@
-const  url = "https://afternoon-journey-05524.herokuapp.com/"
-// let url = "http://localhost:5000/"
+// const  url = "https://afternoon-journey-05524.herokuapp.com/"
+let url = "http://localhost:5000/"
 
 
 
@@ -2878,7 +2878,7 @@ let bidPro = (id) => {
                     }
                 })
                 .then(rez => rez.json())
-                .then(newData => {
+                .then(async (newData) => {
                     let arryz = data
                     arryz.integrity_hash = newData.data
                     let requestInfo = arryz
@@ -2887,7 +2887,8 @@ let bidPro = (id) => {
                     time: new Date().getTime(),
                     momopay: userNumber.value
                     }
-                        payWithMomo(requestInfo, payeeMan, infoPro[0].name)
+                        await payWithMomo(requestInfo, payeeMan, infoPro[0].name)
+                        
                    
                 })
                
@@ -2902,7 +2903,7 @@ let bidPro = (id) => {
 }
 
 
-let payWithMomo = (postForPayment, secind, nameyy) => {
+let payWithMomo = async (postForPayment, secind, nameyy) => {
     let newObj = postForPayment
 
     fetch("http://qa.mvendpay.com/api/requestpayment/" , {
