@@ -101,6 +101,30 @@ class User {
             return 'no'
         }
     }
+
+    async checkUserEmail(userInfo) {
+        const Alluser = await client.query('select * from users');
+        const users = Alluser.rows
+        let userExist = users.some(n => n.email == userInfo.email)
+        if (userExist) {
+            let fullInfo = await client.query('select * from users where email=$1', [userInfo.email]);
+           if(fullInfo.rows[0].age == userInfo.age) {
+                return fullInfo.rows
+           } else {
+            
+               return "dont match"
+           }           
+            
+        } else {
+            return "no"
+        }
+    }
+
+    async updatePassW(info) {
+        await client.query('update users set password=$2 where email=$1', [info.email, info.pass])
+        return "worked"
+    }
+
 }
 
 

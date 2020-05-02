@@ -141,6 +141,36 @@ class userController {
             })
         })
     }
+
+    
+    userCheck(req, res) {
+        account.checkUserEmail(req.body)
+        .then(resi => {
+         if(resi == "no" || resi == "dont match") {
+             return res.status(403).json({
+                 "status": 403,
+                 "error":"you Provided Invalid Information"
+             }); 
+         }
+         else {
+            return res.status(200).json({
+                "status": 200,
+                "data": resi
+            }); 
+         }
+        })
+     }
+
+
+     updatePass(req,res) {
+         account.updatePassW(req.body)
+         .then(resi => {
+            return res.status(200).json({
+                "status": 200,
+                "data": resi
+            });
+         })
+     }
 }
 
 export default new userController()
