@@ -249,6 +249,22 @@ class userController {
             })
         })
     }
+
+    relatesBids(req, res) {
+        let tokenId = tokens.decode(req.token).id
+        product.bidsRelates(tokenId)
+
+        .then(results => {
+            let sendData = []
+            results.forEach(n => {
+                sendData.push(n.productid)
+            })
+            return res.status(200).json({
+                "status": 200,
+                "data": sendData
+            })
+        })
+    }
 }
 
 export default new userController()

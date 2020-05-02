@@ -338,8 +338,12 @@ class User {
 
     async allBiidds () {
         let data = await  client.query('select * from upb')
-        console.log(data.rows)
 
+        return data.rows
+    }
+
+    async bidsRelates (userId) {
+        let data = await  client.query('select productid from bids where createdby=$1',[userId])
         return data.rows
     }
 }
