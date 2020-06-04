@@ -1,8 +1,8 @@
 {
   "name": "auction",
-  "version": "1.0.0",
-  "description": "product Auction system ",
-  "main": "server.js",
+  "version": "1.1.0",
+  "description": "Auction MarketPlace",
+  "main": "index.js",
   "scripts": {
     "start": "babel-node server/server.js",
     "dev": "nodemon --exec babel-node server/server.js"
@@ -13,7 +13,8 @@
   },
   "keywords": [
     "auction",
-    "system"
+    "marketplace",
+    "payement"
   ],
   "author": "Paul Mahoro",
   "license": "ISC",
@@ -22,28 +23,22 @@
   },
   "homepage": "https://github.com/horix7/auction#readme",
   "dependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.7",
-    "@babel/node": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.7",
-    "@babel/register": "^7.8.6",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
     "axios": "^0.19.2",
-    "bcrypt": "^4.0.1",
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "joi": "^14.3.1",
-    "js-sha256": "^0.9.0",
     "jsonwebtoken": "^8.5.1",
-    "nodemon": "^2.0.2",
-    "passport": "^0.4.1",
-    "pg": "^7.18.2"
+    "nodemon": "^2.0.4",
+    "pg": "^8.2.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint": "^7.1.0"
   }
 }

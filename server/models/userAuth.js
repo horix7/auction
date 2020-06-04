@@ -34,13 +34,13 @@ class User {
             
             let results = 
             `INSERT INTO users
-             (firstname,secondname,email,phone,password,address,userId,isadmin, age, gender) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
+             (firstname,secondname,email,phone,password,address, age, gender, date) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING * 
             `
 
             let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
 
-             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.address,dateForNow, newUser.isadmin, newUser.age, newUser.gender]
+             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.address, newUser.age, newUser.gender, dateForNow]
              
              await client.query(results, inserts)
 
@@ -87,8 +87,8 @@ class User {
     }
 
     async frontUsers() {
-        const allwinners = await client.query('select * from publish');
-        return allwinners.rows
+        const allwinners = await client.query('select * from wins');
+        return allwinners.rows.splice(0,3)
     }
 
     async oneUser(userId) {
@@ -123,6 +123,19 @@ class User {
     async updatePassW(info) {
         await client.query('update users set password=$2 where email=$1', [info.email, info.pass])
         return "worked"
+    }
+
+    async reqVend(info) {
+        let results = 
+        `INSERT INTO vendreq
+         (sells,address, store,account) VALUES
+         ($1,$2,$3,$4) RETURNING * 
+        `
+        let inserts = [info.sells, info.address, info.store, info.account]
+             
+        await client.query(results, inserts)
+
+        return info
     }
 
 }

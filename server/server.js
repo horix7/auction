@@ -2,7 +2,6 @@ import express from "express"
 import userRouter from './routes/userAuthRoutes'
 import productRouter from './routes/productRoutes'
 import parser  from 'body-parser';
-import  sha256 from 'js-sha256';
 
 
 const app = express()
@@ -23,64 +22,6 @@ app.use('/api/v1', userRouter)
 app.use('/api/v1', productRouter)
 
 
-app.post("/hash",  (req,res) => {
-
-let string = [req.body.timestamp, req.body.txref, req.body.amount, req.body.currency,  req.body.payment_account].join("")
-  console.log(string)
-
-let createHash = (num) => {
-
-    let hash2 = sha256.hmac.create('tSPZT7R189wYRqX9Qp8DFuTNOUq3a9IbkKNr2RjwFwGnPudHbLfA4zugj6TVcoBtlWpJl0mEtcixEA4gIyTyng12');
-    hash2.update(num)
-    return hash2.hex()
-    
-    }
-
-  res.status(200).json({
-    data: createHash(string)
-})
-
-})
-
-
-app.post("/hash1",  (req,res) => {
-
-let string = [ req.body.timestamp, req.body.txref].join("")
-
-
-let createHash = (num12) => {
-
-    let hash2 = sha256.hmac.create("tSPZT7R189wYRqX9Qp8DFuTNOUq3a9IbkKNr2RjwFwGnPudHbLfA4zugj6TVcoBtlWpJl0mEtcixEA4gIyTyng12");
-    hash2.update(num12)
-    return hash2.hex()
-    
-    }
-
-  res.status(200).json({
-    data: createHash(string)
-})
-
-})
-
-
-app.post("/hash2",  (req,res) => {
-
-  
-let string = [req.body.timestamp, req.body.txref, req.body.amount, req.body.currency,  req.body.creditaccount].join("")
-  
-  let createHash = (num12) => {
-  
-      let hash2 = sha256.hmac.create("tSPZT7R189wYRqX9Qp8DFuTNOUq3a9IbkKNr2RjwFwGnPudHbLfA4zugj6TVcoBtlWpJl0mEtcixEA4gIyTyng12");
-      hash2.update(num12)
-      return hash2.hex()
-      
-      }
-  
-    res.status(200).json({
-      data: createHash(string)
-  })
-  
-  })
 
 app.get('/', (req,res) => {
     res.status(200).json({

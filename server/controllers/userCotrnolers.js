@@ -171,6 +171,16 @@ class userController {
             });
          })
      }
+
+     vendorReq(req,res) {
+        account.reqVend(req.body)
+        .then(resi => {
+           return res.status(200).json({
+               "status": 200,
+               "data": resi
+           });
+        })
+    }
 }
 
 export default new userController()
