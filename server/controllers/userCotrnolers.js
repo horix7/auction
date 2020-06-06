@@ -13,24 +13,30 @@ class userController {
          if (results == "email") {
             return res.status(409).json({
                 "status": 409,
-                "error":"email you provide is already in use "
+                "error":"email you provide is already registered "
             });
         }  else if (results == "email2") {
             return res.status(409).json({
                 "status": 409,
-                "error":"username is already in use  "
+                "error":"username is already registered  "
             });
         }
         else { 
             let newUSerInfo = results   
 
-            const {id,firstname , secondname, email, phone,userprofile,isadmin, age} =  newUSerInfo[0]
+            const {id,firstname , secondname, email, phone,isadmin, age} =  newUSerInfo[0]
             return res.status(201).json({
                 "status": 201,
                 "data": [
                     
                    {
-                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age})
+                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age}),
+                        "details": {
+                            username: secondname,
+                            id: id,
+                            isAdmin: isadmin,
+                            email: email
+                        }
                        
                     }
                 ]
@@ -59,13 +65,20 @@ class userController {
             }); 
         }
         else {
-            const {id,firstname , secondname, email, phone,userprofile,isadmin,age, password} =  resi[0]
+            const {id,firstname , secondname, email, phone,userprofile,isadmin,age,vendor, password} =  resi[0]
             return res.status(200).json({
                 "status": 200,
                 "data": [
                     
                    {
-                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age})
+                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone,vendor, age}),
+                        "details": {
+                            username: secondname,
+                            id: id,
+                            isAdmin: isadmin,
+                            email: email,
+                            vendor: vendor
+                        }
                     }
                 ]
                });
@@ -103,7 +116,7 @@ class userController {
                 "error":"the user you are reffering does not exist"
             }); 
            } else {
-            const {id,firstname , secondname, email, phone,userprofile,isadmin} =  results[0]
+            const {id,firstname , secondname, email, phone,userprofile,isadmin, gender,age } =  results[0]
             return res.status(200).json({
                 "status": 200,
                 "data": {
@@ -111,9 +124,11 @@ class userController {
                     firstname: firstname,
                     secondname: secondname,
                     email: email,
-                    phoneNumber: phone,
+                    phone: phone,
                     passportUrl: userprofile || "",
-                    isAdmin: isadmin || false
+                    isAdmin: isadmin || false,
+                    age: age,
+                    gender: gender
                 }
             }); 
            }

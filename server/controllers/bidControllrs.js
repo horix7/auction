@@ -193,7 +193,7 @@ class userController {
         .then(results => {
             return res.status(200).json({
                 status: 200,
-                "data": results.map(n => n.id)
+                "data": results
             })
         })
     }
@@ -262,6 +262,18 @@ class userController {
             return res.status(200).json({
                 "status": 200,
                 "data": sendData
+            })
+        })
+    }
+
+    makeVendor(req, res) {
+
+        product.approveVendor(req.params.id)
+        .then(results => {
+            
+            return res.status(200).json({
+                "status": 200,
+                "data": results
             })
         })
     }

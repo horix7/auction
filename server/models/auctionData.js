@@ -196,7 +196,7 @@ class User {
     }
 
     async returnIdz() {
-        let ids = await client.query('select id from products')
+        let ids = await client.query('select * from vendreq')
 
         return ids.rows
     }
@@ -231,7 +231,7 @@ class User {
     }
 
     async oneBidd (id) {
-        let data = await  client.query('select * from bidata where proid=$1', [id])
+        let data = await  client.query('select * from bidata where username=$1', [id])
         console.log(data.rows)
 
         return data.rows
@@ -246,6 +246,11 @@ class User {
     async bidsRelates (userId) {
         let data = await  client.query('select productid from bids where createdby=$1',[userId])
         return data.rows
+    }
+
+    async approveVendor (userId) {
+        await client.query('update users set vendor=$2 where username=$1', [userid, "true"])
+        return "done"
     }
 }
 

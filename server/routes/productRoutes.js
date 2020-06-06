@@ -18,7 +18,7 @@ router.post("/bid",  checkToken, bids.bidProduct)
 router.get("/allbids", checkToken, isAdmin, bids.allBids)
 router.get("/winners", checkToken, isAdmin, bids.allWinners)
 router.post("/publish", checkToken, isAdmin, bids.publishWin)
-router.get("/onebid/:id", checkToken, isAdmin, bids.oneBid)
+router.get("/onebid/:id", checkToken, bids.oneBid)
 router.get("/oneint/:id", checkToken, isAdmin, bids.oneIntrest)
 router.post("/cancel/:id", checkToken, isAdmin, bids.deleteProd)
 router.get("/bidss/", checkToken, isAdmin, bids.allBiidds)
@@ -28,6 +28,7 @@ router.get("/uninterested", checkToken, bids.uninterested)
 router.get("/frontpro",bids.forntUsers)
 router.post("/offside/:id",checkToken, bids.changeNull)
 router.get("/relates", checkToken, bids.relatesBids)
+router.put("/makevend", checkToken, isAdmin, bids.relatesBids)
 
 
 
