@@ -277,6 +277,27 @@ class userController {
             })
         })
     }
+    
+
+    chooseTicket(req, res) {
+
+        product.chooseLuckyFortunes(req.params.id)
+        .then(results => {
+          if(results !== "no") {
+                
+            return res.status(200).json({
+                "status": 200,
+                "data": results
+            })
+          } else {
+                
+            return res.status(403).json({
+                "status": 403,
+                "error": "You Cant Choose Winner On this Pro"
+            })
+          }
+        })
+    }
 }
 
 export default new userController()

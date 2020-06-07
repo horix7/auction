@@ -29,7 +29,8 @@ class User {
 
                 while(numbers.length < n) {
                     let Num = Math.floor(Math.random() * Date.now() ) + 100000
-                    numbers.push(Num)
+                    Num = Num.toString().split('').reverse().splice(0,4).join("")
+                    numbers.push(parseInt(Num))
                 }
             }else {
                 numbers = null
@@ -50,12 +51,12 @@ class User {
 
         let results = 
         `INSERT INTO bids
-         (product,bids,madeby, revenue) VALUES
-         ($1,$2,$3, $4) RETURNING * 
+         (product,bids,madeby, revenue, time) VALUES
+         ($1,$2,$3, $4,$5) RETURNING * 
         `
          let revenue = await client.query('select price from products where id=$1', [bid.productid])
 
-         let inserts = [ bid.productid, JSON.parse(bid.bids) , createdBy, revenue.rows[0].price]
+         let inserts = [ bid.productid, bid.bids , createdBy, revenue.rows[0].price, new Date]
 
          await client.query(results, inserts)
          
@@ -72,7 +73,7 @@ class User {
  
  
          let tickets =JSON.parse(productsInfo.rows[0].current)
-         let sold = JSON.parse(productsInfo.rows[0].sold)
+         let sold = JSON.parse(productsInfo.rows[0].sold) || []
          let current = []
 
           tickets.forEach(n => {
@@ -90,7 +91,6 @@ class User {
          `
  
          let timee =  new Date()
-         console.log(new Date(timee.getTime()), user)
          let inputs3 = [user.firstname, user.secondname, user.phone, user.email, productName.rows[0].name,new Date(timee.getTime()), revenue.rows[0].price, bid.fortunes, bid.momopay]
  
          await client.query(results2, inputs3)
@@ -124,6 +124,74 @@ class User {
     }   
 
    
+    async chooseLuckyFortunes(id) {
+        let soldFortunes = await client.query('select sold ,winners, name from products where id=$1', [id])
+        console.log(soldFortunes.rows)
+        let soldTickets = JSON.parse(soldFortunes.rows[0].sold)
+        let luckies = parseInt(soldFortunes.rows[0].winners)
+
+        if(soldTickets.length >= luckies){ 
+            let checkWinner = (array, wins) => {
+            const element = []
+
+            while(element.length < wins) {
+            let th = Math.floor(Math.random() * array.length)
+            if(element.some(n => n === th)) {
+            
+            }else {
+                element.push(th)
+            }
+        }
+
+        return element
+        }
+
+        let winTickets = checkWinner(soldTickets,luckies).map(n => soldTickets[n])
+
+        let allBids = await client.query('select * from bids where product=$1', [id])
+
+        // let winnerData  = allBids.rows.map(n => )
+        console.log("[worked Aup here]")
+        let winnerInfo = []
+        allBids.rows.forEach(n => {
+            JSON.parse(n.bids).forEach(x => {
+                if(winTickets.some(k => k == x)) {
+                    winnerInfo.push({
+                        user : n.madeby,  
+                        bids : x,
+                        time: n.time
+                        
+                    })
+                }
+            })
+        })
+
+
+
+        winnerInfo.forEach(async n => {
+            let InsertWinner = 
+            `INSERT INTO winners
+            (name,username,age,email,product,fortune,date) VALUES
+            ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
+           `
+            let userData =  await client.query('select * from users where id=$1', [n.user])
+            const {firstname, secondname,age,email} = userData.rows[0]
+            let details = [firstname, secondname, age,email,soldFortunes.rows[0].name, n.bids , n.time]
+            
+            await client.query(InsertWinner, details)
+
+        })
+        return winnerInfo
+
+} else {
+    return "no"
+}
+    }
+
+    // async addWinners() {
+    //     let 
+    // }
+
 
     async chooseWinner(id) {
         let prodData = await client.query('select winner from products where id=$1', [id])
@@ -249,7 +317,7 @@ class User {
     }
 
     async approveVendor (userId) {
-        await client.query('update users set vendor=$2 where username=$1', [userid, "true"])
+        await client.query('update users set vendor=$2 where secondname=$1', [userId, "true"])
         return "done"
     }
 }

@@ -4,7 +4,9 @@ import validation from '../middleware/validation'
 import isAdmin from '../middleware/isAdmin'
 import checkToken from '../middleware/authentication'
 
+
 const router = express.Router()
+
 
 router.post("/product", checkToken, bids.createProduct)
 router.get("/product", checkToken, bids.allBallAuctionsids)
@@ -28,8 +30,15 @@ router.get("/uninterested", checkToken, bids.uninterested)
 router.get("/frontpro",bids.forntUsers)
 router.post("/offside/:id",checkToken, bids.changeNull)
 router.get("/relates", checkToken, bids.relatesBids)
-router.put("/makevend", checkToken, isAdmin, bids.relatesBids)
+router.put("/makevend/:id", checkToken, isAdmin, bids.makeVendor)
+router.patch("/choosetik/:id", checkToken, isAdmin, bids.chooseTicket)
 
 
 
 export  default router 
+
+
+
+
+
+

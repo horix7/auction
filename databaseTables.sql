@@ -75,7 +75,8 @@ id SERIAL  PRIMARY KEY ,
 product VARCHAR(255),
 bids VARCHAR(8000),
 madeby VARCHAR(255),
-revenue VARCHAR(255)
+revenue VARCHAR(255),
+time VARCHAR(255)
 
 );
 
@@ -83,7 +84,7 @@ revenue VARCHAR(255)
 CREATE TABLE bidata(
 id SERIAL  PRIMARY KEY ,
 name VARCHAR(255),
-username VARCHAR(8000),
+username VARCHAR(255),
 email VARCHAR(255),
 product VARCHAR(255),
 time VARCHAR(255),
@@ -95,12 +96,15 @@ fortunes VARCHAR(255)
 
 
 
-CREATE TABLE bidata(
+CREATE TABLE winners(
 id SERIAL  PRIMARY KEY ,
 name VARCHAR(255),
-username VARCHAR(8000),
-email VARCHAR(255),
-revenue VARCHAR(255)
+username VARCHAR(255),
+age VARCHAR(255),
+email  VARCHAR(255),
+product  VARCHAR(255),
+fortune  VARCHAR(255),
+date  VARCHAR(255)
 
 );
 
