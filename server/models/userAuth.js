@@ -128,10 +128,10 @@ class User {
     async reqVend(info) {
         let results = 
         `INSERT INTO vendreq
-         (sells,address, store,account) VALUES
-         ($1,$2,$3,$4) RETURNING * 
+         (sells,address, store,account, phone, email) VALUES
+         ($1,$2,$3,$4,$5,$6) RETURNING * 
         `
-        let inserts = [info.sells, info.address, info.store, info.account]
+        let inserts = [info.sells, info.address, info.store, info.account, info.phone, info.email]
              
         await client.query(results, inserts)
 

@@ -17,6 +17,5 @@ router.get("/frontwin", user.allWinners)
 router.get("/dataday/", checkToken, isAdmin, user.userNums)
 
 
-
-
 export  default router 
+

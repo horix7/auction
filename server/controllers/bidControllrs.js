@@ -279,6 +279,45 @@ class userController {
     }
     
 
+    rejectVend(req, res) {
+
+        product.rejectVend(req.params.id)
+        .then(results => {
+            
+            return res.status(200).json({
+                "status": 200,
+                "data": results
+            })
+        })
+    }
+
+    ChosenOne(req, res) {
+
+        product.ChosenOne()
+        .then(results => {
+            
+            return res.status(200).json({
+                "status": 200,
+                "data": results
+            })
+        })
+    }
+    
+    
+    
+    allRePro(req, res) {
+
+        product.allRePro()
+        .then(results => {
+            
+            return res.status(200).json({
+                "status": 200,
+                "data": results
+            })
+        })
+    }
+    
+
     chooseTicket(req, res) {
 
         product.chooseLuckyFortunes(req.params.id)
@@ -298,6 +337,21 @@ class userController {
           }
         })
     }
+
+    proForVend(req, res) {
+
+        product.createProVend(req.body)
+        .then(results => {
+        
+                
+            return res.status(200).json({
+                "status": 200,
+                "error": results
+            })
+        })
+    }
+
+    
 }
 
 export default new userController()

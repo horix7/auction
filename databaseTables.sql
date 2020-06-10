@@ -19,7 +19,9 @@ id SERIAL  PRIMARY KEY ,
 sells VARCHAR(255),
 address VARCHAR(255),
 store VARCHAR(255),
-account VARCHAR(255)
+account VARCHAR(255),
+phone VARCHAR(255),
+email VARCHAR(255)
 
 );
 
@@ -108,6 +110,17 @@ date  VARCHAR(255)
 
 );
 
+
+CREATE TABLE vendPro(
+id SERIAL  PRIMARY KEY ,
+name VARCHAR(255),
+store VARCHAR(255),
+winners VARCHAR(255),
+hour  VARCHAR(255),
+date  VARCHAR(255),
+price  VARCHAR(255),
+image VARCHAR(2000)
+);
 
 
 

@@ -2,12 +2,22 @@ import express from "express"
 import userRouter from './routes/userAuthRoutes'
 import productRouter from './routes/productRoutes'
 import parser  from 'body-parser';
+import multer from 'multer';
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+    cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+    cb(null, new Date().getTime() + '-' + file.originalname);
+    }
+})
+
+const upload = multer({storage: storage})
 
 const app = express()
 app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
-
 app.use(express.static('public'))
 
 
@@ -29,9 +39,20 @@ app.get('/', (req,res) => {
     })
 })
 
+
+app.post('/image', upload.single("pro"), (req,res) => {
+    console.log(req.file)
+    res.status(200).json({
+        imageUrl: req.file.filename
+    })
+})
+
+app.use(express.static('uploads'))
+
 const port = process.env.PORT || 5000
 
 app.listen(port, () => {
     console.log(`workining on port ${port} ......`)
 })
+
 

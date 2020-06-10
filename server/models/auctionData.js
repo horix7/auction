@@ -188,45 +188,6 @@ class User {
 }
     }
 
-    // async addWinners() {
-    //     let 
-    // }
-
-
-    async chooseWinner(id) {
-        let prodData = await client.query('select winner from products where id=$1', [id])
-       
-        let bidsData = await client.query('select * from bids where productid=$1', [id])
-
-        bidsData.rows.splice(prodData.rows[0].winner)
-        let inserts = `
-        INSERT INTO winners
-        (userid,productid,bidtime) VALUES
-        ($1,$2,$3) RETURNING * 
-        `
-
-        let inserts2 = `
-        INSERT INTO viewin
-        (firstname,secondname,age,phone,email,time,product) VALUES
-        ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
-        `
-
-        bidsData.rows.forEach(async n => {
-            let inputs = [n.createdby, n.productid, n.time]
-            await client.query(inserts, inputs)
-            let userInfo = await client.query('select firstname,secondname,age,phone,email from users where id=$1', [n.createdby])
-            let prodName = await client.query('select name from products where id=$1', [n.productid])
-            console.log(userInfo.rows, prodName.rows)
-            let inputs2 = [userInfo.rows[0].firstname, userInfo.rows[0].secondname, userInfo.rows[0].age, userInfo.rows[0].phone, userInfo.rows[0].email, n.time, prodName.rows[0].name]
-
-            await client.query(inserts2, inputs2)
-            
-
-        })
-
-        console.log(prodData.rows, bidsData.rows)
-
-    }
 
     async winners() {
 
@@ -234,6 +195,28 @@ class User {
 
         return winnerInfo.rows
     }
+
+    async ChosenOne() {
+
+        let winnerInfo = await client.query('select * from winners')
+
+        return winnerInfo.rows
+    }
+
+    async createProVend(ins) {
+        let inserts = `
+        INSERT INTO vendPro
+        (name,store,picture,winners,hour,date,price) VALUES
+        ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
+        `
+        let nect = [ins.name, ins.store, ins.picture, ins.winners, ins.hour, ins.date, ins.price]
+
+        await client.query(inserts, nect)
+
+        return "done"
+    }
+
+   
 
     async createWinner(ins) {
         let inserts = `
@@ -311,6 +294,11 @@ class User {
         return data.rows
     }
 
+    async allRePro () {
+        let data = await  client.query('select * from vendPro')
+        return data.rows
+    }
+
     async bidsRelates (userId) {
         let data = await  client.query('select productid from bids where createdby=$1',[userId])
         return data.rows
@@ -318,6 +306,11 @@ class User {
 
     async approveVendor (userId) {
         await client.query('update users set vendor=$2 where secondname=$1', [userId, "true"])
+        return "done"
+    }
+
+    async rejectVend (userId) {
+        await client.query('delete from vendPro where id=$1', [userId])
         return "done"
     }
 }

@@ -35,7 +35,9 @@ class userController {
                             username: secondname,
                             id: id,
                             isAdmin: isadmin,
-                            email: email
+                            email: email,
+                            phone: phone
+
                         }
                        
                     }
@@ -77,7 +79,8 @@ class userController {
                             id: id,
                             isAdmin: isadmin,
                             email: email,
-                            vendor: vendor
+                            vendor: vendor,
+                            phone: phone
                         }
                     }
                 ]

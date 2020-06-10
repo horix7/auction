@@ -28,10 +28,17 @@ router.get("/idz", checkToken, isAdmin, bids.idzz)
 router.post("/choose/:id", checkToken, isAdmin, bids.chooseWinn)
 router.get("/uninterested", checkToken, bids.uninterested)
 router.get("/frontpro",bids.forntUsers)
+router.get("/vrpro",checkToken, isAdmin,bids.allRePro)
 router.post("/offside/:id",checkToken, bids.changeNull)
 router.get("/relates", checkToken, bids.relatesBids)
 router.put("/makevend/:id", checkToken, isAdmin, bids.makeVendor)
+router.put("/rejectVend/:id", checkToken, isAdmin, bids.rejectVend)
+
 router.patch("/choosetik/:id", checkToken, isAdmin, bids.chooseTicket)
+router.post("/vendorPro/", checkToken, bids.proForVend)
+router.get("/Chosenone/", checkToken, isAdmin,bids.ChosenOne)
+
+
 
 
 
