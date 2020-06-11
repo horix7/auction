@@ -4,6 +4,11 @@ import productRouter from './routes/productRoutes'
 import parser  from 'body-parser';
 import multer from 'multer';
 
+
+const app = express()
+app.use("/uploads",express.static('uploads'))
+
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
     cb(null, './uploads');
@@ -15,7 +20,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
-const app = express()
 app.use(parser.urlencoded({ extended: true }));
 app.use(parser.json());
 app.use(express.static('public'))
@@ -43,11 +47,10 @@ app.get('/', (req,res) => {
 app.post('/image', upload.single("pro"), (req,res) => {
     console.log(req.file)
     res.status(200).json({
-        imageUrl: req.file.filename
+        imageUrl: "uploads/"+req.file.filename
     })
 })
 
-app.use("/uploads",express.static('uploads'))
 
 const port = process.env.PORT || 5000
 
