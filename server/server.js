@@ -47,7 +47,7 @@ app.post('/image', upload.single("pro"), (req,res) => {
     })
 })
 
-app.use(express.static('uploads'))
+app.use("/uploads",express.static('uploads'))
 
 const port = process.env.PORT || 5000
 
