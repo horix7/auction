@@ -125,6 +125,12 @@ class User {
         return "worked"
     }
 
+
+    async updateProfile(info) {
+        await client.query('update users set picture=$1 where id=$2', [info.picture, info.id])
+        return "worked"
+    }
+
     async reqVend(info) {
         let results = 
         `INSERT INTO vendreq

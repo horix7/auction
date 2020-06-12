@@ -15,6 +15,8 @@ router.put("/updatepass", user.updatePass)
 router.get("/useraccount/:id",checkToken, user.getOneUser)
 router.get("/frontwin", user.allWinners)
 router.get("/dataday/", checkToken, isAdmin, user.userNums)
+router.put("/propic/", checkToken, user.updateProfile)
+
 
 
 export  default router 

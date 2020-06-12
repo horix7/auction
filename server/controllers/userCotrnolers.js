@@ -119,7 +119,7 @@ class userController {
                 "error":"the user you are reffering does not exist"
             }); 
            } else {
-            const {id,firstname , secondname, email, phone,userprofile,isadmin, gender,age } =  results[0]
+            const {id,firstname , secondname, email, phone,picture,isadmin, gender,age } =  results[0]
             return res.status(200).json({
                 "status": 200,
                 "data": {
@@ -128,7 +128,7 @@ class userController {
                     secondname: secondname,
                     email: email,
                     phone: phone,
-                    passportUrl: userprofile || "",
+                    picture: picture || "",
                     isAdmin: isadmin || false,
                     age: age,
                     gender: gender
@@ -189,7 +189,7 @@ class userController {
             });
          })
      }
-
+     
      vendorReq(req,res) {
         account.reqVend(req.body)
         .then(resi => {
@@ -199,6 +199,18 @@ class userController {
            });
         })
     }
+
+    updateProfile(req,res) {
+        account.updateProfile(req.body)
+        .then(resi => {
+           return res.status(200).json({
+               "status": 200,
+               "data": resi
+           });
+        })
+    }
+
+    
 }
 
 export default new userController()
