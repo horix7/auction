@@ -27,15 +27,14 @@ class User {
                 let numbers = []
                 if(n >= 1) {
 
-                while(numbers.length < n) {
-                    let Num = Math.floor(Math.random() * Date.now() ) + 100000
-                    Num = Num.toString().split('').reverse().splice(0,4).join("")
-                    numbers.push(parseInt(Num))
+                while([...new Set(numbers)].length < n) {
+                    let Num = Math.floor(Math.random() * 1000) + 1000
+                    numbers.push(parseInt(Num))  
                 }
             }else {
                 numbers = null
             }
-                return JSON.stringify(numbers)
+                return JSON.stringify([...new Set(numbers)])
             }
 
              let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets)]
@@ -48,33 +47,46 @@ class User {
      }
 
     async bid(createdBy,bid, user) {
+        let productsInfo = await client.query('select * from products where id=$1', [bid.productid])
+ 
+ 
+         let tickets =JSON.parse(productsInfo.rows[0].current)
+         let sold = JSON.parse(productsInfo.rows[0].sold) || []
+         let prodName =productsInfo.rows[0].name
+
+         let current = []
 
         let results = 
         `INSERT INTO bids
          (product,bids,madeby, revenue, time) VALUES
          ($1,$2,$3, $4,$5) RETURNING * 
         `
-         let revenue = await client.query('select price from products where id=$1', [bid.productid])
+         let revenue = productsInfo.rows[0].price
 
-         let inserts = [ bid.productid, bid.bids , createdBy, revenue.rows[0].price, new Date]
+         let bidFortunes = JSON.parse(bid.bids)
+
+         let bidz = []
+         let bidz2 = []
+
+
+         bidFortunes.forEach(n => {
+            if(sold.some(x => x == n)) {
+                bidz2.push(n)
+
+            }else {
+                bidz.push(n)
+            }
+         })
+
+         let inserts = [ bid.productid, JSON.stringify(bidz) , createdBy, revenue, new Date]
 
          await client.query(results, inserts)
          
          let rezult = await client.query('select * from bids')
 
 
-         let productBids = await client.query('select current from products where id=$1', [bid.productid])
-         
-        
+        //  let productBids = await client.query('select current from products where id=$1', [bid.productid])
 
-
-         let productsInfo = await client.query('select * from products where id=$1', [bid.productid])
-         let productName = await client.query('select name from products where id=$1', [bid.productid])
- 
- 
-         let tickets =JSON.parse(productsInfo.rows[0].current)
-         let sold = JSON.parse(productsInfo.rows[0].sold) || []
-         let current = []
 
           tickets.forEach(n => {
            if( JSON.parse(bid.bids).some(x => n == x)) {
@@ -91,7 +103,7 @@ class User {
          `
  
          let timee =  new Date()
-         let inputs3 = [user.firstname, user.secondname, user.phone, user.email, productName.rows[0].name,new Date(timee.getTime()), revenue.rows[0].price, bid.fortunes, bid.momopay]
+         let inputs3 = [user.firstname, user.secondname, user.phone, user.email, prodName,new Date(timee.getTime()), revenue , bid.fortunes, bid.momopay]
  
          await client.query(results2, inputs3)
 
@@ -100,7 +112,7 @@ class User {
 
 
         
-         return rezult.rows
+         return bidz2
 
     }
 

@@ -124,3 +124,5 @@ image VARCHAR(2000)
 
 
 
+ alter table users add column country-code varchar(255);
+  alter table users add column country varchar(255);

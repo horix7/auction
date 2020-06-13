@@ -30,19 +30,9 @@ class userController {
 
         product.bid(parseInt(tokenId), req.body, userData)
        .then(resi => {
-            const {id,createdby , time, productid} =  resi[resi.length - 1]
             return res.status(200).json({
                 "status": 200,
-                "data": [
-                   {
-                        "bid": {
-                            id: id,
-                            createdBy: createdby,
-                            createdTime: time,
-                            product: productid
-                        }
-                    }
-                ]
+                "data": resi
                });
        })
     }
