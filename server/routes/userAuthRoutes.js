@@ -16,6 +16,10 @@ router.get("/useraccount/:id",checkToken, user.getOneUser)
 router.get("/frontwin", user.allWinners)
 router.get("/dataday/", checkToken, isAdmin, user.userNums)
 router.put("/propic/", checkToken, user.updateProfile)
+router.get("/payment/", checkToken,isAdmin, user.generateToken)
+router.get("/paytoken/", checkToken, user.getToken)
+
+
 
 
 

@@ -19,8 +19,8 @@ class User {
 
             let results = 
             `INSERT INTO products
-             (name,price,date,picture,hour,winners,target,status,type,tickets,current) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11) RETURNING * 
+             (name,price,date,picture,hour,winners,target,status,type,tickets,current, vendor) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11, $12) RETURNING * 
             `
             
             let generateNums = (n) => {
@@ -37,7 +37,7 @@ class User {
                 return JSON.stringify([...new Set(numbers)])
             }
 
-             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets)]
+             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets), product.vendor || "admin"]
              
              await client.query(results, inserts)
              
@@ -317,12 +317,24 @@ class User {
     }
 
     async approveVendor (userId) {
-        await client.query('update users set vendor=$2 where secondname=$1', [userId, "true"])
+        await client.query('update vendreq set verified=$2 where account=$1', [userId, "true"])
+        let info = await client.query('select * from vendreq where account=$1',[userId])
+        let {store, address} = info.rows[0]
+        
+        await client.query('update users set vendor=$2, store=$3, address=$4 where secondname=$1', [userId, "true", store, address])
+
         return "done"
     }
 
-    async rejectVend (userId) {
-        await client.query('delete from vendPro where id=$1', [userId])
+    async rejectVend (userId, usName) {
+        await client.query('delete from vendreq where id=$1', [userId])
+        await client.query('update users set vendor=$2 where secondname=$1', [usName, null])
+
+        return "done"
+    }
+
+    async deleteReqPro (userId) {
+        await client.query('delete from vendpro where id=$1', [userId])
         return "done"
     }
 }

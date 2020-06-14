@@ -112,14 +112,15 @@ class userController {
             }); 
         }
        account.oneUser(parseInt(req.params.id).toString())
-       .then(results => {
+       .then( async results => {
            if(results == 'no') {
             return res.status(403).json({
                 "status": 403,
                 "error":"the user you are reffering does not exist"
             }); 
            } else {
-            const {id,firstname , secondname, email, phone,picture,isadmin, gender,age } =  results[0]
+
+            const {id,firstname , secondname,vendor, store,address,email, phone,picture,isadmin, gender,age,country,countrycode } =  results[0]
             return res.status(200).json({
                 "status": 200,
                 "data": {
@@ -131,7 +132,12 @@ class userController {
                     picture: picture || "",
                     isAdmin: isadmin || false,
                     age: age,
-                    gender: gender
+                    gender: gender,
+                     countrycode: countrycode,
+                     country: country,
+                    vendor: vendor || false,
+                    store: store,
+                    address: address 
                 }
             }); 
            }
@@ -210,7 +216,24 @@ class userController {
         })
     }
 
-    
+    generateToken(req,res) {
+        account.getMoMOToken()
+        .then( resi => {
+            return res.status(200).json({
+                "status": 200,
+                "data": resi
+            });
+        })
+    }
+    getToken(req,res) {
+        account.getToken()
+        .then( resi => {
+            return res.status(200).json({
+                "status": 200,
+                "data": resi
+            });
+        })
+    }
 }
 
 export default new userController()

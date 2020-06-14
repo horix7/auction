@@ -14,7 +14,9 @@ export default {
                             gender: Joi.string().trim(),
                             age: Joi.string().trim().required(),
                             password: Joi.string().min(5).required(),
-                            isAdmin: Joi.boolean()
+                            isAdmin: Joi.boolean(),
+                            country: Joi.string(),
+                            countrycode: Joi.string()
                             }).options({abortEarly : false}),
 
                             UpdateUser:Joi.object().keys({
@@ -28,7 +30,9 @@ export default {
                                 userName: Joi.string().trim(),
                                 password: Joi.string().trim().min(5),
                                 userType: Joi.string().trim().valid(['user','candidate']),
-                                isAdmin: Joi.boolean()
+                                isAdmin: Joi.boolean(),
+                              
+
                                 }).options({abortEarly : false})
              
                                    },

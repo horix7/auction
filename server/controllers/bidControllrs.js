@@ -271,7 +271,18 @@ class userController {
 
     rejectVend(req, res) {
 
-        product.rejectVend(req.params.id)
+        product.rejectVend(req.params.id, req.body.user)
+        .then(results => {
+            
+            return res.status(200).json({
+                "status": 200,
+                "data": results
+            })
+        })
+    }
+    deleteReqPro(req, res) {
+
+        product.deleteReqPro(req.params.id)
         .then(results => {
             
             return res.status(200).json({

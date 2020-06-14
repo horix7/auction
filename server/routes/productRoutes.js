@@ -37,6 +37,7 @@ router.put("/rejectVend/:id", checkToken, isAdmin, bids.rejectVend)
 router.patch("/choosetik/:id", checkToken, isAdmin, bids.chooseTicket)
 router.post("/vendorPro/", checkToken, bids.proForVend)
 router.get("/Chosenone/", checkToken, isAdmin,bids.ChosenOne)
+router.get("/deletereq/:id", checkToken, isAdmin,bids.deleteReqPro)
 
 
 

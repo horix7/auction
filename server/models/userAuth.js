@@ -1,7 +1,7 @@
 
 import { Client } from 'pg';
 import dotenv from 'dotenv'
-
+import axios from 'axios'
 import 'dotenv/config'
 
 let client = new Client({
@@ -34,13 +34,13 @@ class User {
             
             let results = 
             `INSERT INTO users
-             (firstname,secondname,email,phone,password,address, age, gender, date) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING * 
+             (firstname,secondname,email,phone,password,address, age, gender, date, country,countrycode) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
             `
 
             let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
 
-             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.address, newUser.age, newUser.gender, dateForNow]
+             let inserts = [newUser.firstname,newUser.secondname ,newUser.email,newUser.phone,newUser.password,newUser.address, newUser.age, newUser.gender, dateForNow,  newUser.country,  newUser.countrycode]
              
              await client.query(results, inserts)
 
@@ -76,7 +76,7 @@ class User {
     async todayUsers() {
         let dateForNow = new Date(new Date().getTime()).toString().split(' ').slice(1,4).join(' ')
 
-        const allUsers = await client.query('select * from users where userid=$1', [dateForNow]);
+        const allUsers = await client.query('select * from users where date=$1', [dateForNow]);
         const allUsers2 = await client.query('select * from users');
 
         return {
@@ -144,7 +144,37 @@ class User {
         return info
     }
 
-}
+     async getMoMOToken() {
+     let info =   await  axios({
+            method: 'post',
+            url: "https://payments-api.fdibiz.com/v2/auth",
+            data: {
+                AppId:  process.env.APP_ID,
+                Secret:  process.env.API_KEY
+            },
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+                }
+            })
+            .then( response => {
+               
+                return response.data.data.token
+            }).catch(err => console.error(err))
+
+            await client.query('insert into nowdata (paymomo,date) values ($1,$2)', [info, Date.now()])
+
+            return "done"
+      }
+
+      async getToken() {
+        let data = await client.query('select paymomo from nowdata')
+
+        return data.rows[data.rows.length - 1].paymomo
+      }
+
+    }
+
 
 
 export default new User();
