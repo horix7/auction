@@ -19,8 +19,8 @@ class User {
 
             let results = 
             `INSERT INTO products
-             (name,price,date,picture,hour,winners,target,status,type,tickets,current, vendor) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11, $12) RETURNING * 
+             (name,price,date,picture,hour,winners,target,status,type,tickets,current, vendor, selling) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11, $12 ,$13) RETURNING * 
             `
             
             let generateNums = (n) => {
@@ -37,7 +37,7 @@ class User {
                 return JSON.stringify([...new Set(numbers)])
             }
 
-             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets), product.vendor || "admin"]
+             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets), product.vendor || "admin", product.selling]
              
              await client.query(results, inserts)
              
