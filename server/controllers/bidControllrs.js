@@ -24,6 +24,25 @@ class userController {
     })
     }
 
+    YourBids(req, res) {
+        let tokenId = tokens.decode(req.token).id
+
+        product.YourBids(parseInt(tokenId))
+       .then(resi => {
+            if(resi.length >= 1) {
+                return res.status(200).json({
+                    "status": 200,
+                    "data": [...new Set(resi.map(n => n.product))]
+                   });
+            } else {
+                return res.status(300).json({
+                    "status": 300,
+                    "data": []
+                   });
+            }
+       })
+    }
+
     bidProduct(req, res) {
         let tokenId = tokens.decode(req.token).id
         let userData = tokens.decode(req.token)

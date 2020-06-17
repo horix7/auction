@@ -121,6 +121,11 @@ class User {
         return allBids.rows
     }
 
+     async YourBids(id) {
+        const allBids = await client.query('select product from bids where madeby=$1', [id]);
+        return allBids.rows
+    }
+
     async allProduct() {
         const allProdui = await client.query('select * from products');
         return allProdui.rows
@@ -137,7 +142,7 @@ class User {
 
    
     async chooseLuckyFortunes(id) {
-        let soldFortunes = await client.query('select sold ,winners, name from products where id=$1', [id])
+        let soldFortunes = await client.query('select * from products where id=$1', [id])
         console.log(soldFortunes.rows)
         let soldTickets = JSON.parse(soldFortunes.rows[0].sold)
         let luckies = parseInt(soldFortunes.rows[0].winners)
@@ -180,7 +185,7 @@ class User {
 
 
 
-        winnerInfo.forEach(async n => {
+         winnerInfo.forEach(async n => {
             let InsertWinner = 
             `INSERT INTO winners
             (name,username,age,email,product,fortune,date) VALUES
@@ -193,6 +198,10 @@ class User {
             await client.query(InsertWinner, details)
 
         })
+
+        setTimeout(async () => {
+            await client.query("delete from products where id=$1",[id])
+        }, 500);
         return winnerInfo
 
 } else {
