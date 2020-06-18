@@ -93,9 +93,9 @@ class userController {
         .then(results => {
             let displayResults = []
             results.forEach(n => {
-                let {id,firstname,email,phone,userprofile,isAdmin, age , gender, userid} = n
-                let registeredDate = userid
-                displayResults.push({id,firstname,email,phone,userprofile,isAdmin,age,gender,registeredDate} )
+                let {id,firstname,email,phone,picture,vendor, age,secondname , gender, date} = n
+                let registeredDate = date
+                displayResults.push({id,firstname,secondname,email,phone,picture,vendor,age,gender,registeredDate} )
             })
             return res.status(200).json({
                 "status": 200,
