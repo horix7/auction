@@ -48,8 +48,7 @@ class userController {
     }
         )
         
-        
-    
+   
     }
 
     userSignIn(req, res) {
@@ -93,9 +92,9 @@ class userController {
         .then(results => {
             let displayResults = []
             results.forEach(n => {
-                let {id,firstname,email,phone,picture,vendor, age,secondname , gender, date} = n
+                let {id,firstname,email,phone,picture,vendor, age,secondname ,countrycode, gender, date} = n
                 let registeredDate = date
-                displayResults.push({id,firstname,secondname,email,phone,picture,vendor,age,gender,registeredDate} )
+                displayResults.push({id,firstname,secondname,email,phone,picture,vendor,age,gender,registeredDate,countrycode} )
             })
             return res.status(200).json({
                 "status": 200,
