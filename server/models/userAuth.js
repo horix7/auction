@@ -145,7 +145,7 @@ class User {
     }
 
      async getMoMOToken() {
-     let info =   await  axios({
+      await  axios({
             method: 'post',
             url: "https://payments-api.fdibiz.com/v2/auth",
             data: {
@@ -157,12 +157,12 @@ class User {
                 "Accept":"application/json"
                 }
             })
-            .then( response => {
-               
-                return response.data.data.token
+            .then( async response => {
+                await client.query('insert into nowdata (paymomo,date) values ($1,$2)', [response.data.data.token, Date.now()])
+            
             }).catch(err => console.error(err))
 
-            await client.query('insert into nowdata (paymomo,date) values ($1,$2)', [info, Date.now()])
+            
 
             return "done"
       }

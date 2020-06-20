@@ -27,7 +27,7 @@ app.use(express.static('public'))
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,PATCH ");
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,PATCH");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
   });
@@ -45,7 +45,7 @@ app.get('/', (req,res) => {
 
 
 app.post('/image', upload.single("pro"), (req,res) => {
-    console.log(req.file)
+    
     res.status(200).json({
         imageUrl: "uploads/"+req.file.filename
     })

@@ -39,6 +39,7 @@ router.post("/vendorPro/", checkToken, bids.proForVend)
 router.get("/Chosenone/", checkToken,bids.ChosenOne)
 router.get("/deletereq/:id", checkToken, isAdmin,bids.deleteReqPro)
 router.get("/bidzid/", checkToken,bids.YourBids)
+router.get("/refunem/", checkToken, isAdmin ,bids.getRefundOnes)
 
 
 

@@ -14,6 +14,20 @@ CREATE TABLE bidata (
 );
 
 
+CREATE TABLE bidata2 (
+    id SERIAL,
+    name varchar(255),
+    username varchar(8000),
+    email varchar(255),
+    product varchar(255),
+    "time" varchar(255),
+    payment varchar(255),
+    revenue varchar(255),
+    fortunes varchar(255),
+    phone varchar(255)
+);
+
+
 CREATE TABLE bids (
     id SERIAL,
     product varchar(255),

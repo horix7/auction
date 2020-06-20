@@ -112,12 +112,20 @@ class User {
  
          await client.query(results2, inputs3)
 
-          console.log(tickets)
          await client.query('update products set current=$2, sold=$3 where id=$1', [bid.productid, JSON.stringify(current), JSON.stringify(sold)])
 
 
-        
-         return bidz2
+        if(bidz2.length < 1) {
+            return "done"
+        } else {
+            let infoTickets =  await client.query('select current from products where id=$1', [bid.productid])
+            return infoTickets.rows.map(n => {
+                return {
+                    tickets: JSON.parse(n.current),
+                    size: bidz2.length
+                }
+            })[0]
+        }
 
     }
 
@@ -148,11 +156,10 @@ class User {
    
     async chooseLuckyFortunes(id) {
         let soldFortunes = await client.query('select * from products where id=$1', [id])
-        console.log(soldFortunes.rows)
         let soldTickets = JSON.parse(soldFortunes.rows[0].sold)
         let luckies = parseInt(soldFortunes.rows[0].winners)
 
-        if(soldTickets.length >= luckies){ 
+        if(soldTickets !== null && soldTickets.length >= luckies){ 
             let checkWinner = (array, wins) => {
             const element = []
 
@@ -173,7 +180,6 @@ class User {
         let allBids = await client.query('select * from bids where product=$1', [id])
 
         // let winnerData  = allBids.rows.map(n => )
-        console.log("[worked Aup here]")
         let winnerInfo = []
         let loserInfo = []
 
@@ -273,7 +279,6 @@ class User {
             await sgMail
             .send(msgWin)
             .then( res => {
-                console.log(res)
             }).catch( error => {
                 console.error(error);
     
@@ -338,7 +343,6 @@ class User {
                     await sgMail
                     .send(msgLoose)
                     .then( res => {
-                        console.log(res)
                     }).catch( error => {
                         console.error(error);
             
@@ -358,11 +362,34 @@ class User {
         return winnerInfo
 
 } else {
+    let infoLost = await client.query('select * from bids where product=$1', [id])
+
+     infoLost.rows.forEach(async n => {
+        let userData =  await client.query('select * from users where id=$1', [n.madeby])
+        const {firstname,phone,countrycode,secondname,email} = userData.rows[0]
+        let userData2 =  await client.query('select * from productS where id=$1', [n.product])
+        const {name,price} = userData2.rows[0]
+
+        let inserts = `
+        INSERT INTO bidata2
+        (name,username,email,product,time,revenue,fortunes,phone) VALUES
+        ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING * 
+        `
+        let vals = [firstname, secondname, email,name,n.time,n.revenue,n.bids, countrycode+ phone]
+
+        await client.query(inserts,vals)
+
+    })
     return "no"
 }
     }
 
 
+async getRefundOnes() {
+    let bidata2 = await client.query("select * from bidata2")
+
+    return bidata2.rows
+}
     async winners() {
 
         let winnerInfo = await client.query('select * from wins')
@@ -435,7 +462,6 @@ class User {
        try {
         let expireData = await client.query(`select * from products where id=$1`, [id]);
 
-        console.log(expireData)
 
         let results = 
         `INSERT INTO expired
@@ -450,14 +476,12 @@ class User {
         
 
        } catch(err) {
-           console.log(err)
        }
          return 'done'
     }
 
     async oneBidd (id) {
         let data = await  client.query('select * from bidata where username=$1', [id])
-        console.log(data.rows)
 
         return data.rows
     }
@@ -572,8 +596,6 @@ class User {
             await sgMail
             .send(msgVend)
             .then(async res => {
-                console.log(res)
-                await client.query('update users set vendor=$2, store=$3, address=$4 where secondname=$1', [userId, "true", store, address])
                 return "done"
             }).catch( error => {
                 console.error(error);
@@ -582,6 +604,8 @@ class User {
                     console.error(error.response.body)
                 }
                 })
+
+                await client.query('update users set vendor=$2, store=$3, address=$4 where secondname=$1', [userId, "true", store, address])
 
                 return "done"
 

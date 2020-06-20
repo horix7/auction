@@ -66,7 +66,7 @@ class userController {
             }); 
         }
         else {
-            const {id,firstname , secondname, email, phone,userprofile,isadmin,age,vendor, password} =  resi[0]
+            const {id,firstname , secondname, email, phone,countrycode,isadmin,age,vendor, password} =  resi[0]
             return res.status(200).json({
                 "status": 200,
                 "data": [
@@ -79,7 +79,8 @@ class userController {
                             isAdmin: isadmin,
                             email: email,
                             vendor: vendor,
-                            phone: phone
+                            phone: phone,
+                            countrycode: countrycode
                         }
                     }
                 ]

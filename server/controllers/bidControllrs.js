@@ -358,6 +358,17 @@ class userController {
         })
     }
 
+    getRefundOnes(req, res) {
+
+        product.getRefundOnes()
+        .then(results => {        
+            return res.status(200).json({
+                "status": 200,
+                "error": results
+            })
+        })
+    }
+
     proForVend(req, res) {
 
         product.createProVend(req.body)
