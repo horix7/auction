@@ -276,9 +276,10 @@ class User {
             };
 
             
-            await sgMail
+            sgMail
             .send(msgWin)
             .then( res => {
+                console.log(res)
             }).catch( error => {
                 console.error(error);
     
@@ -286,6 +287,8 @@ class User {
                     console.error(error.response.body)
                 }
                 })
+
+                await client.query(InsertWinner, details)
 
             })
 
@@ -340,9 +343,10 @@ class User {
                 </div>
                     `
                     };
-                    await sgMail
+                    sgMail
                     .send(msgLoose)
                     .then( res => {
+                        console.log(res)
                     }).catch( error => {
                         console.error(error);
             
@@ -350,9 +354,6 @@ class User {
                             console.error(error.response.body)
                         }
                     })
-
-
-            await client.query(InsertWinner, details)
 
         })
 
@@ -593,10 +594,11 @@ async getRefundOnes() {
             };
                 
 
-            await sgMail
+            sgMail
             .send(msgVend)
             .then(async res => {
                 return "done"
+                console.log(res)
             }).catch( error => {
                 console.error(error);
     
