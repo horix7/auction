@@ -134,14 +134,14 @@ class User {
     async reqVend(info) {
         let results = 
         `INSERT INTO vendreq
-         (sells,address, store,account, phone, email) VALUES
-         ($1,$2,$3,$4,$5,$6) RETURNING * 
+         (sells,address, store,account, phone, email,fullname,country) VALUES
+         ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING * 
         `
-        let inserts = [info.sells, info.address, info.store, info.account, info.phone, info.email]
+        let inserts = [info.sells, info.address, info.store, info.account, info.phone, info.email,info.fullname,info.country]
              
         await client.query(results, inserts)
 
-        return info
+        return info.reverse()
     }
 
      async getMoMOToken() {
@@ -158,6 +158,7 @@ class User {
                 }
             })
             .then( async response => {
+                console.log(response)
                 await client.query('insert into nowdata (paymomo,date) values ($1,$2)', [response.data.data.token, Date.now()])
             
             }).catch(err => console.error(err))
@@ -173,6 +174,10 @@ class User {
         return data.rows[data.rows.length - 1].paymomo
       }
 
+      async runnerz() {
+        let data = await client.query('select * from runnerup')
+        return data.rows.reverse()
+      }
     }
 
 

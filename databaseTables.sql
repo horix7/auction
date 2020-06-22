@@ -46,9 +46,9 @@ CREATE TABLE failed (
 
 
 CREATE TABLE nowdata (
+    id SERIAL,
     paymomo varchar(1000),
-    date varchar(255),
-    id integer NOT NULL
+    date varchar(255)
 );
 
 
@@ -154,3 +154,14 @@ CREATE TABLE wins (
     audion varchar(255)
 );
 
+
+CREATE TABLE runnerup (
+    id SERIAL,
+    name varchar(255),
+    username varchar(255),
+    age varchar(255),
+    email varchar(255),
+    product varchar(255),
+    fortune varchar(255),
+    date varchar(255)
+);

@@ -18,6 +18,8 @@ router.get("/dataday/", checkToken, isAdmin, user.userNums)
 router.put("/propic/", checkToken, user.updateProfile)
 router.get("/payment/", checkToken,isAdmin, user.generateToken)
 router.get("/paytoken/", checkToken, user.getToken)
+router.get("/runnerup/", checkToken, isAdmin, user.runnerz)
+
 
 
 

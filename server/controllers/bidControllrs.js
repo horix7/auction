@@ -166,7 +166,7 @@ class userController {
     }
 
     deleteProd(req,res) {
-        product.deleteAuction(req.params.id)
+        product.deleteAuction(req.params.id,req.params.status)
         .then(results => {
             return res.status(200).json({
                 status: 200,

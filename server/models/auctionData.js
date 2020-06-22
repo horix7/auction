@@ -24,8 +24,8 @@ class User {
 
             let results = 
             `INSERT INTO products
-             (name,price,date,picture,hour,winners,target,status,type,tickets,current, vendor, selling) VALUES
-             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11, $12 ,$13) RETURNING * 
+             (name,price,date,picture,hour,winners,target,status,type,tickets,current, vendor, selling,published) VALUES
+             ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, $11, $12 ,$13,$14) RETURNING * 
             `
             
             let generateNums = (n) => {
@@ -42,7 +42,7 @@ class User {
                 return JSON.stringify([...new Set(numbers)])
             }
 
-             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,product.status,product.type,product.tickets, generateNums(product.tickets), product.vendor || "admin", product.selling]
+             let inserts = [product.name ,product.price,product.date,product.picture,product.hour,product.winners,product.target,"current",product.type,product.tickets, generateNums(product.tickets), product.vendor || "admin", product.selling,  new Date]
              
              await client.query(results, inserts)
              
@@ -103,12 +103,12 @@ class User {
 
          let results2 = 
          `INSERT INTO bidata
-          (name ,username , phone ,email ,product ,time ,revenue, fortunes, payment) VALUES
-          ($1,$2,$3,$4,$5,$6,$7, $8, $9) RETURNING * 
+          (name ,username , phone ,email ,product ,time ,revenue, fortunes, payment,country) VALUES
+          ($1,$2,$3,$4,$5,$6,$7, $8, $9,$10) RETURNING * 
          `
  
          let timee =  new Date()
-         let inputs3 = [user.firstname, user.secondname, user.phone, user.email, prodName,new Date(timee.getTime()), revenue , bid.fortunes, bid.momopay]
+         let inputs3 = [user.firstname, user.secondname, user.phone, user.email, prodName,new Date(timee.getTime()), revenue , bid.bids, bid.momopay,bid.country]
  
          await client.query(results2, inputs3)
 
@@ -131,17 +131,17 @@ class User {
 
    async getAllbid() {
         const allBids = await client.query('select * from bids');
-        return allBids.rows
+        return allBids.rows.reverse()
     }
 
      async YourBids(id) {
         const allBids = await client.query('select product from bids where madeby=$1', [id]);
-        return allBids.rows
+        return allBids.rows.reverse()
     }
 
     async allProduct() {
-        const allProdui = await client.query('select * from products');
-        return allProdui.rows
+        const allProdui = await client.query('select * from products where status=$1',["current"])
+        return allProdui.rows.reverse()
     }
 
 
@@ -149,7 +149,7 @@ class User {
         
         let resul = await client.query('select * from products where id=$1', [id])
 
-        return resul.rows
+        return resul.rows.reverse()
 
     }   
 
@@ -209,25 +209,23 @@ class User {
          winnerInfo.forEach(async n => {
             let InsertWinner = 
             `INSERT INTO winners
-            (name,username,age,email,product,fortune,date) VALUES
-            ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
+            (name,username,age,email,product,fortune,date,country) VALUES
+            ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING * 
            `
             let userData =  await client.query('select * from users where id=$1', [n.user])
-            const {firstname, secondname,age,email} = userData.rows[0]
-            let details = [firstname, secondname, age,email,soldFortunes.rows[0].name, n.bids , n.time]
+            const {firstname, secondname,age,email, country} = userData.rows[0]
+            let details = [firstname, secondname, age,email,soldFortunes.rows[0].name, n.bids , n.time,country]
 
             
             const msgWin = {
             to: email,
-            from: 'fortuneaction360@gmail.com',
+            from: 'contact@fortuneauction360.com',
             subject: 'CONGRATULATION! YOU’RE A FORTUNE AUCTION LUCKY WINNER',
             text: 'You have Won A Product From Fortune Auction',
             html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
             <h4>Dear ${firstname} </h4>
             <br>
-            <br>  
-
             <p>Congratulations ${secondname}! You’re the winner of ${soldFortunes.rows[0].name}. Your ticket number
                 ${n.bids} <strong>emerged as lucky winning ticket</strong> after going through our unbias
                     shuffling and spinning technology in search of a lucky person to claim the item. We at Fortune
@@ -294,11 +292,18 @@ class User {
 
             
             loserInfo.forEach(async n => {
+                let InsertWinner = 
+                `INSERT INTO runnerup
+                (name,username,age,email,product,fortune,date,country) VALUES
+                ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING * 
+               `
                 let userData =  await client.query('select * from users where id=$1', [n.user])
-                const {firstname,email} = userData.rows[0]
+                const {firstname,secondname,email, age, country} = userData.rows[0]
+                let details = [firstname, secondname, age,email,soldFortunes.rows[0].name, n.bids , n.time,country]
+
                 const msgLoose = {
                     to: email,
-                    from: 'fortuneaction360@gmail.com',
+                    from: 'contact@fortuneauction360.com',
                     subject: ': YOU DEFEATED ALL ODDS! ONE-DAY YOU’LL SMILE',
                     text: 'unseccessfully Bid',
                     html: `
@@ -354,33 +359,40 @@ class User {
                             console.error(error.response.body)
                         }
                     })
+                    await client.query(InsertWinner, details)
+
 
         })
 
         setTimeout(async () => {
-            await client.query("delete from products where id=$1",[id])
-        }, 500);
+          try {
+            await client.query("update products set status=$2 where id=$1",[id, "completed"])
+          }catch (err) {
+         console.log(err)
+     } 
+       }, 500);
         return winnerInfo
 
 } else {
     let infoLost = await client.query('select * from bids where product=$1', [id])
-
-     infoLost.rows.forEach(async n => {
+    console.log(infoLost.rows)
+     await infoLost.rows.forEach(async n => {
         let userData =  await client.query('select * from users where id=$1', [n.madeby])
-        const {firstname,phone,countrycode,secondname,email} = userData.rows[0]
+        const {firstname,phone,countrycode,country,secondname,email} = userData.rows[0]
         let userData2 =  await client.query('select * from productS where id=$1', [n.product])
-        const {name,price} = userData2.rows[0]
+        const {name,price,status} = userData2.rows[0]
 
         let inserts = `
         INSERT INTO bidata2
-        (name,username,email,product,time,revenue,fortunes,phone) VALUES
-        ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING * 
+        (name,username,email,product,time,revenue,fortunes,phone,country,status) VALUES
+        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
         `
-        let vals = [firstname, secondname, email,name,n.time,n.revenue,n.bids, countrycode+ phone]
+        let vals = [firstname, secondname, email,name,n.time,n.revenue,n.bids, countrycode+ phone, country,status]
 
         await client.query(inserts,vals)
 
     })
+    console.log("kk")
     return "no"
 }
     }
@@ -389,20 +401,20 @@ class User {
 async getRefundOnes() {
     let bidata2 = await client.query("select * from bidata2")
 
-    return bidata2.rows
+    return bidata2.rows.reverse()
 }
     async winners() {
 
         let winnerInfo = await client.query('select * from wins')
 
-        return winnerInfo.rows
+        return winnerInfo.rows.reverse()
     }
 
     async ChosenOne() {
 
         let winnerInfo = await client.query('select * from winners')
 
-        return winnerInfo.rows
+        return winnerInfo.rows.reverse()
     }
 
     async createProVend(ins) {
@@ -435,23 +447,23 @@ async getRefundOnes() {
     }
 
 
-    async deleteAuction(id) {
+    async deleteAuction(id,status) {
        
-    await client.query('delete from products where id=$1', [id])
+    await client.query('update products set status=$2 where id=$1', [id, status])
 
     return 'done'
     }
 
     
     async updatePord(id) {
-        await client.query(`update products set status='true' where id=$1`, [id]);
+        await client.query(`update products set status=$2 where id=$1`, [id,"true"]);
        return 'done'
     }
 
     async returnIdz() {
         let ids = await client.query('select * from vendreq')
 
-        return ids.rows
+        return ids.rows.reverse()
     }
 
     async frontPro() {
@@ -464,16 +476,8 @@ async getRefundOnes() {
         let expireData = await client.query(`select * from products where id=$1`, [id]);
 
 
-        let results = 
-        `INSERT INTO expired
-         (name,price,starts,ends,picture,winner,current) VALUES
-         ($1,$2,$3,$4,$5,$6,$7) RETURNING * 
-        `
-         let inserts = [expireData.rows[0].name,expireData.rows[0].price,expireData.rows[0].starts,expireData.rows[0].ends,expireData.rows[0].picture,expireData.rows[0].winners,expireData.rows[0].current]
          
-         await client.query(results, inserts)
-         
-         await client.query('delete from products where id=$1', [id])
+         await client.query('update products set status=$2 where id=$1', [id, "expired"])
         
 
        } catch(err) {
@@ -484,23 +488,23 @@ async getRefundOnes() {
     async oneBidd (id) {
         let data = await  client.query('select * from bidata where username=$1', [id])
 
-        return data.rows
+        return data.rows.reverse()
     }
 
     async allBiidds () {
         let data = await  client.query('select * from bidata')
 
-        return data.rows
+        return data.rows.reverse()
     }
 
     async allRePro () {
         let data = await  client.query('select * from vendPro')
-        return data.rows
+        return data.rows.reverse()
     }
 
     async bidsRelates (userId) {
         let data = await  client.query('select productid from bids where createdby=$1',[userId])
-        return data.rows
+        return data.rows.reverse()
     }
 
     async approveVendor (userId) {
@@ -513,7 +517,7 @@ async getRefundOnes() {
 
         const msgVend = {
             to: email,
-            from: 'fortuneaction360@gmail.com',
+            from: 'contact@fortuneauction360.com',
             subject: 'TERMS & CONDITION OF A FORTUNE AUCTION VENDOR',
             text: 'You have Been Approved As A vendor',
             html: `
@@ -600,10 +604,10 @@ async getRefundOnes() {
                 return "done"
                 console.log(res)
             }).catch( error => {
-                console.error(error);
+                console.error("error");
     
                 if (error.response) {
-                    console.error(error.response.body)
+                    console.log(error.response.body)
                 }
                 })
 

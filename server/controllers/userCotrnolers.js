@@ -24,16 +24,18 @@ class userController {
         else { 
             let newUSerInfo = results   
 
-            const {id,firstname , secondname, email, phone,isadmin, age} =  newUSerInfo[0]
+            const {id,firstname , secondname, email, phone,isadmin,country, age} =  newUSerInfo[0]
             return res.status(201).json({
                 "status": 201,
                 "data": [
                     
                    {
-                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone, age}),
+                        "token": tokens.encode({isadmin, firstname,secondname,id,email,phone,country, age}),
                         "details": {
                             username: secondname,
                             id: id,
+                            name: firstname,
+                            country: country,
                             isAdmin: isadmin,
                             email: email,
                             phone: phone
@@ -66,7 +68,7 @@ class userController {
             }); 
         }
         else {
-            const {id,firstname , secondname, email, phone,countrycode,isadmin,age,vendor, password} =  resi[0]
+            const {id,firstname , secondname, email, phone,countrycode,isadmin,age,vendor, country} =  resi[0]
             return res.status(200).json({
                 "status": 200,
                 "data": [
@@ -75,12 +77,14 @@ class userController {
                         "token": tokens.encode({isadmin, firstname,secondname,id,email,phone,vendor, age}),
                         "details": {
                             username: secondname,
+                            name: firstname,
                             id: id,
                             isAdmin: isadmin,
                             email: email,
                             vendor: vendor,
                             phone: phone,
-                            countrycode: countrycode
+                            countrycode: countrycode,
+                            country: country
                         }
                     }
                 ]
@@ -166,6 +170,15 @@ class userController {
         })
     }
 
+    runnerz(req,res) {
+        account.runnerz()
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                data: results
+            })
+        })
+    }
     
     userCheck(req, res) {
         account.checkUserEmail(req.body)
