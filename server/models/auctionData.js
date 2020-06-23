@@ -467,8 +467,29 @@ async getRefundOnes() {
     }
 
     async frontPro() {
+        const allProdui = await client.query('select * from products where status=$1',["current"]);
+        return allProdui.rows.reverse().splice(0,4)
+    }
+    async prozz() {
         const allProdui = await client.query('select * from products');
-        return allProdui.rows.splice(0,4)
+        return allProdui.rows.map(n => {
+            return {
+                productName: n.name,
+                ticketPrice: n.price,
+                tickets: n.tickets,
+                winners: n.winners,
+                productsImage: n.picture,
+                endingDate: n.date,
+                endingHour: n.hour,
+                publishedDate: n.published,
+                currentTicket: n.current == null ? 0 : JSON.parse(n.current).length,
+                soldTickets: n.sold == null ? 0 : JSON.parse(n.sold).length,
+                status: n.status,
+                vendorInfo: n.vendor,
+                sellingPrice: n.selling
+
+            }
+        }).reverse()
     }
 
     async changeToNull(id) {

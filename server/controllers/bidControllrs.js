@@ -175,6 +175,16 @@ class userController {
         })
     }
 
+    prozz(req,res) {
+        product.prozz()
+        .then(results => {
+            return res.status(200).json({
+                status: 200,
+                "data": results
+            })
+        })
+    }
+
     updateUpcomes(req,res) {
         product.updatePord(req.params.id)
         .then(results => {

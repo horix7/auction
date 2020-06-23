@@ -141,7 +141,7 @@ class User {
              
         await client.query(results, inserts)
 
-        return info.reverse()
+        return "done"
     }
 
      async getMoMOToken() {
