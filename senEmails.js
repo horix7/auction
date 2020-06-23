@@ -1,18 +1,42 @@
-// const sgMail = require('@sendgrid/mail');
 
-// sgMail.setApiKey("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");
-// const msg = {
-//   to: 'horix77777@gmail.com',
-//   from: 'horix77777@yahoo.com',
-//   subject: 'Sending with Twilio SendGrid is Fun',
-//   text: 'and easy to do anywhere, even with Node.js',
-//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-// };
-
-// try {
-//   sgMail.send(msg);
-// }catch(err) {
-//   console.log(err)
-// }
+var sendpulse = require("sendpulse-api");
 
 
+
+var TOKEN_STORAGE="/tmp/";
+
+sendpulse.init("b1c7d34235ca14a123b7e72a85994f20", "3fa725fcb1b79669325c2285ace9e02d", TOKEN_STORAGE, (token)  => {
+    if (token && token.is_error) {
+        console.log('your :token: ' + token);
+    }
+    
+
+    var answerGetter = function(data) {
+        console.log(data);
+      }
+
+      
+var email = {
+    "html" : "<h1>Example text</h1>",
+    "text" : "Example text",
+    "subject" : "Example subject",
+    "from" : {
+      "name" : "Benedict Okolie",
+      "email" : "bokolie@fortuneauction360.com"
+    },
+    "to" : [
+      {
+        "name" : "Benedict",
+        "email" : "fortuneaction360@gmail.com"
+      },
+    ],
+    "bcc" : [
+      {
+        "name" : "Alex",
+        "email" : "contact@fortuneauction360.com"
+      },
+    ]
+  };
+
+sendpulse.smtpSendMail(answerGetter,email);
+})
