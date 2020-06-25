@@ -16,7 +16,7 @@ router.get("/inactive", checkToken, bids.inactiveProdui)
 router.post("/interest", checkToken, bids.interested)
 router.get("/userpro", checkToken, bids.interestedProducts)
 router.post("/status/:id", bids.updateUpcomes)
-router.post("/bid",  checkToken, bids.bidProduct)
+router.post("/bid", checkToken, bids.bidProduct)
 router.get("/allbids", checkToken, isAdmin, bids.allBids)
 router.get("/winners", checkToken, bids.allWinners)
 router.post("/publish", checkToken, isAdmin, bids.publishWin)
@@ -27,20 +27,20 @@ router.get("/bidss/", checkToken, isAdmin, bids.allBiidds)
 router.get("/idz", checkToken, isAdmin, bids.idzz)
 router.post("/choose/:id", checkToken, isAdmin, bids.chooseWinn)
 router.get("/uninterested", checkToken, bids.uninterested)
-router.get("/frontpro",bids.forntUsers)
-router.get("/vrpro",checkToken, isAdmin,bids.allRePro)
-router.post("/offside/:id",checkToken, bids.changeNull)
+router.get("/frontpro", bids.forntUsers)
+router.get("/vrpro", checkToken, isAdmin, bids.allRePro)
+router.post("/offside/:id", checkToken, bids.changeNull)
 router.get("/relates", checkToken, bids.relatesBids)
 router.put("/makevend/:id", checkToken, isAdmin, bids.makeVendor)
 router.put("/rejectVend/:id", checkToken, isAdmin, bids.rejectVend)
 
-router.patch("/choosetik/:id", checkToken, isAdmin, bids.chooseTicket)
+router.patch("/choosetik/:id", checkToken, bids.chooseTicket)
 router.post("/vendorPro/", checkToken, bids.proForVend)
-router.get("/Chosenone/", checkToken,bids.ChosenOne)
-router.get("/deletereq/:id", checkToken, isAdmin,bids.deleteReqPro)
-router.get("/biddenidz/111", checkToken,bids.YourBids)
-router.get("/refunem/", checkToken, isAdmin ,bids.getRefundOnes)
-router.get("/prozz/", checkToken, isAdmin ,bids.prozz)
+router.get("/Chosenone/", checkToken, bids.ChosenOne)
+router.get("/deletereq/:id", checkToken, isAdmin, bids.deleteReqPro)
+router.get("/biddenidz/111", checkToken, bids.YourBids)
+router.get("/refunem/", checkToken, isAdmin, bids.getRefundOnes)
+router.get("/prozz/", checkToken, isAdmin, bids.prozz)
 
 
 
@@ -48,7 +48,7 @@ router.get("/prozz/", checkToken, isAdmin ,bids.prozz)
 
 
 
-export  default router 
+export default router
 
 
 
