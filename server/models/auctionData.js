@@ -49,7 +49,7 @@ class User {
         return rezult.rows
     }
 
-    async bid(createdBy, bid, user) {
+    async bid(createdBy, bid, user, country1) {
         let productsInfo = await client.query('select * from products where id=$1', [bid.productid])
 
 
@@ -61,8 +61,8 @@ class User {
 
         let results =
             `INSERT INTO bids
-         (product,bids,madeby, revenue, time) VALUES
-         ($1,$2,$3, $4,$5) RETURNING * 
+         (product,bids,madeby, revenue, time,payment) VALUES
+         ($1,$2,$3,$4,$5,$6) RETURNING * 
         `
         let revenue = productsInfo.rows[0].price
 
@@ -81,7 +81,7 @@ class User {
             }
         })
 
-        let inserts = [bid.productid, JSON.stringify(bidz), createdBy, revenue, new Date]
+        let inserts = [bid.productid, JSON.stringify(bidz), createdBy, revenue, new Date, bid.momopay]
 
         await client.query(results, inserts)
 
@@ -102,11 +102,11 @@ class User {
         let results2 =
             `INSERT INTO bidata
           (name ,username , phone ,email ,product ,time ,revenue, fortunes, payment,country) VALUES
-          ($1,$2,$3,$4,$5,$6,$7, $8, $9,$10) RETURNING * 
+          ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
          `
 
         let timee = new Date()
-        let inputs3 = [user.firstname, user.secondname, user.phone, user.email, prodName, new Date(timee.getTime()), revenue, bid.bids, bid.momopay, bid.country]
+        let inputs3 = [user.firstname, user.secondname, user.phone, user.email, prodName, new Date(timee.getTime()), revenue, bid.bids, bid.momopay, country1]
 
         await client.query(results2, inputs3)
 
@@ -417,10 +417,10 @@ class User {
 
                 let inserts = `
         INSERT INTO bidata2
-        (name,username,email,product,time,revenue,fortunes,phone,country,status) VALUES
-        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING * 
+        (name,username,email,product,time,revenue,fortunes,phone,country,status,payment) VALUES
+        ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
         `
-                let vals = [firstname, secondname, email, name, n.time, n.revenue, n.bids, countrycode + phone, country, status]
+                let vals = [firstname, secondname, email, name, n.time, n.revenue, n.bids, countrycode + phone, country, status, n.payment]
 
                 await client.query(inserts, vals)
 
@@ -519,7 +519,9 @@ class User {
                 soldTickets: n.sold == null ? 0 : JSON.parse(n.sold).length,
                 status: n.status,
                 vendorInfo: n.vendor,
-                sellingPrice: n.selling
+                sellingPrice: n.selling,
+                productType: n.type
+
 
             }
         }).reverse()
