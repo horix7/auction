@@ -272,7 +272,7 @@ class User {
                         Fortune Auction LTD
                         </p>
     
-                        <img src="" alt="Image Loading">
+                        <img src="https://i.imgur.com/JAXTYOG.png" alt="Image Loading">
     
                 </div>`,
 
@@ -363,7 +363,7 @@ class User {
                            Fortune Auction LTD
                          </p>
                 
-                         <img src="" alt="Image Loading">
+                         <img src="https://i.imgur.com/JAXTYOG.png" alt="Image Loading">
                 
                 </div>
                     `
@@ -649,7 +649,7 @@ class User {
                Fortune Auction LTD
              </p>
     
-             <img src="" alt="Image Loading">
+             <img src="https://i.imgur.com/JAXTYOG.png" alt="Image Loading">
     
     </div>
             `
