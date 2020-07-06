@@ -4,19 +4,20 @@ import dotenv from 'dotenv'
 import sendpulse from 'sendpulse-api'
 
 
-
 import 'dotenv/config'
 
+
+
 let client = new Client({
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    host: process.env.DATABASE_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
     port: 5432,
-    database: process.env.DATABASE_NAME
+    database: process.env.DB_NAME
 })
 
 client.connect()
-// 
+
 class User {
     async createAproduct(product) {
 

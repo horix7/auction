@@ -1,2 +1,21 @@
 runtime: nodejs
-vm: flex
+env: flex
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+  MOMOPAY: ""
+  APP_ID: ""
+  API_KEY: ""
+  SENDGRID_API_KEY: ""         
+  SEND_PULSE_ID: ""
+  SEND_PULSE_KEY: ""
+  DB_USER: "postgres"
+  DB_NAME: "postgres"
+  DB_PASS: ""
+  DB_HOST: ""
