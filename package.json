@@ -6,6 +6,7 @@
   "scripts": {
     "start": "babel-node server/server.js",
     "deploy": "gcloud app deploy",
+    "browse": "gcloud app browse",
     "dev": "nodemon --exec babel-node server/server.js"
   },
   "repository": {
