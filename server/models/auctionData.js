@@ -338,13 +338,18 @@ class User {
 
 
         if (bidz2.length < 1) {
-            return "done"
+            return {
+                luck: luckyOnes,
+                unLuck: lostOnes
+            }
         } else {
             let infoTickets = await client.query('select current from products where id=$1', [bid.productid])
             return infoTickets.rows.map(n => {
                 return {
                     tickets: JSON.parse(n.current),
-                    size: bidz2.length
+                    size: bidz2.length,
+                    luck: luckyOnes,
+                    unLuck: lostOnes
                 }
             })[0]
         }
@@ -581,7 +586,7 @@ class User {
         infoLost.rows.forEach(async n => {
             let userData = await client.query('select * from users where id=$1', [n.madeby])
             const { firstname, phone, countrycode, country, secondname, email } = userData.rows[0]
-            let userData2 = await client.query('select * from productS where id=$1', [n.product])
+            let userData2 = await client.query('select * from products where id=$1', [n.product])
             const { name, price, status } = userData2.rows[0]
 
             let inserts = `
@@ -590,7 +595,7 @@ class User {
                 ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING * 
                  `
             let vals = [firstname, secondname, email, name, n.time, n.revenue, n.bids, countrycode + phone, country, status, n.payment]
-
+            console.log(vals)
             await client.query(inserts, vals)
 
         })
