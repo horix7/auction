@@ -168,7 +168,7 @@ class User {
                     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
                     <h4>Dear ${firstname}, </h4>
                     <p>Congratulations ${secondname}! You’re the winner of ${prodName}. Your ticket number
-                        ${luckyOnes.toString().split(',').join('-')} <strong>emerged as lucky winning ticket</strong> after going through our unbias
+                        ${luckyOnes.toString().split(',').join(',')} <strong>emerged as lucky winning ticket</strong> after going through our unbias
                             shuffling and spinning technology in search of a lucky person to claim the item. We at Fortune
                             Auction couldn’t be happier for you, or more proud. When everyone else said it couldn’t be
                             done, you showed the opposite to be true. So proud of you! Enjoy the success you have worked
